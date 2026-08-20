@@ -18,6 +18,162 @@ a:hover{color:#6E9410}
 @keyframes rallopulse{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes ralloin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 ::selection{background:#9ECE16;color:#0A0A0A}
+
+/* ---- hero rally animation ---- */
+.rl-wrap{position:relative;border-radius:24px;overflow:hidden;border:1px solid rgba(10,10,10,.1);aspect-ratio:4/4.4;background:
+  radial-gradient(120% 90% at 50% 0%,#fff 0%,#F7F7F2 55%,#F0F0E9 100%)}
+.rl-grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(10,10,10,.045) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(10,10,10,.045) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(80% 70% at 50% 42%,#000,transparent);
+  mask-image:radial-gradient(80% 70% at 50% 42%,#000,transparent)}
+.rl-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rl-shuttle,.rl-shadow,.rl-draw,.rl-pulse{will-change:transform,opacity}
+.rl-shuttle{animation:ralloshuttle 6.4s linear infinite}
+.rl-shadow{animation:ralloshadow 6.4s linear infinite}
+.rl-draw{animation:6.4s linear infinite}
+.rl-draw1{animation-name:rldraw1}
+.rl-draw2{animation-name:rldraw2}
+.rl-draw3{animation-name:rldraw3}
+.rl-draw4{animation-name:rldraw4}
+.rl-draw1{stroke-dasharray:337.2;animation-delay:-6.4s}
+.rl-draw2{stroke-dasharray:268.4;animation-delay:-4.8s}
+.rl-draw3{stroke-dasharray:351.1;animation-delay:-3.2s}
+.rl-draw4{stroke-dasharray:258.4;animation-delay:-1.6s}
+.rl-pulse{transform-box:fill-box;transform-origin:center;animation:rallopop 6.4s linear infinite;opacity:0}
+.rl-pulse1{animation-delay:0s}
+.rl-pulse2{animation-delay:1.6s}
+.rl-pulse3{animation-delay:3.2s}
+.rl-pulse4{animation-delay:4.8s}
+.rl-meta{position:absolute;left:18px;top:16px;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.14em;color:#8A8A82;text-transform:uppercase}
+.rl-meta b{color:#0A0A0A;font-weight:700}
+@keyframes rallopop{
+ 0%{transform:scale(.3);opacity:.85}
+ 14%{transform:scale(2.6);opacity:0}
+ 100%{transform:scale(2.6);opacity:0}
+}
+@keyframes ralloshuttle{
+ 0%{transform:translate(122px,375.4px) rotate(9.5deg) scale(0.9)}
+ 2.5%{transform:translate(134px,308.3px) rotate(10.9deg) scale(0.9)}
+ 5%{transform:translate(146px,250.6px) rotate(12.8deg) scale(0.8)}
+ 7.5%{transform:translate(158px,202.4px) rotate(15.4deg) scale(0.8)}
+ 10%{transform:translate(170px,163.6px) rotate(19.4deg) scale(0.7)}
+ 12.5%{transform:translate(182px,134.2px) rotate(26deg) scale(0.7)}
+ 15%{transform:translate(194px,114.3px) rotate(38.3deg) scale(0.7)}
+ 17.5%{transform:translate(206px,103.8px) rotate(64.3deg) scale(0.7)}
+ 20%{transform:translate(218px,102.7px) rotate(107deg) scale(0.6)}
+ 22.5%{transform:translate(230px,111.1px) rotate(137.5deg) scale(0.6)}
+ 25%{transform:translate(242px,129px) rotate(29.5deg) scale(0.6)}
+ 27.5%{transform:translate(247px,123.4px) rotate(65.9deg) scale(0.6)}
+ 30%{transform:translate(252px,124.5px) rotate(131.9deg) scale(0.6)}
+ 32.5%{transform:translate(257px,132.3px) rotate(156deg) scale(0.7)}
+ 35%{transform:translate(262px,146.9px) rotate(164.4deg) scale(0.7)}
+ 37.5%{transform:translate(267px,168.2px) rotate(168.5deg) scale(0.7)}
+ 40%{transform:translate(272px,196.2px) rotate(170.9deg) scale(0.7)}
+ 42.5%{transform:translate(277px,230.9px) rotate(172.5deg) scale(0.8)}
+ 45%{transform:translate(282px,272.4px) rotate(173.6deg) scale(0.8)}
+ 47.5%{transform:translate(287px,320.5px) rotate(174.5deg) scale(0.9)}
+ 50%{transform:translate(292px,375.4px) rotate(-10.1deg) scale(0.9)}
+ 52.5%{transform:translate(278.8px,306.1px) rotate(-11.6deg) scale(0.9)}
+ 55%{transform:translate(265.6px,246.8px) rotate(-13.6deg) scale(0.8)}
+ 57.5%{transform:translate(252.4px,197.3px) rotate(-16.5deg) scale(0.8)}
+ 60%{transform:translate(239.2px,157.8px) rotate(-20.9deg) scale(0.7)}
+ 62.5%{transform:translate(226px,128.2px) rotate(-28.2deg) scale(0.7)}
+ 65%{transform:translate(212.8px,108.5px) rotate(-41.9deg) scale(0.7)}
+ 67.5%{transform:translate(199.6px,98.7px) rotate(-70deg) scale(0.7)}
+ 70%{transform:translate(186.4px,98.9px) rotate(-111.2deg) scale(0.6)}
+ 72.5%{transform:translate(173.2px,109px) rotate(-138.7deg) scale(0.6)}
+ 75%{transform:translate(160px,129px) rotate(-34deg) scale(0.6)}
+ 77.5%{transform:translate(156.2px,126.3px) rotate(-94.9deg) scale(0.6)}
+ 80%{transform:translate(152.4px,129.6px) rotate(-149.3deg) scale(0.6)}
+ 82.5%{transform:translate(148.6px,139.1px) rotate(-163.1deg) scale(0.7)}
+ 85%{transform:translate(144.8px,154.6px) rotate(-168.4deg) scale(0.7)}
+ 87.5%{transform:translate(141px,176.2px) rotate(-171.2deg) scale(0.7)}
+ 90%{transform:translate(137.2px,203.9px) rotate(-172.9deg) scale(0.7)}
+ 92.5%{transform:translate(133.4px,237.6px) rotate(-174.1deg) scale(0.8)}
+ 95%{transform:translate(129.6px,277.5px) rotate(-174.9deg) scale(0.8)}
+ 97.5%{transform:translate(125.8px,323.4px) rotate(-175.6deg) scale(0.9)}
+ 100%{transform:translate(122px,375.4px) rotate(9.5deg) scale(0.9)}
+}
+@keyframes ralloshadow{
+ 0%{transform:translate(122px,375.4px) scale(0.9);opacity:0.2}
+ 2.5%{transform:translate(134px,350.8px) scale(0.7);opacity:0.1}
+ 5%{transform:translate(146px,326.1px) scale(0.5);opacity:0.1}
+ 7.5%{transform:translate(158px,301.5px) scale(0.4);opacity:0}
+ 10%{transform:translate(170px,276.8px) scale(0.4);opacity:0}
+ 12.5%{transform:translate(182px,252.2px) scale(0.4);opacity:0}
+ 15%{transform:translate(194px,227.6px) scale(0.4);opacity:0}
+ 17.5%{transform:translate(206px,202.9px) scale(0.4);opacity:0}
+ 20%{transform:translate(218px,178.3px) scale(0.4);opacity:0.1}
+ 22.5%{transform:translate(230px,153.6px) scale(0.5);opacity:0.1}
+ 25%{transform:translate(242px,129px) scale(0.6);opacity:0.2}
+ 27.5%{transform:translate(247px,153.6px) scale(0.5);opacity:0.1}
+ 30%{transform:translate(252px,178.3px) scale(0.4);opacity:0.1}
+ 32.5%{transform:translate(257px,202.9px) scale(0.5);opacity:0.1}
+ 35%{transform:translate(262px,227.6px) scale(0.4);opacity:0.1}
+ 37.5%{transform:translate(267px,252.2px) scale(0.4);opacity:0.1}
+ 40%{transform:translate(272px,276.8px) scale(0.4);opacity:0.1}
+ 42.5%{transform:translate(277px,301.5px) scale(0.5);opacity:0.1}
+ 45%{transform:translate(282px,326.1px) scale(0.6);opacity:0.1}
+ 47.5%{transform:translate(287px,350.8px) scale(0.8);opacity:0.1}
+ 50%{transform:translate(292px,375.4px) scale(0.9);opacity:0.2}
+ 52.5%{transform:translate(278.8px,350.8px) scale(0.7);opacity:0.1}
+ 55%{transform:translate(265.6px,326.1px) scale(0.5);opacity:0.1}
+ 57.5%{transform:translate(252.4px,301.5px) scale(0.4);opacity:0}
+ 60%{transform:translate(239.2px,276.8px) scale(0.4);opacity:0}
+ 62.5%{transform:translate(226px,252.2px) scale(0.4);opacity:0}
+ 65%{transform:translate(212.8px,227.6px) scale(0.4);opacity:0}
+ 67.5%{transform:translate(199.6px,202.9px) scale(0.4);opacity:0}
+ 70%{transform:translate(186.4px,178.3px) scale(0.4);opacity:0.1}
+ 72.5%{transform:translate(173.2px,153.6px) scale(0.5);opacity:0.1}
+ 75%{transform:translate(160px,129px) scale(0.6);opacity:0.2}
+ 77.5%{transform:translate(156.2px,153.6px) scale(0.5);opacity:0.2}
+ 80%{transform:translate(152.4px,178.3px) scale(0.5);opacity:0.1}
+ 82.5%{transform:translate(148.6px,202.9px) scale(0.5);opacity:0.1}
+ 85%{transform:translate(144.8px,227.6px) scale(0.4);opacity:0.1}
+ 87.5%{transform:translate(141px,252.2px) scale(0.4);opacity:0.1}
+ 90%{transform:translate(137.2px,276.8px) scale(0.4);opacity:0.1}
+ 92.5%{transform:translate(133.4px,301.5px) scale(0.5);opacity:0.1}
+ 95%{transform:translate(129.6px,326.1px) scale(0.6);opacity:0.1}
+ 97.5%{transform:translate(125.8px,350.8px) scale(0.8);opacity:0.2}
+ 100%{transform:translate(122px,375.4px) scale(0.9);opacity:.2}
+}
+@keyframes rldraw1{
+ 0%{stroke-dashoffset:337.2;opacity:0}
+ 1%{opacity:.85}
+ 24%{stroke-dashoffset:0;opacity:.85}
+ 33%{stroke-dashoffset:0;opacity:0}
+ 100%{stroke-dashoffset:0;opacity:0}
+}
+@keyframes rldraw2{
+ 0%{stroke-dashoffset:268.4;opacity:0}
+ 1%{opacity:.85}
+ 24%{stroke-dashoffset:0;opacity:.85}
+ 33%{stroke-dashoffset:0;opacity:0}
+ 100%{stroke-dashoffset:0;opacity:0}
+}
+@keyframes rldraw3{
+ 0%{stroke-dashoffset:351.1;opacity:0}
+ 1%{opacity:.85}
+ 24%{stroke-dashoffset:0;opacity:.85}
+ 33%{stroke-dashoffset:0;opacity:0}
+ 100%{stroke-dashoffset:0;opacity:0}
+}
+@keyframes rldraw4{
+ 0%{stroke-dashoffset:258.4;opacity:0}
+ 1%{opacity:.85}
+ 24%{stroke-dashoffset:0;opacity:.85}
+ 33%{stroke-dashoffset:0;opacity:0}
+ 100%{stroke-dashoffset:0;opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+ .rl-shuttle,.rl-shadow,.rl-draw,.rl-pulse{animation:none}
+ .rl-draw,.rl-pulse{opacity:0}
+ .rl-shuttle{transform:translate(182px,134.2px) rotate(26deg) scale(0.7)}
+ .rl-shadow{opacity:.1;transform:translate(182px,252.2px) scale(0.4)}
+ .rl-draw1{stroke-dashoffset:0;opacity:.85}
+}
 </style>
 </helmet>
 
@@ -69,8 +225,37 @@ a:hover{color:#6E9410}
         </div>
       </div>
       <div style="position:relative">
-        <div style="border-radius:24px;overflow:hidden;border:1px solid rgba(10,10,10,.1);aspect-ratio:4/4.4;background:repeating-linear-gradient(135deg,#F2F2ED 0 12px,#EAEAE3 12px 24px);display:flex;align-items:flex-end;justify-content:center;padding:20px">
-          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#8A8A82;background:#fff;padding:6px 10px;border-radius:8px">hero photo — smash at the net, arena light</span>
+        <div class="rl-wrap">
+          <div class="rl-grid"></div>
+          <svg class="rl-svg" viewBox="0 26 400 434" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+            <g fill="none" stroke="#0A0A0A" stroke-opacity=".2" stroke-width="1" stroke-linecap="round">
+              <path d="M -6 452 L 406 452 L 256 108 L 144 108 Z"/>
+              <path d="M 200 452 L 200 108"/>
+              <path d="M 22.8 452 L 151.8 108"/>
+              <path d="M 377.2 452 L 248.2 108"/>
+              <path d="M 57.7 305.9 L 342.3 305.9"/>
+              <path d="M 122.5 157.3 L 277.5 157.3"/>
+            </g>
+            <g fill="none" stroke="#0A0A0A" stroke-opacity=".075" stroke-width=".8"><path d="M 107.2 188 L 107.2 219"/><path d="M 118.8 188 L 118.8 219"/><path d="M 130.4 188 L 130.4 219"/><path d="M 142 188 L 142 219"/><path d="M 153.6 188 L 153.6 219"/><path d="M 165.2 188 L 165.2 219"/><path d="M 176.8 188 L 176.8 219"/><path d="M 188.4 188 L 188.4 219"/><path d="M 200 188 L 200 219"/><path d="M 211.6 188 L 211.6 219"/><path d="M 223.2 188 L 223.2 219"/><path d="M 234.8 188 L 234.8 219"/><path d="M 246.4 188 L 246.4 219"/><path d="M 258 188 L 258 219"/><path d="M 269.6 188 L 269.6 219"/><path d="M 281.2 188 L 281.2 219"/><path d="M 292.8 188 L 292.8 219"/><path d="M 95.6 194.2 L 304.4 194.2"/><path d="M 95.6 202.5 L 304.4 202.5"/><path d="M 95.6 210.7 L 304.4 210.7"/></g>
+            <g fill="none" stroke="#0A0A0A" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round">
+              <path d="M 95.6 186 L 304.4 186"/>
+              <path d="M 95.6 186 L 95.6 219"/>
+              <path d="M 304.4 186 L 304.4 219"/>
+            </g>
+            <g fill="none" stroke="#0A0A0A" stroke-opacity=".14" stroke-width="1" stroke-dasharray="3 6"><path d="M 122 375.4 L 127 346.3 L 132 318.8 L 137 293 L 142 268.8 L 147 246.2 L 152 225.3 L 157 206 L 162 188.4 L 167 172.4 L 172 158 L 177 145.3 L 182 134.2 L 187 124.7 L 192 116.9 L 197 110.8 L 202 106.2 L 207 103.3 L 212 102.1 L 217 102.5 L 222 104.5 L 227 108.2 L 232 113.5 L 237 120.4 L 242 129"/><path d="M 242 129 L 244.1 125.8 L 246.2 123.8 L 248.3 123 L 250.3 123.4 L 252.4 124.9 L 254.5 127.6 L 256.6 131.4 L 258.7 136.5 L 260.8 142.6 L 262.8 150 L 264.9 158.5 L 267 168.2 L 269.1 179 L 271.2 191.1 L 273.3 204.3 L 275.3 218.6 L 277.4 234.1 L 279.5 250.8 L 281.6 268.7 L 283.7 287.7 L 285.8 307.9 L 287.8 329.2 L 289.9 351.7 L 292 375.4"/><path d="M 292 375.4 L 286.5 345.3 L 281 317 L 275.5 290.4 L 270 265.5 L 264.5 242.3 L 259 220.8 L 253.5 201.1 L 248 183 L 242.5 166.8 L 237 152.2 L 231.5 139.3 L 226 128.2 L 220.5 118.8 L 215 111.1 L 209.5 105.1 L 204 100.9 L 198.5 98.4 L 193 97.6 L 187.5 98.5 L 182 101.2 L 176.5 105.5 L 171 111.6 L 165.5 119.4 L 160 129"/><path d="M 160 129 L 158.4 127.1 L 156.8 126.3 L 155.3 126.5 L 153.7 127.8 L 152.1 130.2 L 150.5 133.6 L 148.9 138 L 147.3 143.6 L 145.8 150.1 L 144.2 157.8 L 142.6 166.5 L 141 176.2 L 139.4 187 L 137.8 198.8 L 136.3 211.8 L 134.7 225.7 L 133.1 240.7 L 131.5 256.8 L 129.9 273.9 L 128.3 292.1 L 126.8 311.4 L 125.2 331.7 L 123.6 353 L 122 375.4"/></g>
+            <g fill="none" stroke="#9ECE16" stroke-width="1.6" stroke-linecap="round"><path class="rl-draw rl-draw1" d="M 122 375.4 L 127 346.3 L 132 318.8 L 137 293 L 142 268.8 L 147 246.2 L 152 225.3 L 157 206 L 162 188.4 L 167 172.4 L 172 158 L 177 145.3 L 182 134.2 L 187 124.7 L 192 116.9 L 197 110.8 L 202 106.2 L 207 103.3 L 212 102.1 L 217 102.5 L 222 104.5 L 227 108.2 L 232 113.5 L 237 120.4 L 242 129"/><path class="rl-draw rl-draw2" d="M 242 129 L 244.1 125.8 L 246.2 123.8 L 248.3 123 L 250.3 123.4 L 252.4 124.9 L 254.5 127.6 L 256.6 131.4 L 258.7 136.5 L 260.8 142.6 L 262.8 150 L 264.9 158.5 L 267 168.2 L 269.1 179 L 271.2 191.1 L 273.3 204.3 L 275.3 218.6 L 277.4 234.1 L 279.5 250.8 L 281.6 268.7 L 283.7 287.7 L 285.8 307.9 L 287.8 329.2 L 289.9 351.7 L 292 375.4"/><path class="rl-draw rl-draw3" d="M 292 375.4 L 286.5 345.3 L 281 317 L 275.5 290.4 L 270 265.5 L 264.5 242.3 L 259 220.8 L 253.5 201.1 L 248 183 L 242.5 166.8 L 237 152.2 L 231.5 139.3 L 226 128.2 L 220.5 118.8 L 215 111.1 L 209.5 105.1 L 204 100.9 L 198.5 98.4 L 193 97.6 L 187.5 98.5 L 182 101.2 L 176.5 105.5 L 171 111.6 L 165.5 119.4 L 160 129"/><path class="rl-draw rl-draw4" d="M 160 129 L 158.4 127.1 L 156.8 126.3 L 155.3 126.5 L 153.7 127.8 L 152.1 130.2 L 150.5 133.6 L 148.9 138 L 147.3 143.6 L 145.8 150.1 L 144.2 157.8 L 142.6 166.5 L 141 176.2 L 139.4 187 L 137.8 198.8 L 136.3 211.8 L 134.7 225.7 L 133.1 240.7 L 131.5 256.8 L 129.9 273.9 L 128.3 292.1 L 126.8 311.4 L 125.2 331.7 L 123.6 353 L 122 375.4"/></g>
+            <g fill="none" stroke="#0A0A0A" stroke-opacity=".2" stroke-width="1"><ellipse cx="122" cy="375.4" rx="10.3" ry="3.4"/><ellipse cx="292" cy="375.4" rx="10.3" ry="3.4"/><ellipse cx="242" cy="129" rx="6.4" ry="2.1"/><ellipse cx="160" cy="129" rx="6.4" ry="2.1"/></g>
+            <g fill="#9ECE16" stroke="none"><circle class="rl-pulse rl-pulse1" cx="122" cy="375.4" r="4"/><circle class="rl-pulse rl-pulse2" cx="242" cy="129" r="4"/><circle class="rl-pulse rl-pulse3" cx="292" cy="375.4" r="4"/><circle class="rl-pulse rl-pulse4" cx="160" cy="129" r="4"/></g>
+            <ellipse class="rl-shadow" rx="10" ry="3.2" fill="#0A0A0A"/>
+            <g class="rl-shuttle">
+              <circle r="7.5" fill="#9ECE16" opacity=".16"/>
+              <path d="M -3.1 1.4 L -7.6 13.4 L 7.6 13.4 L 3.1 1.4 Z" fill="#fff" stroke="#0A0A0A" stroke-width="1.15" stroke-linejoin="round"/>
+              <path d="M -5.6 7.6 L 5.6 7.6" stroke="#0A0A0A" stroke-opacity=".45" stroke-width=".9"/>
+              <path d="M -1 1.8 L -2.6 13.4 M 1 1.8 L 2.6 13.4" stroke="#0A0A0A" stroke-opacity=".3" stroke-width=".8"/>
+              <circle r="3.5" fill="#0A0A0A"/>
+            </g>
+          </svg>
+          <div class="rl-meta">rally n&#176; <b>019</b></div>
         </div>
         <div style="position:absolute;left:-28px;bottom:56px;background:#fff;border:1px solid rgba(10,10,10,.1);border-radius:18px;padding:16px 18px;box-shadow:0 12px 34px rgba(10,10,10,.09);min-width:238px">
           <div style="display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.09em;color:#E5484D">
