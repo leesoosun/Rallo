@@ -891,30 +891,44 @@ a:hover{color:#6E9410}
     </sc-if>
 
     <sc-if value="{{ onLive }}" hint-placeholder-val="{{ false }}">
-      <div style="margin-top:30px;display:flex;flex-direction:column;gap:10px">
-        <sc-for list="{{ liveRows }}" as="m">
-          <div style="border:1px solid rgba(10,10,10,.1);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;cursor:pointer;transition:.18s" style-hover="border-color:#0A0A0A" onClick="{{ m.open }}">
-            <div style="display:flex;flex-direction:column;gap:8px;min-width:96px">
-              <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#E5484D;color:#fff;padding:5px 9px;border-radius:6px;align-self:flex-start">LIVE</span>
-              <span style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.05em">{{ m.court }}</span>
-            </div>
-            <div style="flex:0 1 300px;min-width:230px">
-              <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline">
-                <span style="font-size:15.5px;font-weight:800">{{ m.a }}</span><span style="{{ m.aStyle }}">{{ m.sa }}</span>
+      <div style="margin-top:30px;display:flex;flex-direction:column;gap:18px">
+        <sc-for list="{{ liveGroups }}" as="g">
+          <div style="border:1px solid rgba(10,10,10,.1);border-radius:22px;overflow:hidden">
+            <div style="padding:20px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;background:#FAFAF7;border-bottom:1px solid rgba(10,10,10,.08);cursor:pointer;transition:.18s" style-hover="background:#F2F2ED" onClick="{{ g.open }}">
+              <div>
+                <span style="{{ g.liveBadgeStyle }}">{{ g.liveBadge }}</span>
+                <div style="font-family:Anton,sans-serif;font-size:28px;text-transform:uppercase;line-height:1.05;margin-top:11px">{{ g.name }}</div>
+                <div style="font-size:13px;color:#8A8A82;font-weight:600;margin-top:5px">{{ g.where }} · {{ g.format }}</div>
               </div>
-              <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:5px">
-                <span style="font-size:15.5px;font-weight:800">{{ m.b }}</span><span style="{{ m.bStyle }}">{{ m.sb }}</span>
+              <div style="text-align:right;min-width:170px">
+                <div style="font-size:12.5px;font-weight:700;color:#55554F">{{ g.countLine }}</div>
+                <div style="font-size:12px;color:#8A8A82;font-weight:600;margin-top:3px">Organised by {{ g.host }}</div>
+                <div style="font-size:13px;font-weight:800;margin-top:10px">View tournament →</div>
               </div>
             </div>
-            <div style="flex:1;min-width:200px">
-              <div style="font-size:13.5px;font-weight:800;cursor:pointer" style-hover="color:#6E9410" onClick="{{ m.openTournament }}">{{ m.tournament }} →</div>
-              <div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:3px">{{ m.meta }}</div>
-              <div style="font-size:12px;color:#8A8A82;font-weight:600;margin-top:2px">{{ m.city }}</div>
-            </div>
-            <div style="text-align:right;min-width:120px">
-              <div style="font-size:12.5px;font-weight:700;color:#55554F">{{ m.sets }}</div>
-              <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A8A82;margin-top:4px">{{ m.elapsed }}</div>
-              <div style="font-size:12.5px;font-weight:800;margin-top:6px">Watch live →</div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ g.matches }}" as="m">
+                <div style="border:1px solid rgba(10,10,10,.1);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;cursor:pointer;transition:.18s" style-hover="border-color:#0A0A0A" onClick="{{ m.open }}">
+                  <div style="display:flex;flex-direction:column;gap:7px;min-width:92px">
+                    <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#E5484D;color:#fff;padding:4px 8px;border-radius:6px;align-self:flex-start">LIVE</span>
+                    <span style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.05em">{{ m.court }}</span>
+                  </div>
+                  <div style="flex:0 1 290px;min-width:220px">
+                    <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+                      <span style="font-size:15px;font-weight:800">{{ m.a }}</span><span style="{{ m.aStyle }}">{{ m.sa }}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:5px">
+                      <span style="font-size:15px;font-weight:800">{{ m.b }}</span><span style="{{ m.bStyle }}">{{ m.sb }}</span>
+                    </div>
+                  </div>
+                  <div style="flex:1;min-width:170px;font-size:12.5px;color:#8A8A82;font-weight:600">{{ m.meta }}</div>
+                  <div style="text-align:right;min-width:118px">
+                    <div style="font-size:12.5px;font-weight:700;color:#55554F">{{ m.sets }}</div>
+                    <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A8A82;margin-top:4px">{{ m.elapsed }}</div>
+                    <div style="font-size:12.5px;font-weight:800;margin-top:6px">Watch live →</div>
+                  </div>
+                </div>
+              </sc-for>
             </div>
           </div>
         </sc-for>
@@ -1743,15 +1757,16 @@ const LIVE = [
 
 /* ---------------- sorting ---------------- */
 const SORTS = {
-  live: [{ id: 'court', label: 'Court order' }, { id: 'longest', label: 'Longest running' }, { id: 'closest', label: 'Closest score' }],
+  live: [{ id: 'most', label: 'Most matches live' }, { id: 'longest', label: 'Longest running' }, { id: 'name', label: 'Tournament A–Z' }],
   upcoming: [{ id: 'soonest', label: 'Soonest first' }, { id: 'prize', label: 'Prize pool' }, { id: 'draw', label: 'Biggest draw' }],
   past: [{ id: 'recent', label: 'Most recent' }, { id: 'draw', label: 'Biggest draw' }]
 };
-const DEFAULT_SORT = { live: 'court', upcoming: 'soonest', past: 'recent' };
-const LIVE_CMP = {
-  court: (x, y) => x.court.localeCompare(y.court),
-  longest: (x, y) => y.off - x.off,
-  closest: (x, y) => Math.abs(x.sa - x.sb) - Math.abs(y.sa - y.sb)
+const DEFAULT_SORT = { live: 'most', upcoming: 'soonest', past: 'recent' };
+/* live tab groups matches under their tournament, so these compare groups */
+const GROUP_CMP = {
+  most: (x, y) => y.n - x.n || y.longest - x.longest,
+  longest: (x, y) => y.longest - x.longest,
+  name: (x, y) => x.name.localeCompare(y.name)
 };
 const T_CMP = {
   soonest: (x, y) => x.dateSort - y.dateSort,
@@ -1863,15 +1878,34 @@ class Component extends DCLogic {
                       ['Mixed', 'mixed']].map(c => chip(c[0], c[1], S.cat, 'cat'));
     const sortChips = (SORTS[S.tab] || []).map(o => chip(o.label, o.id, S.sort, 'sort'));
 
-    const liveRows = liveAll.slice().sort(LIVE_CMP[S.sort] || LIVE_CMP.court).map(m => ({
-      court: m.court, tournament: m.tournament, meta: m.category + ' · ' + m.round,
+    const matchRow = (m) => ({
+      court: m.court, meta: m.category + ' · ' + m.round,
       a: m.a, b: m.b, sa: String(m.sa), sb: String(m.sb), sets: m.sets,
-      elapsed: mmss(Math.max(0, secs + m.off)), city: m.city,
+      elapsed: mmss(Math.max(0, secs + m.off)),
       aStyle: m.sa > m.sb ? K.scoreLead : K.scoreTrail,
       bStyle: m.sb > m.sa ? K.scoreLead : K.scoreTrail,
-      open: () => this.go('live'),
-      openTournament: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.openTournament(m.tid); }
-    }));
+      open: () => this.go('live')
+    });
+    /* one entry per tournament that currently has at least one matching live
+       match, with those matches nested underneath */
+    const liveGroups = TOURNAMENTS
+      .filter(t => liveAll.some(m => m.tid === t.id))
+      .map(t => {
+        const ms = liveAll.filter(m => m.tid === t.id)
+                          .slice().sort((x, y) => x.court.localeCompare(y.court));
+        const n = ms.length;
+        return {
+          name: t.name, where: t.city + ' · ' + t.venue, format: t.format,
+          host: HOSTS[t.hostId].name,
+          n: n, longest: Math.max.apply(null, ms.map(m => m.off)),
+          liveBadge: n === 1 ? '1 LIVE NOW' : n + ' LIVE NOW',
+          liveBadgeStyle: K.badgeBase + K.bHot,
+          countLine: n === 1 ? '1 match on court' : n + ' matches on court',
+          matches: ms.map(matchRow),
+          open: () => this.openTournament(t.id)
+        };
+      })
+      .sort(GROUP_CMP[S.sort] || GROUP_CMP.most);
 
     const card = (t) => ({
       name: t.name, badge: t.badge, badgeStyle: K.badgeBase + t.badgeStyle,
@@ -1885,8 +1919,11 @@ class Component extends DCLogic {
     const upRows = upAll.slice().sort(T_CMP[S.sort] || T_CMP.soonest).map(card);
     const pastRows = pastAll.slice().sort(T_CMP[S.sort] || T_CMP.recent).map(card);
 
-    const shownN = { live: liveRows.length, upcoming: upRows.length, past: pastRows.length }[S.tab];
-    const countLabel = shownN === 1 ? '1 result' : shownN + ' results';
+    const shownN = { live: liveGroups.length, upcoming: upRows.length, past: pastRows.length }[S.tab];
+    const plural = (n, one, many) => n + ' ' + (n === 1 ? one : many);
+    const countLabel = S.tab === 'live'
+      ? plural(liveGroups.length, 'tournament', 'tournaments') + ' · ' + plural(liveAll.length, 'live match', 'live matches')
+      : plural(shownN, 'result', 'results');
 
     /* ---- tournament details ---- */
     const t = TOURNAMENTS.filter(x => x.id === S.tid)[0] || TOURNAMENTS[0];
@@ -1954,7 +1991,7 @@ class Component extends DCLogic {
       openCount: String(TOURNAMENTS.filter(x => x.status === 'upcoming').length),
       cityCount: '4',
       onLive: S.tab === 'live', onUpcoming: S.tab === 'upcoming', onPast: S.tab === 'past',
-      liveRows, upRows, pastRows,
+      liveGroups, upRows, pastRows,
       noResults: shownN === 0,
       clearFilters: () => this.setState({ city: 'all', cat: 'all' }),
 
