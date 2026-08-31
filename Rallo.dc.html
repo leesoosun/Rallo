@@ -818,127 +818,442 @@ a:hover{color:#6E9410}
 </div>
 </sc-if>
 
-<sc-if value="{{ isTournament }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ isTournaments }}" hint-placeholder-val="{{ false }}">
 <div style="min-height:100vh;padding-bottom:90px">
-  <div style="background:repeating-linear-gradient(135deg,#F2F2ED 0 14px,#EAEAE3 14px 28px);border-bottom:1px solid rgba(10,10,10,.09)">
-    <div style="max-width:1280px;margin:0 auto;padding:36px clamp(18px,3vw,32px) 40px">
-      <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#8A8A82">
-        <span style="cursor:pointer" onClick="{{ goHome }}">Home</span><span>/</span><span style="cursor:pointer" onClick="{{ goTournaments }}">Tournaments</span><span>/</span><span style="color:#0A0A0A">Bangalore Smash Open</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-top:22px">
-        <div>
-          <span style="background:#9ECE16;font-size:10.5px;font-weight:800;letter-spacing:.07em;padding:6px 10px;border-radius:6px">REGISTRATION OPEN</span>
-          <h1 style="font-family:Anton,sans-serif;font-size:clamp(38px,6vw,72px);text-transform:uppercase;margin:14px 0 0;line-height:.96">Bangalore Smash Open</h1>
-          <div style="display:flex;gap:20px;margin-top:12px;font-size:15px;font-weight:700;color:#55554F;flex-wrap:wrap">
-            <span>Bangalore · Koramangala Indoor Arena</span><span style="color:rgba(10,10,10,.2)">|</span><span>Aug 24–25, 2026</span><span style="color:rgba(10,10,10,.2)">|</span><span>Knockout · 6 courts</span>
-          </div>
+
+  <div style="border-bottom:1px solid rgba(10,10,10,.09);background:#FAFAF7">
+    <div style="max-width:1280px;margin:0 auto;padding:34px clamp(18px,3vw,32px) 30px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#8A8A82">
+          <span style="cursor:pointer" style-hover="color:#0A0A0A" onClick="{{ goHome }}">Home</span><span>/</span><span style="color:#0A0A0A">Tournaments</span>
         </div>
-        <div style="display:flex;gap:12px">
-          <button style="cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#fff;color:#0A0A0A;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" style-hover="border-color:#0A0A0A" onClick="{{ goLive }}">Live scores</button>
-          <button style="border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" onClick="{{ auth.register }}">Register to play</button>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#55554F">
+          <span style="width:7px;height:7px;border-radius:50%;background:#9ECE16;display:inline-block"></span>Public page · no login required
         </div>
       </div>
-      <div style="display:flex;gap:44px;margin-top:30px">
-        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">142</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">PLAYERS</div></div>
-        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">₹40K</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">PRIZE POOL</div></div>
-        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">5</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">CATEGORIES</div></div>
-        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">08</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">DAYS TO GO</div></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-top:20px">
+        <div style="max-width:620px">
+          <h1 style="font-family:Anton,sans-serif;font-size:clamp(38px,6vw,72px);text-transform:uppercase;margin:0;line-height:.96">Tournaments</h1>
+          <p style="font-size:17px;color:#55554F;margin:12px 0 0;line-height:1.5">Every draw on Rallo — what is on court right now, what is open for entry, and what has already been decided.</p>
+        </div>
+        <button style="border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" style-hover="background:#242420" onClick="{{ auth.organize }}">Organise a Tournament</button>
+      </div>
+
+      <div style="display:flex;gap:44px;margin-top:28px;flex-wrap:wrap">
+        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ liveNowCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">MATCHES LIVE</div></div>
+        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ openCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">OPEN FOR ENTRY</div></div>
+        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ cityCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">CITIES</div></div>
       </div>
     </div>
   </div>
 
   <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,3vw,32px)">
-    <div style="display:flex;gap:6px;border-bottom:1px solid rgba(10,10,10,.1);margin-top:4px">
-      <span style="font-size:14.5px;font-weight:800;padding:18px 18px;border-bottom:3px solid #0A0A0A;cursor:pointer">Overview</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer" style-hover="color:#0A0A0A">Schedule</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer" style-hover="color:#0A0A0A">Draws</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer" style-hover="color:#0A0A0A">Results</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer" onClick="{{ auth.players }}">Players</span>
+
+    <div style="display:flex;gap:26px;border-bottom:1px solid rgba(10,10,10,.1);overflow-x:auto">
+      <sc-for list="{{ tabs }}" as="tb">
+        <span style="{{ tb.style }}" onClick="{{ tb.select }}">{{ tb.label }}<span style="{{ tb.countStyle }}">{{ tb.count }}</span></span>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:24px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82;min-width:52px">CITY</span>
+          <sc-for list="{{ cityChips }}" as="c">
+            <span style="{{ c.style }}" style-hover="border-color:#0A0A0A" onClick="{{ c.select }}">{{ c.label }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82;min-width:52px">EVENT</span>
+          <sc-for list="{{ catChips }}" as="c">
+            <span style="{{ c.style }}" style-hover="border-color:#0A0A0A" onClick="{{ c.select }}">{{ c.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">SORT BY</span>
+          <sc-for list="{{ sortChips }}" as="c">
+            <span style="{{ c.style }}" style-hover="border-color:#0A0A0A" onClick="{{ c.select }}">{{ c.label }}</span>
+          </sc-for>
+        </div>
+        <div style="font-size:12.5px;font-weight:700;color:#8A8A82">{{ countLabel }}</div>
+      </div>
+    </div>
+
+    <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:40px;border:1px dashed rgba(10,10,10,.18);border-radius:20px;padding:56px 24px;text-align:center">
+        <div style="font-family:Anton,sans-serif;font-size:28px;text-transform:uppercase">Nothing here yet</div>
+        <p style="font-size:15px;color:#55554F;margin:10px 0 0">No draws match that combination. Try a wider filter.</p>
+        <button style="margin-top:18px;cursor:pointer;font-family:Manrope,sans-serif;font-size:14px;font-weight:800;background:#0A0A0A;color:#fff;border:none;padding:13px 22px;border-radius:99px" onClick="{{ clearFilters }}">Clear filters</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ onLive }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:30px;display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ liveRows }}" as="m">
+          <div style="border:1px solid rgba(10,10,10,.1);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;cursor:pointer;transition:.18s" style-hover="border-color:#0A0A0A" onClick="{{ m.open }}">
+            <div style="display:flex;flex-direction:column;gap:8px;min-width:96px">
+              <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#E5484D;color:#fff;padding:5px 9px;border-radius:6px;align-self:flex-start">LIVE</span>
+              <span style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.05em">{{ m.court }}</span>
+            </div>
+            <div style="flex:0 1 300px;min-width:230px">
+              <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+                <span style="font-size:15.5px;font-weight:800">{{ m.a }}</span><span style="{{ m.aStyle }}">{{ m.sa }}</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:5px">
+                <span style="font-size:15.5px;font-weight:800">{{ m.b }}</span><span style="{{ m.bStyle }}">{{ m.sb }}</span>
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:13.5px;font-weight:800;cursor:pointer" style-hover="color:#6E9410" onClick="{{ m.openTournament }}">{{ m.tournament }} →</div>
+              <div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:3px">{{ m.meta }}</div>
+              <div style="font-size:12px;color:#8A8A82;font-weight:600;margin-top:2px">{{ m.city }}</div>
+            </div>
+            <div style="text-align:right;min-width:120px">
+              <div style="font-size:12.5px;font-weight:700;color:#55554F">{{ m.sets }}</div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A8A82;margin-top:4px">{{ m.elapsed }}</div>
+              <div style="font-size:12.5px;font-weight:800;margin-top:6px">Watch live →</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ onUpcoming }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px">
+        <sc-for list="{{ upRows }}" as="c">
+          <div style="border:1px solid rgba(10,10,10,.1);border-radius:22px;overflow:hidden;cursor:pointer;transition:.18s;display:flex;flex-direction:column" style-hover="border-color:#0A0A0A;transform:translateY(-3px)" onClick="{{ c.open }}">
+            <div style="height:96px;background:repeating-linear-gradient(135deg,#F2F2ED 0 14px,#EAEAE3 14px 28px);display:flex;align-items:flex-start;padding:14px">
+              <span style="{{ c.badgeStyle }}">{{ c.badge }}</span>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;flex:1">
+              <div style="font-family:Anton,sans-serif;font-size:26px;text-transform:uppercase;line-height:1.05">{{ c.name }}</div>
+              <div style="font-size:13.5px;font-weight:700;color:#55554F;margin-top:8px">{{ c.where }}</div>
+              <div style="font-size:13px;color:#8A8A82;font-weight:600;margin-top:4px">{{ c.dates }} · {{ c.format }}</div>
+              <div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:10px;line-height:1.45">{{ c.cats }}</div>
+              <div style="display:flex;gap:28px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(10,10,10,.08)">
+                <div><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">{{ c.statA }}</div><div style="font-size:10.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">{{ c.labelA }}</div></div>
+                <div><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">{{ c.statB }}</div><div style="font-size:10.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">{{ c.labelB }}</div></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:16px;flex-wrap:wrap">
+                <span style="font-size:12px;color:#8A8A82;font-weight:600">Organised by {{ c.host }}</span>
+                <span style="font-size:13px;font-weight:800">View Tournament →</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ onPast }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px">
+        <sc-for list="{{ pastRows }}" as="c">
+          <div style="border:1px solid rgba(10,10,10,.1);border-radius:22px;padding:22px;background:#FAFAF7;cursor:pointer;transition:.18s;display:flex;flex-direction:column" style-hover="border-color:#0A0A0A" onClick="{{ c.open }}">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="{{ c.badgeStyle }}">{{ c.badge }}</span>
+              <span style="font-size:11px;font-weight:800;color:#8A8A82;letter-spacing:.05em">{{ c.statA }} {{ c.labelA }}</span>
+            </div>
+            <div style="font-family:Anton,sans-serif;font-size:26px;text-transform:uppercase;line-height:1.05;margin-top:14px">{{ c.name }}</div>
+            <div style="font-size:13px;color:#8A8A82;font-weight:600;margin-top:6px">{{ c.where }}</div>
+            <div style="margin-top:16px;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid rgba(10,10,10,.08)">
+              <div style="font-size:10.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">CHAMPION</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:7px">
+                <span style="font-size:15px">🏆</span>
+                <span style="font-size:16px;font-weight:800">{{ c.champion }}</span>
+              </div>
+              <div style="font-family:Anton,sans-serif;font-size:20px;margin-top:6px">{{ c.finalScore }}</div>
+              <div style="font-size:12px;color:#8A8A82;font-weight:600;margin-top:4px">{{ c.finalMeta }}</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap">
+              <span style="font-size:12px;color:#8A8A82;font-weight:600">Organised by {{ c.host }}</span>
+              <span style="font-size:13px;font-weight:800">View Results →</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:46px;border:1px solid rgba(10,10,10,.1);border-radius:22px;padding:30px;background:#0A0A0A;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:26px;flex-wrap:wrap">
+      <div style="max-width:560px">
+        <div style="font-family:Anton,sans-serif;font-size:clamp(26px,3vw,34px);text-transform:uppercase;line-height:1.05">Running a draw of your own?</div>
+        <p style="font-size:14.5px;color:rgba(255,255,255,.6);margin:10px 0 0;line-height:1.5">Publish entries, seed the draw and let Rallo file every score straight to player profiles.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button style="border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:15px 26px;border-radius:99px" onClick="{{ auth.organize }}">Organise a Tournament</button>
+        <button style="cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:transparent;color:#fff;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(255,255,255,.28)" style-hover="border-color:#fff" onClick="{{ auth.alerts }}">Get entry alerts</button>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTournament }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:100vh;padding-bottom:90px">
+  <div style="background:repeating-linear-gradient(135deg,#F2F2ED 0 14px,#EAEAE3 14px 28px);border-bottom:1px solid rgba(10,10,10,.09)">
+    <div style="max-width:1280px;margin:0 auto;padding:36px clamp(18px,3vw,32px) 40px">
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#8A8A82">
+        <span style="cursor:pointer" style-hover="color:#0A0A0A" onClick="{{ goHome }}">Home</span><span>/</span><span style="cursor:pointer" style-hover="color:#0A0A0A" onClick="{{ goTournaments }}">Tournaments</span><span>/</span><span style="color:#0A0A0A">{{ td.name }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-top:22px">
+        <div>
+          <span style="{{ td.badgeStyle }}">{{ td.badge }}</span>
+          <h1 style="font-family:Anton,sans-serif;font-size:clamp(38px,6vw,72px);text-transform:uppercase;margin:14px 0 0;line-height:.96">{{ td.name }}</h1>
+          <div style="display:flex;gap:20px;margin-top:12px;font-size:15px;font-weight:700;color:#55554F;flex-wrap:wrap">
+            <span>{{ td.where }}</span><span style="color:rgba(10,10,10,.2)">|</span><span>{{ td.dates }}</span><span style="color:rgba(10,10,10,.2)">|</span><span>{{ td.format }}</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button style="cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#fff;color:#0A0A0A;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" style-hover="border-color:#0A0A0A" onClick="{{ goLive }}">Live scores</button>
+          <sc-if value="{{ notPastT }}" hint-placeholder-val="{{ true }}">
+            <button style="border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" onClick="{{ auth.register }}">Register to play</button>
+          </sc-if>
+          <sc-if value="{{ isPastT }}" hint-placeholder-val="{{ false }}">
+            <button style="border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" onClick="{{ auth.profile }}">See full results</button>
+          </sc-if>
+        </div>
+      </div>
+      <div style="display:flex;gap:44px;margin-top:30px;flex-wrap:wrap">
+        <sc-for list="{{ td.stats }}" as="s">
+          <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ s.n }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">{{ s.label }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,3vw,32px)">
+    <div style="display:flex;gap:6px;border-bottom:1px solid rgba(10,10,10,.1);margin-top:4px;overflow-x:auto">
+      <span style="font-size:14.5px;font-weight:800;padding:18px 18px;border-bottom:3px solid #0A0A0A;cursor:pointer;white-space:nowrap">Overview</span>
+      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" style-hover="color:#0A0A0A">Schedule</span>
+      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" style-hover="color:#0A0A0A">Draws</span>
+      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" style-hover="color:#0A0A0A">Results</span>
+      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" onClick="{{ auth.players }}">Players</span>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-top:34px">
       <div>
-        <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:0">Today's order of play</h3>
-        <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
-          <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:20px;cursor:pointer" style-hover="border-color:#0A0A0A" onClick="{{ goLive }}">
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#E5484D;color:#fff;padding:5px 9px;border-radius:6px">LIVE</span>
-            <div style="flex:1"><div style="font-size:15px;font-weight:800">Rahul Kumar vs Arjun Singh</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">Men's Singles · Semi Final · Court 03</div></div>
-            <span style="font-family:Anton,sans-serif;font-size:22px">18 – 16</span>
-            <span style="font-size:13px;font-weight:800">View →</span>
-          </div>
-          <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:20px;background:#FAFAF7">
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#EFEFE9;color:#55554F;padding:5px 9px;border-radius:6px">19:10</span>
-            <div style="flex:1"><div style="font-size:15px;font-weight:800">Vikram Nair vs Sanjay Menon</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">Men's Singles · Semi Final · Court 03</div></div>
-            <span style="font-size:13px;font-weight:700;color:#8A8A82">Up next</span>
-          </div>
-          <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:20px">
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#0A0A0A;color:#fff;padding:5px 9px;border-radius:6px">DONE</span>
-            <div style="flex:1"><div style="font-size:15px;font-weight:800">Ananya Rao def. Meera Iyer</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">Women's Singles · Quarter Final · Court 01</div></div>
-            <span style="font-family:Anton,sans-serif;font-size:22px">21–19, 21–14</span>
-            <span style="font-size:13px;font-weight:800">Result →</span>
-          </div>
-          <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:20px">
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#0A0A0A;color:#fff;padding:5px 9px;border-radius:6px">DONE</span>
-            <div style="flex:1"><div style="font-size:15px;font-weight:800">Sanjay / Neha def. Karthik / Priya</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">Mixed Doubles · Round of 16 · Court 02</div></div>
-            <span style="font-family:Anton,sans-serif;font-size:22px">21–17, 23–21</span>
-            <span style="font-size:13px;font-weight:800">Result →</span>
-          </div>
-        </div>
-
-        <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:38px 0 0">Draw · Men's Singles</h3>
-        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">QUARTER FINALS</div>
-            <div style="border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700"><div style="display:flex;justify-content:space-between"><span>Rahul Kumar</span><span>2</span></div><div style="display:flex;justify-content:space-between;color:#8A8A82;margin-top:4px"><span>D. Sharma</span><span>0</span></div></div>
-            <div style="border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700"><div style="display:flex;justify-content:space-between"><span>Arjun Singh</span><span>2</span></div><div style="display:flex;justify-content:space-between;color:#8A8A82;margin-top:4px"><span>P. Verma</span><span>1</span></div></div>
-            <div style="border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700"><div style="display:flex;justify-content:space-between"><span>Vikram Nair</span><span>2</span></div><div style="display:flex;justify-content:space-between;color:#8A8A82;margin-top:4px"><span>A. Joshi</span><span>0</span></div></div>
-            <div style="border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700"><div style="display:flex;justify-content:space-between"><span>Sanjay Menon</span><span>2</span></div><div style="display:flex;justify-content:space-between;color:#8A8A82;margin-top:4px"><span>R. Gupta</span><span>1</span></div></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px;justify-content:space-around">
-            <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">SEMI FINALS</div>
-            <div style="border:1.5px solid #E5484D;border-radius:12px;padding:12px;font-size:13.5px;font-weight:700"><div style="font-size:10px;font-weight:800;color:#E5484D;letter-spacing:.07em;margin-bottom:6px">LIVE · SET 2</div><div style="display:flex;justify-content:space-between"><span>Rahul Kumar</span><span>18</span></div><div style="display:flex;justify-content:space-between;color:#8A8A82;margin-top:4px"><span>Arjun Singh</span><span>16</span></div></div>
-            <div style="border:1px dashed rgba(10,10,10,.18);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;color:#8A8A82"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;margin-bottom:6px">19:10</div><div>Vikram Nair</div><div style="margin-top:4px">Sanjay Menon</div></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px;justify-content:center">
-            <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">FINAL</div>
-            <div style="border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:16px;background:#FAFAF7;font-size:13.5px;font-weight:700;color:#8A8A82">
-              <div style="font-family:Anton,sans-serif;font-size:20px;color:#0A0A0A;text-transform:uppercase">Aug 25 · 18:00</div>
-              <div style="margin-top:8px">Winner SF1</div><div style="margin-top:4px">Winner SF2</div>
+        <sc-if value="{{ isPastT }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:24px;background:#FAFAF7">
+            <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">CHAMPION</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
+              <span style="font-size:26px">🏆</span>
+              <div>
+                <div style="font-family:Anton,sans-serif;font-size:32px;text-transform:uppercase;line-height:1">{{ td.champion }}</div>
+                <div style="font-size:13px;color:#8A8A82;font-weight:600;margin-top:4px">{{ td.finalMeta }}</div>
+              </div>
+              <div style="margin-left:auto;font-family:Anton,sans-serif;font-size:26px">{{ td.finalScore }}</div>
             </div>
           </div>
+        </sc-if>
+
+        <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:0">Order of play</h3>
+        <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ td.orderOfPlay }}" as="m">
+            <div style="{{ m.rowStyle }}" onClick="{{ m.open }}">
+              <span style="{{ m.tagStyle }}">{{ m.tag }}</span>
+              <div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:800">{{ m.title }}</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">{{ m.meta }}</div></div>
+              <span style="font-family:Anton,sans-serif;font-size:22px">{{ m.score }}</span>
+              <span style="font-size:13px;font-weight:800;color:#55554F">{{ m.action }}</span>
+            </div>
+          </sc-for>
         </div>
+
+        <sc-if value="{{ hasDraw }}" hint-placeholder-val="{{ false }}">
+          <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:38px 0 0">{{ td.draw.title }}</h3>
+          <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">
+            <sc-for list="{{ td.draw.columns }}" as="col">
+              <div style="display:flex;flex-direction:column;gap:10px;{{ col.align }}">
+                <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">{{ col.title }}</div>
+                <sc-for list="{{ col.matches }}" as="mm">
+                  <div style="{{ mm.style }}">
+                    <sc-if value="{{ mm.hasStatus }}" hint-placeholder-val="{{ false }}">
+                      <div style="{{ mm.statusStyle }}">{{ mm.status }}</div>
+                    </sc-if>
+                    <div style="display:flex;justify-content:space-between;gap:10px"><span>{{ mm.a }}</span><span>{{ mm.sa }}</span></div>
+                    <div style="display:flex;justify-content:space-between;gap:10px;color:#8A8A82;margin-top:4px"><span>{{ mm.b }}</span><span>{{ mm.sb }}</span></div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ noDraw }}" hint-placeholder-val="{{ false }}">
+          <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:38px 0 0">Draw</h3>
+          <div style="margin-top:18px;border:1px dashed rgba(10,10,10,.18);border-radius:16px;padding:34px 22px;text-align:center">
+            <div style="font-size:15px;font-weight:800">Draw publishes once entries close</div>
+            <p style="font-size:13.5px;color:#8A8A82;margin:8px 0 0;line-height:1.5">Seeding is finalised after the entry deadline. Register and Rallo will notify you when the bracket goes up.</p>
+          </div>
+        </sc-if>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:18px">
         <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px">
           <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">CATEGORIES</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
-            <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">Men's Singles</span>
-            <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">Women's Singles</span>
-            <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">Men's Doubles</span>
-            <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">Women's Doubles</span>
-            <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">Mixed Doubles</span>
+            <sc-for list="{{ td.categories }}" as="c">
+              <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">{{ c.label }}</span>
+            </sc-for>
           </div>
         </div>
+
         <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px">
-          <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">ORGANIZER</div>
-          <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
-            <div style="width:44px;height:44px;border-radius:12px;background:repeating-linear-gradient(135deg,#F2F2ED 0 8px,#EAEAE3 8px 16px)"></div>
-            <div><div style="font-size:15px;font-weight:800">Smash Club BLR</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600">18 tournaments hosted</div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+            <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">ORGANISER</div>
+            <sc-if value="{{ hostCard.verified }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:10px;font-weight:800;letter-spacing:.06em;background:#0A0A0A;color:#fff;padding:4px 8px;border-radius:5px">✓ VERIFIED</span>
+            </sc-if>
           </div>
-          <div style="margin-top:16px;font-size:13.5px;line-height:1.5;color:#55554F">Entry ₹600 per category · Feather shuttles · Doubles entry closes Aug 20.</div>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:14px;cursor:pointer" onClick="{{ hostCard.open }}">
+            <div style="width:48px;height:48px;border-radius:13px;background:#0A0A0A;color:#9ECE16;display:flex;align-items:center;justify-content:center;font-family:Anton,sans-serif;font-size:19px;flex-shrink:0">{{ hostCard.initials }}</div>
+            <div>
+              <div style="font-size:15.5px;font-weight:800">{{ hostCard.name }}</div>
+              <div style="font-size:12.5px;color:#8A8A82;font-weight:600">{{ hostCard.city }} · {{ hostCard.since }}</div>
+            </div>
+          </div>
+          <p style="margin-top:14px;font-size:13.5px;line-height:1.55;color:#55554F">{{ hostCard.blurb }}</p>
+          <div style="display:flex;gap:18px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(10,10,10,.08);flex-wrap:wrap">
+            <div><div style="font-family:Anton,sans-serif;font-size:24px;line-height:1">{{ hostCard.hosted }}</div><div style="font-size:10px;font-weight:800;color:#8A8A82;letter-spacing:.06em">HOSTED</div></div>
+            <div><div style="font-family:Anton,sans-serif;font-size:24px;line-height:1">{{ hostCard.rating }}</div><div style="font-size:10px;font-weight:800;color:#8A8A82;letter-spacing:.06em">RATING</div></div>
+            <div><div style="font-family:Anton,sans-serif;font-size:24px;line-height:1">{{ hostCard.onTime }}</div><div style="font-size:10px;font-weight:800;color:#8A8A82;letter-spacing:.06em">ON TIME</div></div>
+          </div>
+          <button style="margin-top:16px;width:100%;cursor:pointer;font-family:Manrope,sans-serif;font-size:14.5px;font-weight:800;background:#fff;color:#0A0A0A;padding:13px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" style-hover="border-color:#0A0A0A" onClick="{{ hostCard.open }}">View host profile →</button>
         </div>
-        <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px;background:#0A0A0A;color:#fff">
-          <div style="font-family:Anton,sans-serif;font-size:26px;text-transform:uppercase;line-height:1.05">Playing this one?</div>
-          <p style="font-size:14px;color:rgba(255,255,255,.6);margin:8px 0 0;line-height:1.5">Register, get your draw notifications and have every result added to your player profile automatically.</p>
-          <button style="margin-top:16px;width:100%;border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:14px;border-radius:99px" onClick="{{ auth.register }}">Register to play</button>
-          <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.45);text-align:center;font-weight:600">Browsing stays free — no account needed.</div>
+
+        <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px">
+          <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">ENTRY DETAILS</div>
+          <div style="margin-top:12px;font-size:13.5px;line-height:1.55;color:#55554F">{{ td.note }}</div>
         </div>
+
+        <sc-if value="{{ notPastT }}" hint-placeholder-val="{{ true }}">
+          <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px;background:#0A0A0A;color:#fff">
+            <div style="font-family:Anton,sans-serif;font-size:26px;text-transform:uppercase;line-height:1.05">Playing this one?</div>
+            <p style="font-size:14px;color:rgba(255,255,255,.6);margin:8px 0 0;line-height:1.5">Register, get your draw notifications and have every result added to your player profile automatically.</p>
+            <button style="margin-top:16px;width:100%;border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:14px;border-radius:99px" onClick="{{ auth.register }}">Register to play</button>
+            <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.45);text-align:center;font-weight:600">Browsing stays free — no account needed.</div>
+          </div>
+        </sc-if>
+
         <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px">
           <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">VENUE</div>
           <div style="margin-top:12px;height:130px;border-radius:14px;background:repeating-linear-gradient(135deg,#F2F2ED 0 12px,#EAEAE3 12px 24px);display:flex;align-items:center;justify-content:center"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8A8A82">venue map</span></div>
-          <div style="margin-top:12px;font-size:13.5px;font-weight:700">Koramangala Indoor Arena</div>
-          <div style="font-size:12.5px;color:#8A8A82;font-weight:600">80 Feet Rd, 6th Block · 6 wooden courts</div>
+          <div style="margin-top:12px;font-size:13.5px;font-weight:700">{{ td.venue }}</div>
+          <div style="font-size:12.5px;color:#8A8A82;font-weight:600">{{ td.venueMeta }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHost }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:100vh;padding-bottom:90px">
+
+  <div style="background:repeating-linear-gradient(135deg,#F2F2ED 0 14px,#EAEAE3 14px 28px);border-bottom:1px solid rgba(10,10,10,.09)">
+    <div style="max-width:1280px;margin:0 auto;padding:34px clamp(18px,3vw,32px) 38px">
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#8A8A82">
+        <span style="cursor:pointer" style-hover="color:#0A0A0A" onClick="{{ goHome }}">Home</span><span>/</span><span style="cursor:pointer" style-hover="color:#0A0A0A" onClick="{{ goTournaments }}">Tournaments</span><span>/</span><span style="color:#0A0A0A">{{ hostView.name }}</span>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-top:24px">
+        <div style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap">
+          <div style="width:88px;height:88px;border-radius:22px;background:#0A0A0A;color:#9ECE16;display:flex;align-items:center;justify-content:center;font-family:Anton,sans-serif;font-size:34px;letter-spacing:.02em">{{ hostView.initials }}</div>
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#9ECE16;padding:6px 10px;border-radius:6px">TOURNAMENT ORGANISER</span>
+              <sc-if value="{{ hostView.verified }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:10.5px;font-weight:800;letter-spacing:.07em;background:#0A0A0A;color:#fff;padding:6px 10px;border-radius:6px">✓ VERIFIED HOST</span>
+              </sc-if>
+            </div>
+            <h1 style="font-family:Anton,sans-serif;font-size:clamp(34px,5vw,60px);text-transform:uppercase;margin:12px 0 0;line-height:.98">{{ hostView.name }}</h1>
+            <div style="display:flex;gap:18px;margin-top:10px;font-size:15px;font-weight:700;color:#55554F;flex-wrap:wrap">
+              <span>{{ hostView.city }}</span><span style="color:rgba(10,10,10,.2)">|</span><span>Hosting since {{ hostView.since }}</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button style="cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#fff;color:#0A0A0A;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" style-hover="border-color:#0A0A0A" onClick="{{ auth.contact }}">Contact organiser</button>
+          <button style="border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" onClick="{{ auth.follow }}">Follow host</button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:44px;margin-top:30px;flex-wrap:wrap">
+        <sc-for list="{{ hostView.stats }}" as="s">
+          <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ s.n }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">{{ s.label }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1280px;margin:0 auto;padding:34px clamp(18px,3vw,32px) 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px">
+      <div>
+        <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:0">About the organiser</h3>
+        <p style="font-size:16px;color:#55554F;line-height:1.6;margin:14px 0 0">{{ hostView.about }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
+          <sc-for list="{{ hostView.tags }}" as="t">
+            <span style="font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF">{{ t.label }}</span>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ hostView.hasUpcoming }}" hint-placeholder-val="{{ false }}">
+          <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:40px 0 0">Open &amp; in progress <span style="font-family:Manrope,sans-serif;font-size:15px;font-weight:800;color:#8A8A82">{{ hostView.upcomingCount }}</span></h3>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ hostView.upcoming }}" as="c">
+              <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;cursor:pointer;transition:.18s" style-hover="border-color:#0A0A0A" onClick="{{ c.open }}">
+                <span style="{{ c.badgeStyle }}">{{ c.badge }}</span>
+                <div style="flex:1;min-width:180px">
+                  <div style="font-size:15.5px;font-weight:800">{{ c.name }}</div>
+                  <div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:3px">{{ c.where }} · {{ c.dates }}</div>
+                </div>
+                <div style="text-align:right"><div style="font-family:Anton,sans-serif;font-size:22px;line-height:1">{{ c.statA }}</div><div style="font-size:10.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">{{ c.labelA }}</div></div>
+                <span style="font-size:13px;font-weight:800">View →</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hostView.hasPast }}" hint-placeholder-val="{{ false }}">
+          <h3 style="font-family:Anton,sans-serif;font-size:30px;text-transform:uppercase;margin:40px 0 0">Past events <span style="font-family:Manrope,sans-serif;font-size:15px;font-weight:800;color:#8A8A82">{{ hostView.pastCount }}</span></h3>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ hostView.past }}" as="c">
+              <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;cursor:pointer;transition:.18s;background:#FAFAF7" style-hover="border-color:#0A0A0A" onClick="{{ c.open }}">
+                <span style="{{ c.badgeStyle }}">{{ c.badge }}</span>
+                <div style="flex:1;min-width:180px">
+                  <div style="font-size:15.5px;font-weight:800">{{ c.name }}</div>
+                  <div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:3px">🏆 {{ c.champion }} · {{ c.finalScore }}</div>
+                </div>
+                <span style="font-size:13px;font-weight:800">Results →</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px">
+          <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">TRACK RECORD</div>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ hostView.stats }}" as="s">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+                <span style="font-size:12.5px;font-weight:700;color:#55554F">{{ s.label }}</span>
+                <span style="font-family:Anton,sans-serif;font-size:22px;line-height:1">{{ s.n }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px;background:#0A0A0A;color:#fff">
+          <div style="font-family:Anton,sans-serif;font-size:26px;text-transform:uppercase;line-height:1.05">Never miss their next draw</div>
+          <p style="font-size:14px;color:rgba(255,255,255,.6);margin:8px 0 0;line-height:1.5">Follow {{ hostView.name }} and Rallo will tell you the moment entries open.</p>
+          <button style="margin-top:16px;width:100%;border:none;cursor:pointer;font-family:Manrope,sans-serif;font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:14px;border-radius:99px" onClick="{{ auth.follow }}">Follow host</button>
+          <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.45);text-align:center;font-weight:600">Browsing stays free — no account needed.</div>
+        </div>
+        <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:22px">
+          <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">BASED IN</div>
+          <div style="margin-top:12px;height:130px;border-radius:14px;background:repeating-linear-gradient(135deg,#F2F2ED 0 12px,#EAEAE3 12px 24px);display:flex;align-items:center;justify-content:center"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8A8A82">venue map</span></div>
+          <div style="margin-top:12px;font-size:13.5px;font-weight:700">{{ hostView.city }}</div>
+          <div style="font-size:12.5px;color:#8A8A82;font-weight:600">Hosting since {{ hostView.since }}</div>
         </div>
       </div>
     </div>
@@ -1131,32 +1446,522 @@ a:hover{color:#6E9410}
 </div>]]>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}">
+/* ---------------- design tokens reused across the generated views ---------------- */
+const K = {
+  chipOn: 'font-size:13px;font-weight:700;padding:9px 16px;border-radius:99px;background:#0A0A0A;color:#fff;border:1px solid #0A0A0A;cursor:pointer',
+  chipOff: 'font-size:13px;font-weight:700;padding:9px 16px;border-radius:99px;border:1px solid rgba(10,10,10,.14);background:#fff;color:#0A0A0A;cursor:pointer',
+  tabOn: 'display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;color:#0A0A0A;padding:18px 4px;border-bottom:3px solid #0A0A0A;cursor:pointer;white-space:nowrap',
+  tabOff: 'display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:#8A8A82;padding:18px 4px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap',
+  tabCountOn: 'font-size:11.5px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:3px 8px;border-radius:99px;min-width:22px;text-align:center',
+  tabCountOff: 'font-size:11.5px;font-weight:800;background:#EFEFE9;color:#8A8A82;padding:3px 8px;border-radius:99px;min-width:22px;text-align:center',
+  badgeBase: 'font-size:10.5px;font-weight:800;letter-spacing:.07em;padding:6px 10px;border-radius:6px;white-space:nowrap;',
+  bOpen: 'background:#9ECE16;color:#0A0A0A',
+  bHot: 'background:#E5484D;color:#fff',
+  bSoon: 'background:#0A0A0A;color:#fff',
+  bDone: 'background:#EFEFE9;color:#55554F',
+  rowTagBase: 'font-size:10.5px;font-weight:800;letter-spacing:.07em;padding:5px 9px;border-radius:6px;white-space:nowrap;',
+  tLive: 'background:#E5484D;color:#fff',
+  tNext: 'background:#EFEFE9;color:#55554F',
+  tDone: 'background:#0A0A0A;color:#fff',
+  rowPlain: 'border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap',
+  rowNext: 'border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:#FAFAF7',
+  scoreLead: 'font-family:Anton,sans-serif;font-size:26px;line-height:1;color:#0A0A0A',
+  scoreTrail: 'font-family:Anton,sans-serif;font-size:26px;line-height:1;color:#B4B4AC'
+};
+
+/* ---------------- organisers ---------------- */
+const HOSTS = {
+  smash: {
+    id: 'smash', name: 'Smash Club BLR', initials: 'SC', city: 'Bangalore', since: 2019,
+    verified: true, hosted: 18, players: 2140, rating: 4.8, onTime: 96,
+    blurb: 'Bangalore’s busiest club circuit — knockout draws, feather shuttles, results filed the same night.',
+    about: 'Smash Club BLR runs the city’s weekend circuit out of Koramangala and Indiranagar. Eighteen tournaments in, they are known for draws that start on time and results that reach player profiles before everyone has left the hall.',
+    tags: ['Knockout specialists', 'Feather shuttles', 'Same-day results', 'Wooden courts']
+  },
+  hsr: {
+    id: 'hsr', name: 'HSR Racquet Co.', initials: 'HR', city: 'HSR Layout', since: 2021,
+    verified: true, hosted: 11, players: 1280, rating: 4.6, onTime: 92,
+    blurb: 'League-format doubles specialists — every team is guaranteed at least three matches.',
+    about: 'HSR Racquet Co. builds round-robin leagues so that entry fees buy court time, not a single first-round exit. Eleven seasons across HSR Layout and Sarjapur.',
+    tags: ['Round robin + KO', 'Doubles focused', '3-match guarantee']
+  },
+  kba: {
+    id: 'kba', name: 'Karnataka Badminton Association', initials: 'KB', city: 'Mysore', since: 1974,
+    verified: true, hosted: 64, players: 9400, rating: 4.9, onTime: 98,
+    blurb: 'State-ranked events feeding the national calendar, run to association standards.',
+    about: 'The state association has run ranked competition in Karnataka for five decades. Points from these draws carry into state and national seedings, and officiating is by accredited umpires.',
+    tags: ['Ranked events', 'Accredited umpires', 'Age-group draws', 'State points']
+  },
+  deccan: {
+    id: 'deccan', name: 'Deccan Shuttlers', initials: 'DS', city: 'Pune', since: 2020,
+    verified: false, hosted: 9, players: 860, rating: 4.4, onTime: 88,
+    blurb: 'Pune’s open-entry circuit, built around evening and weekend draws for working players.',
+    about: 'Deccan Shuttlers schedules around office hours — late draws on weekdays, full days on weekends. Nine tournaments run across Balewadi and Deccan Gymkhana.',
+    tags: ['Evening draws', 'Open entry', 'Synthetic + wooden']
+  },
+  whitefield: {
+    id: 'whitefield', name: 'Whitefield Smashers', initials: 'WS', city: 'Bangalore', since: 2022,
+    verified: true, hosted: 7, players: 640, rating: 4.7, onTime: 94,
+    blurb: 'A tight east-Bangalore league where the same faces meet all season and the table matters.',
+    about: 'Whitefield Smashers runs a season-long doubles league out of Whitefield Sports Hub. Standings carry across match days, so a Tuesday league game still moves the table.',
+    tags: ['Season league', 'Doubles', 'Standings carry over']
+  }
+};
+
+/* ---------------- tournaments ---------------- */
+const TOURNAMENTS = [
+  { id: 'blr-smash', name: 'Bangalore Smash Open', status: 'upcoming',
+    badge: 'REGISTRATION OPEN', badgeStyle: K.bOpen,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Koramangala Indoor Arena',
+    venueMeta: '80 Feet Rd, 6th Block · 6 wooden courts',
+    dates: 'Aug 24–25, 2026', dateSort: 20260824, format: 'Knockout · 6 courts',
+    categories: ["Men's Singles", "Women's Singles", "Men's Doubles", "Women's Doubles", 'Mixed Doubles'],
+    catGroup: ['singles', 'doubles', 'mixed'],
+    statA: '142', labelA: 'PLAYERS', statB: '₹40K', labelB: 'PRIZE POOL',
+    stats: [['142', 'PLAYERS'], ['₹40K', 'PRIZE POOL'], ['5', 'CATEGORIES'], ['08', 'DAYS TO GO']],
+    prizeSort: 40000, drawSize: 142, hostId: 'smash', draw: true,
+    note: 'Entry ₹600 per category · Feather shuttles · Doubles entry closes Aug 20.',
+    orderOfPlay: [
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Rahul Kumar vs Arjun Singh', meta: "Men's Singles · Semi Final · Court 03", score: '18 – 16', action: 'View →' },
+      { state: 'next', tag: '19:10', tagStyle: K.tNext, title: 'Vikram Nair vs Sanjay Menon', meta: "Men's Singles · Semi Final · Court 03", score: '', action: 'Up next' },
+      { state: 'done', tag: 'DONE', tagStyle: K.tDone, title: 'Ananya Rao def. Meera Iyer', meta: "Women's Singles · Quarter Final · Court 01", score: '21–19, 21–14', action: 'Result →' },
+      { state: 'done', tag: 'DONE', tagStyle: K.tDone, title: 'Sanjay / Neha def. Karthik / Priya', meta: 'Mixed Doubles · Round of 16 · Court 02', score: '21–17, 23–21', action: 'Result →' }
+    ] },
+
+  { id: 'hsr-doubles', name: 'HSR Doubles League', status: 'upcoming',
+    badge: '6 SPOTS LEFT', badgeStyle: K.bHot,
+    city: 'HSR Layout', citySlug: 'hsr', venue: 'HSR Play Arena',
+    venueMeta: '27th Main, Sector 2 · 4 synthetic courts',
+    dates: 'Sep 02–04, 2026', dateSort: 20260902, format: 'Round robin + KO · 4 courts',
+    categories: ["Men's Doubles", 'Mixed Doubles'], catGroup: ['doubles', 'mixed'],
+    statA: '64', labelA: 'TEAMS', statB: '₹25K', labelB: 'PRIZE POOL',
+    stats: [['64', 'TEAMS'], ['₹25K', 'PRIZE POOL'], ['2', 'CATEGORIES'], ['12', 'DAYS TO GO']],
+    prizeSort: 25000, drawSize: 64, hostId: 'hsr', draw: false,
+    note: 'Entry ₹1,200 per team · Nylon shuttles · League stage guarantees 3 matches.',
+    orderOfPlay: [
+      { state: 'next', tag: 'DAY 1', tagStyle: K.tNext, title: 'League stage · Groups A–H', meta: "Men's Doubles · Courts 01–04 · 24 matches", score: '', action: 'Sep 02' },
+      { state: 'next', tag: 'DAY 2', tagStyle: K.tNext, title: 'League stage · Groups A–D', meta: 'Mixed Doubles · Courts 01–04 · 18 matches', score: '', action: 'Sep 03' },
+      { state: 'next', tag: 'DAY 3', tagStyle: K.tNext, title: 'Quarter finals through final', meta: 'Both categories · Courts 01–02', score: '', action: 'Sep 04' }
+    ] },
+
+  { id: 'mysore-series', name: 'Mysore State Series', status: 'upcoming',
+    badge: 'OPENS SEP 01', badgeStyle: K.bSoon,
+    city: 'Mysore', citySlug: 'mysore', venue: 'Chamundi Indoor Stadium',
+    venueMeta: 'Nazarbad · 8 wooden courts',
+    dates: 'Sep 14–16, 2026', dateSort: 20260914, format: 'Ranked event · 8 courts',
+    categories: ['Singles', 'Doubles', 'U-19'], catGroup: ['singles', 'doubles'],
+    statA: '256', labelA: 'CAPACITY', statB: '₹1L', labelB: 'PRIZE POOL',
+    stats: [['256', 'CAPACITY'], ['₹1L', 'PRIZE POOL'], ['3', 'CATEGORIES'], ['24', 'DAYS TO GO']],
+    prizeSort: 100000, drawSize: 256, hostId: 'kba', draw: false,
+    note: 'State ranking points · Accredited umpires · Entry opens Sep 01 at 10:00.',
+    orderOfPlay: [
+      { state: 'next', tag: 'DAY 1', tagStyle: K.tNext, title: 'Qualifying · Singles', meta: 'Courts 01–08 · Round of 256 to 64', score: '', action: 'Sep 14' },
+      { state: 'next', tag: 'DAY 2', tagStyle: K.tNext, title: 'Main draw · all categories', meta: 'Courts 01–08 · Round of 64 to quarters', score: '', action: 'Sep 15' },
+      { state: 'next', tag: 'DAY 3', tagStyle: K.tNext, title: 'Semi finals and finals', meta: 'Show court · 6 finals', score: '', action: 'Sep 16' }
+    ] },
+
+  { id: 'whitefield-open', name: 'Whitefield Open', status: 'upcoming',
+    badge: 'REGISTRATION OPEN', badgeStyle: K.bOpen,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Whitefield Sports Hub',
+    venueMeta: 'Varthur Rd · 5 synthetic courts',
+    dates: 'Sep 20–21, 2026', dateSort: 20260920, format: 'Knockout · 5 courts',
+    categories: ["Men's Singles", "Women's Singles", "Men's Doubles"], catGroup: ['singles', 'doubles'],
+    statA: '88', labelA: 'PLAYERS', statB: '₹25K', labelB: 'PRIZE POOL',
+    stats: [['88', 'PLAYERS'], ['₹25K', 'PRIZE POOL'], ['3', 'CATEGORIES'], ['30', 'DAYS TO GO']],
+    prizeSort: 25000, drawSize: 88, hostId: 'whitefield', draw: false,
+    note: 'Entry ₹500 per category · Nylon shuttles · League members enter first.',
+    orderOfPlay: [
+      { state: 'next', tag: 'DAY 1', tagStyle: K.tNext, title: 'Round of 64 through quarters', meta: 'All categories · Courts 01–05', score: '', action: 'Sep 20' },
+      { state: 'next', tag: 'DAY 2', tagStyle: K.tNext, title: 'Semi finals and finals', meta: 'Courts 01–02 · 3 finals', score: '', action: 'Sep 21' }
+    ] },
+
+  { id: 'pune-monsoon', name: 'Pune Monsoon Open', status: 'upcoming',
+    badge: 'EARLY BIRD', badgeStyle: K.bOpen,
+    city: 'Pune', citySlug: 'pune', venue: 'Deccan Gymkhana Hall',
+    venueMeta: 'Fergusson College Rd · 6 wooden courts',
+    dates: 'Sep 27–28, 2026', dateSort: 20260927, format: 'Knockout · 6 courts',
+    categories: ["Men's Singles", "Women's Singles", 'Mixed Doubles'], catGroup: ['singles', 'mixed'],
+    statA: '120', labelA: 'PLAYERS', statB: '₹60K', labelB: 'PRIZE POOL',
+    stats: [['120', 'PLAYERS'], ['₹60K', 'PRIZE POOL'], ['3', 'CATEGORIES'], ['37', 'DAYS TO GO']],
+    prizeSort: 60000, drawSize: 120, hostId: 'deccan', draw: false,
+    note: 'Entry ₹700 per category · Early bird ₹550 until Sep 10 · Feather shuttles.',
+    orderOfPlay: [
+      { state: 'next', tag: 'DAY 1', tagStyle: K.tNext, title: 'Round of 128 through quarters', meta: 'All categories · Courts 01–06', score: '', action: 'Sep 27' },
+      { state: 'next', tag: 'DAY 2', tagStyle: K.tNext, title: 'Semi finals and finals', meta: 'Show court · 3 finals', score: '', action: 'Sep 28' }
+    ] },
+
+  { id: 'indiranagar-cup', name: 'Indiranagar Shuttle Cup', status: 'live',
+    badge: 'LIVE NOW', badgeStyle: K.bHot,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Indiranagar Club Courts',
+    venueMeta: '12th Main · 4 wooden courts',
+    dates: 'Aug 29–31, 2026', dateSort: 20260829, format: 'Knockout · 4 courts',
+    categories: ["Women's Doubles", "Men's Singles"], catGroup: ['doubles', 'singles'],
+    statA: '72', labelA: 'PLAYERS', statB: '₹35K', labelB: 'PRIZE POOL',
+    stats: [['72', 'PLAYERS'], ['₹35K', 'PRIZE POOL'], ['2', 'CATEGORIES'], ['3', 'MATCHES LIVE']],
+    prizeSort: 35000, drawSize: 72, hostId: 'smash', draw: true,
+    note: 'In progress · Quarter finals today, finals Aug 31 at 18:00.',
+    orderOfPlay: [
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Meera / Ananya vs Sara / Divya', meta: "Women's Doubles · Quarter Final · Court 01", score: '11 – 14', action: 'View →' },
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Aryan Kamath vs Dhruv Shetty', meta: "Men's Singles · Round of 16 · Court 06", score: '15 – 17', action: 'View →' },
+      { state: 'next', tag: '20:15', tagStyle: K.tNext, title: 'Priya / Anjali vs Kavya / Neha', meta: "Women's Doubles · Semi Final · Court 10", score: '', action: 'Up next' }
+    ] },
+
+  { id: 'whitefield-league', name: 'Whitefield League', status: 'live',
+    badge: 'LIVE NOW', badgeStyle: K.bHot,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Whitefield Sports Hub',
+    venueMeta: 'Varthur Rd · 5 synthetic courts',
+    dates: 'Aug 28–31, 2026', dateSort: 20260828, format: 'Season league · 5 courts',
+    categories: ["Men's Doubles"], catGroup: ['doubles'],
+    statA: '32', labelA: 'TEAMS', statB: '₹18K', labelB: 'PRIZE POOL',
+    stats: [['32', 'TEAMS'], ['₹18K', 'PRIZE POOL'], ['1', 'CATEGORY'], ['3', 'MATCHES LIVE']],
+    prizeSort: 18000, drawSize: 32, hostId: 'whitefield', draw: false,
+    note: 'League match day 6 of 9 · Standings update as results are filed.',
+    orderOfPlay: [
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Vikram / Nikhil vs Aditya / Rohan', meta: "Men's Doubles · League Stage · Court 05", score: '21 – 19', action: 'View →' },
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Sunil / Ajay vs Harsha / Tarun', meta: "Men's Doubles · League Stage · Court 08", score: '12 – 14', action: 'View →' },
+      { state: 'next', tag: '20:40', tagStyle: K.tNext, title: 'Manoj / Sameer vs Rohit / Vivek', meta: "Men's Doubles · League Stage · Court 05", score: '', action: 'Up next' }
+    ] },
+
+  { id: 'koramangala-masters', name: 'Koramangala Masters', status: 'live',
+    badge: 'LIVE NOW', badgeStyle: K.bHot,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Koramangala Indoor Arena',
+    venueMeta: '80 Feet Rd, 6th Block · 6 wooden courts',
+    dates: 'Aug 30–31, 2026', dateSort: 20260830, format: 'Knockout · 6 courts',
+    categories: ['Mixed Doubles', "Men's Doubles"], catGroup: ['mixed', 'doubles'],
+    statA: '56', labelA: 'PLAYERS', statB: '₹28K', labelB: 'PRIZE POOL',
+    stats: [['56', 'PLAYERS'], ['₹28K', 'PRIZE POOL'], ['2', 'CATEGORIES'], ['3', 'MATCHES LIVE']],
+    prizeSort: 28000, drawSize: 56, hostId: 'smash', draw: false,
+    note: 'In progress · Round of 16 today, finals tomorrow evening.',
+    orderOfPlay: [
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Karthik / Priya vs Sanjay / Neha', meta: 'Mixed Doubles · Round of 16 · Court 02', score: '7 – 9', action: 'View →' },
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Rohit / Vivek vs Manoj / Sameer', meta: "Men's Doubles · Quarter Final · Court 07", score: '19 – 21', action: 'View →' },
+      { state: 'next', tag: '21:05', tagStyle: K.tNext, title: 'Nikhil / Meera vs Rohan / Sara', meta: 'Mixed Doubles · Round of 16 · Court 09', score: '', action: 'Up next' }
+    ] },
+
+  { id: 'deccan-evening', name: 'Deccan Evening Open', status: 'live',
+    badge: 'LIVE NOW', badgeStyle: K.bHot,
+    city: 'Pune', citySlug: 'pune', venue: 'Balewadi Sports Complex',
+    venueMeta: 'Balewadi · 10 synthetic courts',
+    dates: 'Aug 29–31, 2026', dateSort: 20260829, format: 'Knockout · 10 courts',
+    categories: ['Mixed Doubles', "Men's Singles"], catGroup: ['mixed', 'singles'],
+    statA: '96', labelA: 'PLAYERS', statB: '₹45K', labelB: 'PRIZE POOL',
+    stats: [['96', 'PLAYERS'], ['₹45K', 'PRIZE POOL'], ['2', 'CATEGORIES'], ['2', 'MATCHES LIVE']],
+    prizeSort: 45000, drawSize: 96, hostId: 'deccan', draw: false,
+    note: 'In progress · Weeknight draws from 18:30, finals Aug 31.',
+    orderOfPlay: [
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Ishaan / Tara vs Veer / Riya', meta: 'Mixed Doubles · Quarter Final · Court 02', score: '17 – 19', action: 'View →' },
+      { state: 'live', tag: 'LIVE', tagStyle: K.tLive, title: 'Omkar Patil vs Sarthak Joshi', meta: "Men's Singles · Round of 16 · Court 04", score: '21 – 14', action: 'View →' },
+      { state: 'next', tag: '21:30', tagStyle: K.tNext, title: 'Winner QF1 vs Winner QF2', meta: 'Mixed Doubles · Semi Final · Court 01', score: '', action: 'Up next' }
+    ] },
+
+  { id: 'city-champs', name: 'Rallo City Championship', status: 'past',
+    badge: 'COMPLETED · AUG 10', badgeStyle: K.bDone,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Kanteerava Indoor Stadium',
+    venueMeta: 'Kasturba Rd · 8 wooden courts',
+    dates: 'Aug 08–10, 2026', dateSort: 20260810, format: 'Knockout · 8 courts',
+    categories: ["Men's Singles", "Women's Singles", "Men's Doubles", "Women's Doubles"],
+    catGroup: ['singles', 'doubles'],
+    statA: '96', labelA: 'PLAYERS', statB: '₹75K', labelB: 'PRIZE POOL',
+    stats: [['96', 'PLAYERS'], ['₹75K', 'PRIZE POOL'], ['4', 'CATEGORIES'], ['4', 'FINALS']],
+    prizeSort: 75000, drawSize: 96, hostId: 'smash', draw: true,
+    note: 'Completed Aug 10 · Full results and draws archived below.',
+    champion: 'Rahul Kumar', finalScore: '21–18, 21–16',
+    finalMeta: "Men's Singles Final · def. Arjun Singh",
+    orderOfPlay: [
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Rahul Kumar def. Arjun Singh', meta: "Men's Singles · Final · Show court", score: '21–18, 21–16', action: 'Result →' },
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Ananya Rao def. Divya Menon', meta: "Women's Singles · Final · Show court", score: '21–15, 21–19', action: 'Result →' },
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Vikram / Nikhil def. Aditya / Rohan', meta: "Men's Doubles · Final · Court 01", score: '19–21, 21–18, 21–15', action: 'Result →' }
+    ] },
+
+  { id: 'jayanagar-cup', name: 'Jayanagar Doubles Cup', status: 'past',
+    badge: 'COMPLETED · AUG 03', badgeStyle: K.bDone,
+    city: 'Bangalore', citySlug: 'bangalore', venue: 'Jayanagar Shuttle Club',
+    venueMeta: '4th Block · 4 wooden courts',
+    dates: 'Aug 02–03, 2026', dateSort: 20260803, format: 'Round robin + KO · 4 courts',
+    categories: ["Men's Doubles", 'Mixed Doubles'], catGroup: ['doubles', 'mixed'],
+    statA: '48', labelA: 'TEAMS', statB: '₹30K', labelB: 'PRIZE POOL',
+    stats: [['48', 'TEAMS'], ['₹30K', 'PRIZE POOL'], ['2', 'CATEGORIES'], ['2', 'FINALS']],
+    prizeSort: 30000, drawSize: 48, hostId: 'smash', draw: false,
+    note: 'Completed Aug 03 · Group tables and knockout results archived.',
+    champion: 'Sanjay / Neha', finalScore: '21–17, 23–21',
+    finalMeta: 'Mixed Doubles Final · def. Karthik / Priya',
+    orderOfPlay: [
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Sanjay / Neha def. Karthik / Priya', meta: 'Mixed Doubles · Final · Court 01', score: '21–17, 23–21', action: 'Result →' },
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Vikram / Nikhil def. Sunil / Ajay', meta: "Men's Doubles · Final · Court 01", score: '21–19, 21–13', action: 'Result →' }
+    ] },
+
+  { id: 'monsoon-classic', name: 'Monsoon Shuttle Classic', status: 'past',
+    badge: 'COMPLETED · JUL 27', badgeStyle: K.bDone,
+    city: 'Pune', citySlug: 'pune', venue: 'Balewadi Sports Complex',
+    venueMeta: 'Balewadi · 10 synthetic courts',
+    dates: 'Jul 25–27, 2026', dateSort: 20260727, format: 'Knockout · 10 courts',
+    categories: ["Women's Singles", "Men's Singles", 'Mixed Doubles'], catGroup: ['singles', 'mixed'],
+    statA: '128', labelA: 'PLAYERS', statB: '₹80K', labelB: 'PRIZE POOL',
+    stats: [['128', 'PLAYERS'], ['₹80K', 'PRIZE POOL'], ['3', 'CATEGORIES'], ['3', 'FINALS']],
+    prizeSort: 80000, drawSize: 128, hostId: 'deccan', draw: false,
+    note: 'Completed Jul 27 · Rain delays pushed finals to the evening session.',
+    champion: 'Ananya Rao', finalScore: '21–15, 19–21, 21–17',
+    finalMeta: "Women's Singles Final · def. Meera Iyer",
+    orderOfPlay: [
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Ananya Rao def. Meera Iyer', meta: "Women's Singles · Final · Show court", score: '21–15, 19–21, 21–17', action: 'Result →' },
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Omkar Patil def. Sarthak Joshi', meta: "Men's Singles · Final · Show court", score: '21–19, 21–17', action: 'Result →' }
+    ] },
+
+  { id: 'mysore-junior', name: 'Mysore Junior Open', status: 'past',
+    badge: 'COMPLETED · JUL 19', badgeStyle: K.bDone,
+    city: 'Mysore', citySlug: 'mysore', venue: 'Chamundi Indoor Stadium',
+    venueMeta: 'Nazarbad · 6 wooden courts',
+    dates: 'Jul 18–19, 2026', dateSort: 20260719, format: 'Age-group knockout · 6 courts',
+    categories: ['U-19 Singles', 'U-17 Singles'], catGroup: ['singles'],
+    statA: '84', labelA: 'PLAYERS', statB: '₹20K', labelB: 'PRIZE POOL',
+    stats: [['84', 'PLAYERS'], ['₹20K', 'PRIZE POOL'], ['2', 'CATEGORIES'], ['2', 'FINALS']],
+    prizeSort: 20000, drawSize: 84, hostId: 'kba', draw: false,
+    note: 'Completed Jul 19 · State age-group ranking points awarded.',
+    champion: 'Dhruv Shetty', finalScore: '21–14, 21–19',
+    finalMeta: 'U-19 Boys Singles Final · def. Aryan Kamath',
+    orderOfPlay: [
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Dhruv Shetty def. Aryan Kamath', meta: 'U-19 Boys Singles · Final · Court 01', score: '21–14, 21–19', action: 'Result →' },
+      { state: 'done', tag: 'FINAL', tagStyle: K.tDone, title: 'Kavya Suresh def. Anjali Rao', meta: 'U-17 Girls Singles · Final · Court 01', score: '21–16, 21–12', action: 'Result →' }
+    ] }
+];
+
+/* ---------------- live matches ---------------- */
+const LIVE = [
+  { court: 'COURT 03', tid: 'blr-smash', tournament: 'Bangalore Smash Open', city: 'Bangalore', citySlug: 'bangalore', category: "Men's Singles", catGroup: ['singles'], round: 'Semi Final', a: 'Rahul Kumar', b: 'Arjun Singh', sa: 18, sb: 16, sets: 'Set 2 · 21–19', off: 0 },
+  { court: 'COURT 01', tid: 'indiranagar-cup', tournament: 'Indiranagar Shuttle Cup', city: 'Bangalore', citySlug: 'bangalore', category: "Women's Doubles", catGroup: ['doubles'], round: 'Quarter Final', a: 'Meera / Ananya', b: 'Sara / Divya', sa: 11, sb: 14, sets: 'Set 1', off: -552 },
+  { court: 'COURT 05', tid: 'whitefield-league', tournament: 'Whitefield League', city: 'Bangalore', citySlug: 'bangalore', category: "Men's Doubles", catGroup: ['doubles'], round: 'League Stage', a: 'Vikram / Nikhil', b: 'Aditya / Rohan', sa: 21, sb: 19, sets: 'Set 3 · Decider', off: 1364 },
+  { court: 'COURT 02', tid: 'koramangala-masters', tournament: 'Koramangala Masters', city: 'Bangalore', citySlug: 'bangalore', category: 'Mixed Doubles', catGroup: ['mixed'], round: 'Round of 16', a: 'Karthik / Priya', b: 'Sanjay / Neha', sa: 7, sb: 9, sets: 'Set 1', off: -699 },
+  { court: 'COURT 04', tid: 'blr-smash', tournament: 'Bangalore Smash Open', city: 'Bangalore', citySlug: 'bangalore', category: "Women's Singles", catGroup: ['singles'], round: 'Quarter Final', a: 'Divya Menon', b: 'Shruti Rao', sa: 21, sb: 12, sets: 'Set 2 · 21–18', off: 416 },
+  { court: 'COURT 06', tid: 'indiranagar-cup', tournament: 'Indiranagar Shuttle Cup', city: 'Bangalore', citySlug: 'bangalore', category: "Men's Singles", catGroup: ['singles'], round: 'Round of 16', a: 'Aryan Kamath', b: 'Dhruv Shetty', sa: 15, sb: 17, sets: 'Set 3 · Decider', off: 1036 },
+  { court: 'COURT 07', tid: 'koramangala-masters', tournament: 'Koramangala Masters', city: 'Bangalore', citySlug: 'bangalore', category: "Men's Doubles", catGroup: ['doubles'], round: 'Quarter Final', a: 'Rohit / Vivek', b: 'Manoj / Sameer', sa: 19, sb: 21, sets: 'Set 2 · 18–21', off: 621 },
+  { court: 'COURT 08', tid: 'whitefield-league', tournament: 'Whitefield League', city: 'Bangalore', citySlug: 'bangalore', category: "Men's Doubles", catGroup: ['doubles'], round: 'League Stage', a: 'Sunil / Ajay', b: 'Harsha / Tarun', sa: 12, sb: 14, sets: 'Set 1', off: -414 },
+  { court: 'COURT 09', tid: 'blr-smash', tournament: 'Bangalore Smash Open', city: 'Bangalore', citySlug: 'bangalore', category: 'Mixed Doubles', catGroup: ['mixed'], round: 'Round of 16', a: 'Nikhil / Meera', b: 'Rohan / Sara', sa: 21, sb: 16, sets: 'Set 1', off: -224 },
+  { court: 'COURT 10', tid: 'indiranagar-cup', tournament: 'Indiranagar Shuttle Cup', city: 'Bangalore', citySlug: 'bangalore', category: "Women's Doubles", catGroup: ['doubles'], round: 'Semi Final', a: 'Priya / Anjali', b: 'Kavya / Neha', sa: 9, sb: 11, sets: 'Set 1', off: -768 },
+  { court: 'COURT 02', tid: 'deccan-evening', tournament: 'Deccan Evening Open', city: 'Pune', citySlug: 'pune', category: 'Mixed Doubles', catGroup: ['mixed'], round: 'Quarter Final', a: 'Ishaan / Tara', b: 'Veer / Riya', sa: 17, sb: 19, sets: 'Set 2 · 21–19', off: 876 },
+  { court: 'COURT 04', tid: 'deccan-evening', tournament: 'Deccan Evening Open', city: 'Pune', citySlug: 'pune', category: "Men's Singles", catGroup: ['singles'], round: 'Round of 16', a: 'Omkar Patil', b: 'Sarthak Joshi', sa: 21, sb: 14, sets: 'Set 2 · 19–21', off: 206 }
+];
+
+/* ---------------- sorting ---------------- */
+const SORTS = {
+  live: [{ id: 'court', label: 'Court order' }, { id: 'longest', label: 'Longest running' }, { id: 'closest', label: 'Closest score' }],
+  upcoming: [{ id: 'soonest', label: 'Soonest first' }, { id: 'prize', label: 'Prize pool' }, { id: 'draw', label: 'Biggest draw' }],
+  past: [{ id: 'recent', label: 'Most recent' }, { id: 'draw', label: 'Biggest draw' }]
+};
+const DEFAULT_SORT = { live: 'court', upcoming: 'soonest', past: 'recent' };
+const LIVE_CMP = {
+  court: (x, y) => x.court.localeCompare(y.court),
+  longest: (x, y) => y.off - x.off,
+  closest: (x, y) => Math.abs(x.sa - x.sb) - Math.abs(y.sa - y.sb)
+};
+const T_CMP = {
+  soonest: (x, y) => x.dateSort - y.dateSort,
+  recent: (x, y) => y.dateSort - x.dateSort,
+  prize: (x, y) => y.prizeSort - x.prizeSort,
+  draw: (x, y) => y.drawSize - x.drawSize
+};
+
+/* ---------------- brackets (only where a draw has actually been seeded) ---------------- */
+const DS = {
+  plain: 'border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700',
+  live: 'border:1.5px solid #E5484D;border-radius:12px;padding:12px;font-size:13.5px;font-weight:700',
+  pending: 'border:1px dashed rgba(10,10,10,.18);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;color:#8A8A82',
+  champ: 'border:1px solid rgba(10,10,10,.1);border-radius:12px;padding:16px;background:#FAFAF7;font-size:13.5px;font-weight:700',
+  sLive: 'font-size:10px;font-weight:800;color:#E5484D;letter-spacing:.07em;margin-bottom:6px',
+  sMuted: 'font-size:10px;font-weight:800;letter-spacing:.07em;margin-bottom:6px;color:#8A8A82'
+};
+const mk = (a, sa, b, sb, style, status, statusStyle) => ({
+  a, sa, b, sb, style: style || DS.plain,
+  status: status || '', statusStyle: statusStyle || DS.sMuted, hasStatus: !!status
+});
+const DRAWS = {
+  'blr-smash': {
+    title: "Draw · Men's Singles",
+    columns: [
+      { title: 'QUARTER FINALS', align: '', matches: [
+        mk('Rahul Kumar', '2', 'D. Sharma', '0'),
+        mk('Arjun Singh', '2', 'P. Verma', '1'),
+        mk('Vikram Nair', '2', 'A. Joshi', '0'),
+        mk('Sanjay Menon', '2', 'R. Gupta', '1')
+      ] },
+      { title: 'SEMI FINALS', align: 'justify-content:space-around;', matches: [
+        mk('Rahul Kumar', '18', 'Arjun Singh', '16', DS.live, 'LIVE · SET 2', DS.sLive),
+        mk('Vikram Nair', '', 'Sanjay Menon', '', DS.pending, '19:10', DS.sMuted)
+      ] },
+      { title: 'FINAL', align: 'justify-content:center;', matches: [
+        mk('Winner SF1', '', 'Winner SF2', '', DS.pending, 'AUG 25 · 18:00', DS.sMuted)
+      ] }
+    ]
+  },
+  'city-champs': {
+    title: "Final draw · Men's Singles",
+    columns: [
+      { title: 'QUARTER FINALS', align: '', matches: [
+        mk('Rahul Kumar', '2', 'K. Iyer', '0'),
+        mk('Vikram Nair', '2', 'S. Bose', '0'),
+        mk('Arjun Singh', '2', 'H. Pillai', '1'),
+        mk('Sanjay Menon', '2', 'A. Joshi', '0')
+      ] },
+      { title: 'SEMI FINALS', align: 'justify-content:space-around;', matches: [
+        mk('Rahul Kumar', '2', 'Vikram Nair', '0'),
+        mk('Arjun Singh', '2', 'Sanjay Menon', '1')
+      ] },
+      { title: 'FINAL', align: 'justify-content:center;', matches: [
+        mk('Rahul Kumar', '2', 'Arjun Singh', '0', DS.champ, '🏆 CHAMPION · 21–18, 21–16', DS.sMuted)
+      ] }
+    ]
+  }
+};
+
 class Component extends DCLogic {
-  state = { screen: 'home', authOpen: false, authLabel: '', secs: 1104 };
+  state = {
+    screen: 'home', authOpen: false, authLabel: '', secs: 1104,
+    tab: 'live', city: 'all', cat: 'all', sort: 'court',
+    tid: 'blr-smash', hostId: 'smash'
+  };
   componentDidMount() {
     this.t = setInterval(() => this.setState(s => ({ secs: s.secs + 1 })), 1000);
   }
   componentWillUnmount() { clearInterval(this.t); }
   go(screen) { this.setState({ screen, authOpen: false }); window.scrollTo(0, 0); }
   gate(label) { return () => this.setState({ authOpen: true, authLabel: label }); }
+  openTournament(tid) { this.setState({ screen: 'tournament', tid, authOpen: false }); window.scrollTo(0, 0); }
+  openHost(hostId) { this.setState({ screen: 'host', hostId, authOpen: false }); window.scrollTo(0, 0); }
+  selectTab(tab) { this.setState({ tab, sort: DEFAULT_SORT[tab] }); }
+
   renderVals() {
-    const s = this.state.secs;
-    const clock = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+    const S = this.state, secs = S.secs;
+    const mmss = (n) => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+
+    /* filters apply to every tab */
+    const passes = (x) => (S.city === 'all' || x.citySlug === S.city)
+                       && (S.cat === 'all' || x.catGroup.indexOf(S.cat) !== -1);
+    const liveAll = LIVE.filter(passes);
+    const upAll = TOURNAMENTS.filter(t => t.status === 'upcoming' && passes(t));
+    const pastAll = TOURNAMENTS.filter(t => t.status === 'past' && passes(t));
+
+    const tabs = [
+      { id: 'live', label: 'Live Matches', n: liveAll.length },
+      { id: 'upcoming', label: 'Upcoming', n: upAll.length },
+      { id: 'past', label: 'Recent', n: pastAll.length }
+    ].map(t => {
+      const on = S.tab === t.id;
+      return {
+        label: t.label, count: String(t.n),
+        style: on ? K.tabOn : K.tabOff,
+        countStyle: on ? K.tabCountOn : K.tabCountOff,
+        select: () => this.selectTab(t.id)
+      };
+    });
+
+    const chip = (label, val, cur, key) => ({
+      label, style: val === cur ? K.chipOn : K.chipOff,
+      select: () => this.setState({ [key]: val })
+    });
+    const cityChips = [['All cities', 'all'], ['Bangalore', 'bangalore'], ['HSR Layout', 'hsr'],
+                       ['Mysore', 'mysore'], ['Pune', 'pune']].map(c => chip(c[0], c[1], S.city, 'city'));
+    const catChips = [['All events', 'all'], ['Singles', 'singles'], ['Doubles', 'doubles'],
+                      ['Mixed', 'mixed']].map(c => chip(c[0], c[1], S.cat, 'cat'));
+    const sortChips = (SORTS[S.tab] || []).map(o => chip(o.label, o.id, S.sort, 'sort'));
+
+    const liveRows = liveAll.slice().sort(LIVE_CMP[S.sort] || LIVE_CMP.court).map(m => ({
+      court: m.court, tournament: m.tournament, meta: m.category + ' · ' + m.round,
+      a: m.a, b: m.b, sa: String(m.sa), sb: String(m.sb), sets: m.sets,
+      elapsed: mmss(Math.max(0, secs + m.off)), city: m.city,
+      aStyle: m.sa > m.sb ? K.scoreLead : K.scoreTrail,
+      bStyle: m.sb > m.sa ? K.scoreLead : K.scoreTrail,
+      open: () => this.go('live'),
+      openTournament: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.openTournament(m.tid); }
+    }));
+
+    const card = (t) => ({
+      name: t.name, badge: t.badge, badgeStyle: K.badgeBase + t.badgeStyle,
+      where: t.city + ' · ' + t.venue, dates: t.dates, format: t.format,
+      cats: t.categories.join(' · '),
+      statA: t.statA, labelA: t.labelA, statB: t.statB, labelB: t.labelB,
+      host: HOSTS[t.hostId].name,
+      champion: t.champion || '', finalScore: t.finalScore || '', finalMeta: t.finalMeta || '',
+      open: () => this.openTournament(t.id)
+    });
+    const upRows = upAll.slice().sort(T_CMP[S.sort] || T_CMP.soonest).map(card);
+    const pastRows = pastAll.slice().sort(T_CMP[S.sort] || T_CMP.recent).map(card);
+
+    const shownN = { live: liveRows.length, upcoming: upRows.length, past: pastRows.length }[S.tab];
+    const countLabel = shownN === 1 ? '1 result' : shownN + ' results';
+
+    /* ---- tournament details ---- */
+    const t = TOURNAMENTS.filter(x => x.id === S.tid)[0] || TOURNAMENTS[0];
+    const host = HOSTS[t.hostId];
+    const td = {
+      name: t.name, badge: t.badge, badgeStyle: K.badgeBase + t.badgeStyle,
+      where: t.city + ' · ' + t.venue, dates: t.dates, format: t.format,
+      categories: t.categories.map(c => ({ label: c })),
+      stats: t.stats.map(s => ({ n: s[0], label: s[1] })),
+      venue: t.venue, venueMeta: t.venueMeta, note: t.note,
+      champion: t.champion, finalScore: t.finalScore, finalMeta: t.finalMeta,
+      draw: DRAWS[t.id] || null,
+      orderOfPlay: t.orderOfPlay.map(m => ({
+        tag: m.tag, tagStyle: K.rowTagBase + m.tagStyle,
+        title: m.title, meta: m.meta, score: m.score, action: m.action,
+        rowStyle: m.state === 'next' ? K.rowNext : K.rowPlain,
+        open: m.state === 'live' ? () => this.go('live') : () => {}
+      }))
+    };
+    const hostCard = {
+      name: host.name, initials: host.initials, city: host.city,
+      since: 'Hosting since ' + host.since,
+      hosted: String(host.hosted), rating: host.rating.toFixed(1), onTime: host.onTime + '%',
+      blurb: host.blurb, verified: host.verified,
+      open: () => this.openHost(host.id)
+    };
+
+    /* ---- host profile ---- */
+    const h = HOSTS[S.hostId] || HOSTS.smash;
+    const mine = TOURNAMENTS.filter(x => x.hostId === h.id);
+    const hUp = mine.filter(x => x.status !== 'past').map(card);
+    const hPast = mine.filter(x => x.status === 'past').map(card);
+    const hostView = {
+      name: h.name, initials: h.initials, city: h.city, verified: h.verified,
+      since: String(h.since), about: h.about,
+      stats: [[String(h.hosted), 'TOURNAMENTS HOSTED'], [h.players.toLocaleString('en-IN'), 'PLAYERS SERVED'],
+              [h.rating.toFixed(1), 'ORGANISER RATING'], [h.onTime + '%', 'STARTED ON TIME']]
+              .map(s => ({ n: s[0], label: s[1] })),
+      tags: h.tags.map(x => ({ label: x })),
+      upcoming: hUp, past: hPast,
+      hasUpcoming: hUp.length > 0, hasPast: hPast.length > 0,
+      upcomingCount: String(hUp.length), pastCount: String(hPast.length)
+    };
+
     return {
-      isHome: this.state.screen === 'home',
-      isLive: this.state.screen === 'live',
-      isTournament: this.state.screen === 'tournament',
-      isMobile: this.state.screen === 'mobile',
-      liveClock: clock,
-      authOpen: this.state.authOpen,
-      authLabel: this.state.authLabel,
+      isHome: S.screen === 'home',
+      isLive: S.screen === 'live',
+      isTournaments: S.screen === 'tournaments',
+      isTournament: S.screen === 'tournament',
+      isHost: S.screen === 'host',
+      isMobile: S.screen === 'mobile',
+      liveClock: mmss(secs),
+      authOpen: S.authOpen,
+      authLabel: S.authLabel,
       goHome: () => this.go('home'),
       goLive: () => this.go('live'),
-      goTournament: () => this.go('tournament'),
-      goTournaments: () => this.go('tournament'),
+      goTournament: () => this.openTournament('blr-smash'),
+      goTournaments: () => this.go('tournaments'),
       goMobile: () => this.go('mobile'),
       closeAuth: () => this.setState({ authOpen: false }),
       stop: (e) => e.stopPropagation(),
+
+      tabs, cityChips, catChips, sortChips, countLabel,
+      liveNowCount: String(LIVE.length),
+      openCount: String(TOURNAMENTS.filter(x => x.status === 'upcoming').length),
+      cityCount: '4',
+      onLive: S.tab === 'live', onUpcoming: S.tab === 'upcoming', onPast: S.tab === 'past',
+      liveRows, upRows, pastRows,
+      noResults: shownN === 0,
+      clearFilters: () => this.setState({ city: 'all', cat: 'all' }),
+
+      td, isPastT: t.status === 'past', notPastT: t.status !== 'past',
+      hasDraw: !!DRAWS[t.id], noDraw: !DRAWS[t.id],
+      hostCard, hostView,
+
       auth: {
         login: this.gate('LOG IN'),
         signup: this.gate('CREATE ACCOUNT'),
@@ -1167,7 +1972,10 @@ class Component extends DCLogic {
         groups: this.gate('GROUPS NEAR YOU'),
         log: this.gate('LOG A CASUAL MATCH'),
         profile: this.gate('PLAYER PROFILE'),
-        register: this.gate('TOURNAMENT REGISTRATION')
+        register: this.gate('TOURNAMENT REGISTRATION'),
+        follow: this.gate('FOLLOW THIS ORGANISER'),
+        contact: this.gate('CONTACT ORGANISER'),
+        alerts: this.gate('TOURNAMENT ALERTS')
       }
     };
   }
