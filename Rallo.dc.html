@@ -841,8 +841,8 @@ a:hover{color:#6E9410}
       </div>
 
       <div style="display:flex;gap:44px;margin-top:28px;flex-wrap:wrap">
-        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ liveNowCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">MATCHES LIVE</div></div>
-        <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ openCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">OPEN FOR ENTRY</div></div>
+        <div style="cursor:pointer" style-hover="opacity:.6" onClick="{{ goLiveTab }}"><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ liveNowCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">MATCHES LIVE</div></div>
+        <div style="cursor:pointer" style-hover="opacity:.6" onClick="{{ goUpcomingTab }}"><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ openCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">OPEN FOR ENTRY</div></div>
         <div><div style="font-family:Anton,sans-serif;font-size:38px;line-height:1">{{ cityCount }}</div><div style="font-size:11.5px;font-weight:800;color:#8A8A82;letter-spacing:.06em">CITIES</div></div>
       </div>
     </div>
@@ -856,29 +856,49 @@ a:hover{color:#6E9410}
       </sc-for>
     </div>
 
-    <div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:24px">
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82;min-width:52px">CITY</span>
-          <sc-for list="{{ cityChips }}" as="c">
-            <span style="{{ c.style }}" style-hover="border-color:#0A0A0A" onClick="{{ c.select }}">{{ c.label }}</span>
-          </sc-for>
+    <div style="margin-top:22px;border:1px solid rgba(10,10,10,.1);border-radius:20px;background:#FCFCFA;padding:15px 18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="{{ K.micro }}">CITY</span>
+            <div style="{{ K.segWrap }}">
+              <sc-for list="{{ cityChips }}" as="c">
+                <span style="{{ c.style }}" style-hover="box-shadow:inset 0 0 0 1px rgba(10,10,10,.16)" onClick="{{ c.select }}">{{ c.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="{{ K.micro }}">EVENT</span>
+            <div style="{{ K.segWrap }}">
+              <sc-for list="{{ catChips }}" as="c">
+                <span style="{{ c.style }}" style-hover="box-shadow:inset 0 0 0 1px rgba(10,10,10,.16)" onClick="{{ c.select }}">{{ c.label }}</span>
+              </sc-for>
+            </div>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82;min-width:52px">EVENT</span>
-          <sc-for list="{{ catChips }}" as="c">
-            <span style="{{ c.style }}" style-hover="border-color:#0A0A0A" onClick="{{ c.select }}">{{ c.label }}</span>
-          </sc-for>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="{{ K.micro }}">SORT</span>
+          <div style="{{ K.sortWrap }}">
+            <sc-for list="{{ sortChips }}" as="c">
+              <span style="{{ c.style }}" style-hover="box-shadow:inset 0 0 0 1px rgba(10,10,10,.16)" onClick="{{ c.select }}">{{ c.label }}</span>
+            </sc-for>
+          </div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end">
+
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:13px;border-top:1px solid rgba(10,10,10,.07)">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">SORT BY</span>
-          <sc-for list="{{ sortChips }}" as="c">
-            <span style="{{ c.style }}" style-hover="border-color:#0A0A0A" onClick="{{ c.select }}">{{ c.label }}</span>
-          </sc-for>
+          <span style="font-size:13.5px;font-weight:800;color:#0A0A0A">{{ countLabel }}</span>
+          <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:12.5px;font-weight:700;color:#8A8A82">filtered by</span>
+            <span style="font-size:12px;font-weight:800;background:#EDF4D8;color:#4A6B0A;padding:5px 11px;border-radius:99px;border:1px solid rgba(110,148,16,.22)">{{ filterSummary }}</span>
+          </sc-if>
         </div>
-        <div style="font-size:12.5px;font-weight:700;color:#8A8A82">{{ countLabel }}</div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:12.5px;font-weight:800;color:#0A0A0A;cursor:pointer;border-bottom:2px solid #9ECE16;padding-bottom:1px" style-hover="border-color:#0A0A0A" onClick="{{ clearFilters }}">Clear filters ✕</span>
+          </sc-if>
+        </div>
       </div>
     </div>
 
@@ -1464,6 +1484,15 @@ a:hover{color:#6E9410}
 const K = {
   chipOn: 'font-size:13px;font-weight:700;padding:9px 16px;border-radius:99px;background:#0A0A0A;color:#fff;border:1px solid #0A0A0A;cursor:pointer',
   chipOff: 'font-size:13px;font-weight:700;padding:9px 16px;border-radius:99px;border:1px solid rgba(10,10,10,.14);background:#fff;color:#0A0A0A;cursor:pointer',
+  /* filters read as one segmented control rather than loose pills */
+  segWrap: 'display:inline-flex;align-items:center;gap:3px;padding:4px;border-radius:99px;background:#F1F1EB;border:1px solid rgba(10,10,10,.06)',
+  segOn: 'font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:99px;background:#0A0A0A;color:#fff;cursor:pointer;white-space:nowrap',
+  segOff: 'font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:99px;background:transparent;color:#55554F;cursor:pointer;white-space:nowrap',
+  /* sort is ordering, not narrowing, so it gets the accent instead of ink */
+  sortWrap: 'display:inline-flex;align-items:center;gap:3px;padding:4px;border-radius:99px;background:#fff;border:1px solid rgba(10,10,10,.12)',
+  sortOn: 'font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:99px;background:#9ECE16;color:#0A0A0A;cursor:pointer;white-space:nowrap',
+  sortOff: 'font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:99px;background:transparent;color:#8A8A82;cursor:pointer;white-space:nowrap',
+  micro: 'font-size:10px;font-weight:800;letter-spacing:.11em;color:#A3A39B;white-space:nowrap',
   tabOn: 'display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;color:#0A0A0A;padding:18px 4px;border-bottom:3px solid #0A0A0A;cursor:pointer;white-space:nowrap',
   tabOff: 'display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:#8A8A82;padding:18px 4px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap',
   tabCountOn: 'font-size:11.5px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:3px 8px;border-radius:99px;min-width:22px;text-align:center',
@@ -1757,9 +1786,9 @@ const LIVE = [
 
 /* ---------------- sorting ---------------- */
 const SORTS = {
-  live: [{ id: 'most', label: 'Most matches live' }, { id: 'longest', label: 'Longest running' }, { id: 'name', label: 'Tournament A–Z' }],
-  upcoming: [{ id: 'soonest', label: 'Soonest first' }, { id: 'prize', label: 'Prize pool' }, { id: 'draw', label: 'Biggest draw' }],
-  past: [{ id: 'recent', label: 'Most recent' }, { id: 'draw', label: 'Biggest draw' }]
+  live: [{ id: 'most', label: 'Most live' }, { id: 'longest', label: 'Longest' }, { id: 'name', label: 'A–Z' }],
+  upcoming: [{ id: 'soonest', label: 'Soonest' }, { id: 'prize', label: 'Prize pool' }, { id: 'draw', label: 'Draw size' }],
+  past: [{ id: 'recent', label: 'Newest' }, { id: 'draw', label: 'Draw size' }]
 };
 const DEFAULT_SORT = { live: 'most', upcoming: 'soonest', past: 'recent' };
 /* live tab groups matches under their tournament, so these compare groups */
@@ -1830,7 +1859,7 @@ const DRAWS = {
 class Component extends DCLogic {
   state = {
     screen: 'home', authOpen: false, authLabel: '', secs: 1104,
-    tab: 'live', city: 'all', cat: 'all', sort: 'court',
+    tab: 'live', city: 'all', cat: 'all', sort: DEFAULT_SORT.live,
     tid: 'blr-smash', hostId: 'smash'
   };
   componentDidMount() {
@@ -1868,15 +1897,23 @@ class Component extends DCLogic {
       };
     });
 
-    const chip = (label, val, cur, key) => ({
-      label, style: val === cur ? K.chipOn : K.chipOff,
+    const seg = (label, val, cur, key, onS, offS) => ({
+      label, style: val === cur ? onS : offS,
       select: () => this.setState({ [key]: val })
     });
-    const cityChips = [['All cities', 'all'], ['Bangalore', 'bangalore'], ['HSR Layout', 'hsr'],
-                       ['Mysore', 'mysore'], ['Pune', 'pune']].map(c => chip(c[0], c[1], S.city, 'city'));
-    const catChips = [['All events', 'all'], ['Singles', 'singles'], ['Doubles', 'doubles'],
-                      ['Mixed', 'mixed']].map(c => chip(c[0], c[1], S.cat, 'cat'));
-    const sortChips = (SORTS[S.tab] || []).map(o => chip(o.label, o.id, S.sort, 'sort'));
+    const CITY_OPTS = [['All', 'all'], ['Bangalore', 'bangalore'], ['HSR Layout', 'hsr'],
+                       ['Mysore', 'mysore'], ['Pune', 'pune']];
+    const CAT_OPTS = [['All', 'all'], ['Singles', 'singles'], ['Doubles', 'doubles'], ['Mixed', 'mixed']];
+    const cityChips = CITY_OPTS.map(c => seg(c[0], c[1], S.city, 'city', K.segOn, K.segOff));
+    const catChips = CAT_OPTS.map(c => seg(c[0], c[1], S.cat, 'cat', K.segOn, K.segOff));
+    const sortChips = (SORTS[S.tab] || []).map(o => seg(o.label, o.id, S.sort, 'sort', K.sortOn, K.sortOff));
+
+    /* what the reader has narrowed to, spelled out so it is legible at a glance */
+    const labelOf = (opts, val) => (opts.filter(o => o[1] === val)[0] || ['', ''])[0];
+    const activeBits = [];
+    if (S.city !== 'all') activeBits.push(labelOf(CITY_OPTS, S.city));
+    if (S.cat !== 'all') activeBits.push(labelOf(CAT_OPTS, S.cat));
+    const sortLabel = (SORTS[S.tab] || []).filter(o => o.id === S.sort).map(o => o.label)[0] || '';
 
     const matchRow = (m) => ({
       court: m.court, meta: m.category + ' · ' + m.round,
@@ -1986,7 +2023,10 @@ class Component extends DCLogic {
       closeAuth: () => this.setState({ authOpen: false }),
       stop: (e) => e.stopPropagation(),
 
+      K: K,
       tabs, cityChips, catChips, sortChips, countLabel,
+      hasFilters: activeBits.length > 0, noFilters: activeBits.length === 0,
+      filterSummary: activeBits.join(' · '), sortLabel,
       liveNowCount: String(LIVE.length),
       openCount: String(TOURNAMENTS.filter(x => x.status === 'upcoming').length),
       cityCount: '4',
@@ -1994,6 +2034,8 @@ class Component extends DCLogic {
       liveGroups, upRows, pastRows,
       noResults: shownN === 0,
       clearFilters: () => this.setState({ city: 'all', cat: 'all' }),
+      goLiveTab: () => this.selectTab('live'),
+      goUpcomingTab: () => this.selectTab('upcoming'),
 
       td, isPastT: t.status === 'past', notPastT: t.status !== 'past',
       hasDraw: !!DRAWS[t.id], noDraw: !DRAWS[t.id],
