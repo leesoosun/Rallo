@@ -13,7 +13,7 @@
 <meta name="description" content="Design tokens and component reference for Rallo — colors, typography, spacing and copyable component markup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,100..900;1,100..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    TOKENS
@@ -130,6 +130,9 @@
   --font-display: 'Archivo Black', sans-serif;
   --font-body: Manrope, system-ui, sans-serif;
   --font-mono: ui-monospace, Menlo, monospace;
+  --font-archivo: Archivo, sans-serif;  /* full variable family (100-900, roman + italic) --
+                                            available, not yet assigned to a role. See
+                                            Typography > Archivo family ↓ */
 
   /* ---- radius ---- */
   --r-pill: 99px;
@@ -312,7 +315,7 @@ h3.sub-title:first-child { margin-top: 0; }
 .type-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 24px; padding: 18px 0; border-top: 1px solid var(--border); cursor: pointer; }
 .type-row:hover .type-copy { opacity: 1; }
 .type-row:first-of-type { border-top: none; }
-.type-sample { font-family: var(--sample-family, var(--font-body)); font-weight: var(--sample-weight, 700); font-size: var(--sample-size, 16px); letter-spacing: var(--sample-ls, normal); flex: 1; min-width: 240px; text-transform: var(--sample-tt, none); }
+.type-sample { font-family: var(--sample-family, var(--font-body)); font-weight: var(--sample-weight, 700); font-size: var(--sample-size, 16px); letter-spacing: var(--sample-ls, normal); flex: 1; min-width: 240px; text-transform: var(--sample-tt, none); font-style: var(--sample-style, normal); }
 .type-meta { min-width: 220px; text-align: right; }
 .type-meta .role { font-size: 12.5px; font-weight: 800; }
 .type-meta .spec { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); margin-top: 3px; }
@@ -941,6 +944,51 @@ Component
     <div class="type-row" data-copy="font-family:Manrope,sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase" style="--sample-family:Manrope,sans-serif;--sample-size:10.5px;--sample-weight:800;--sample-ls:.07em;--sample-tt:uppercase">
       <div class="type-sample">Eyebrow label</div>
       <div class="type-meta"><div class="role">Eyebrow / micro-label</div><div class="spec">Manrope 800 · 10.5px · +.07em</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Archivo family</h3>
+  <p class="block-desc" style="margin-bottom:16px">The full variable family, loaded but not yet assigned to a role (<code>--font-archivo</code>) — --font-display stays 'Archivo Black' as tested. Click a row to copy its CSS.</p>
+  <div data-type-scale>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:100" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:100">
+      <div class="type-sample">Archivo Thin</div>
+      <div class="type-meta"><div class="role">100 · Thin</div><div class="spec">Archivo 100</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:200" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:200">
+      <div class="type-sample">Archivo ExtraLight</div>
+      <div class="type-meta"><div class="role">200 · ExtraLight</div><div class="spec">Archivo 200</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:300" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:300">
+      <div class="type-sample">Archivo Light</div>
+      <div class="type-meta"><div class="role">300 · Light</div><div class="spec">Archivo 300</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:400" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:400">
+      <div class="type-sample">Archivo Regular</div>
+      <div class="type-meta"><div class="role">400 · Regular</div><div class="spec">Archivo 400</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:500" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:500">
+      <div class="type-sample">Archivo Medium</div>
+      <div class="type-meta"><div class="role">500 · Medium</div><div class="spec">Archivo 500</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:600" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:600">
+      <div class="type-sample">Archivo SemiBold</div>
+      <div class="type-meta"><div class="role">600 · SemiBold</div><div class="spec">Archivo 600</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:700" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:700">
+      <div class="type-sample">Archivo Bold</div>
+      <div class="type-meta"><div class="role">700 · Bold</div><div class="spec">Archivo 700</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:800" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:800">
+      <div class="type-sample">Archivo ExtraBold</div>
+      <div class="type-meta"><div class="role">800 · ExtraBold</div><div class="spec">Archivo 800</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:900" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:900">
+      <div class="type-sample">Archivo Black</div>
+      <div class="type-meta"><div class="role">900 · Black</div><div class="spec">Archivo 900</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    </div>
+    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:700;font-style:italic" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:700;--sample-style:italic">
+      <div class="type-sample">Archivo Bold Italic</div>
+      <div class="type-meta"><div class="role">700 · Bold, italic</div><div class="spec">Archivo 700 italic</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
   </div>
 </section>
