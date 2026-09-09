@@ -241,6 +241,23 @@ h3.sub-title:first-child { margin-top: 0; }
 .glyph .g { font-size: 24px; }
 .glyph .n { font-size: 11px; color: var(--ink-muted); margin-top: 8px; font-family: var(--font-mono); }
 
+/* ---- status / roadmap ---- */
+.road-list { display: flex; flex-direction: column; }
+.road-row { display: flex; gap: 18px; padding: 18px 0; border-top: 1px solid var(--border); }
+.road-row:first-child { border-top: none; }
+.road-n { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); width: 22px; flex-shrink: 0; padding-top: 3px; }
+.road-body { flex: 1; min-width: 0; }
+.road-body b { font-size: 14.5px; font-weight: 800; margin-right: 10px; }
+.road-body p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; margin: 8px 0 0; }
+.road-body code { background: var(--surface-fill); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+.road-body a { border-bottom: 1px solid var(--border-strong); }
+.road-body a:hover { border-color: var(--lime-strong); }
+.road-pill { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .04em; padding: 4px 9px; border-radius: var(--r-tag); vertical-align: 2px; }
+.road-done { background: var(--lime); color: var(--ink); }
+.road-partial { background: transparent; color: var(--ink); border: 1px solid var(--border-strong); }
+.road-decision { background: var(--ink); color: #fff; }
+.road-blocked { background: transparent; color: var(--ink-muted); border: 1px dashed var(--border-strong); }
+
 footer.credit { padding: 40px 0 60px; text-align: center; font-size: 12.5px; color: var(--ink-muted); }
 footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-radius: 4px; }
 
@@ -268,6 +285,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
       <a href="#spacing">Spacing</a>
       <a href="#icons">Icons</a>
       <a href="#components">Components</a>
+      <a href="#status">Status</a>
     </nav>
   </div>
 </div>
@@ -651,6 +669,78 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
 .cta-banner { border-radius:var(--r-panel-lg); padding:28px; background:var(--ink);
   color:#fff; display:flex; justify-content:space-between; align-items:center; gap:24px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+</section>
+
+<section class="block" id="status">
+  <div class="block-head">
+    <div><h2 class="block-title">Status &amp; Roadmap</h2><p class="block-desc">Mapped against a full multi-platform design-system spec. The colors/type/spacing above are the tokens Rallo actually has today; this section says which parts of a mature system are real, and which aren't built yet.</p></div>
+  </div>
+
+  <div class="callout" style="margin-bottom:28px;max-width:none">
+    <b>Read this before the checkmarks below</b>
+    <span>A design system documents a product. Rallo today is one web surface: a marketing site plus four browsable app screens, no real backend, no dark theme, no data tables, no working auth, no native mobile app. A lot of the requested spec — tables, forms, onboarding flows, mobile-native components, a Figma file tree — has no real surface to be documented <em>from</em> yet. Marking those "done" would mean inventing product decisions that are yours to make, not mine to guess. So: <b style="color:var(--ink)">Documented</b> means it's real and covered on this page. <b style="color:var(--ink)">Partial</b> means something exists but doesn't meet the full ask. <b style="color:var(--ink)">Needs your call</b> means it's buildable right now, without waiting on new product surfaces — the only thing missing is a decision. <b style="color:var(--ink)">No surface yet</b> means the underlying screen or flow doesn't exist in the product, so there's nothing to document.</span>
+  </div>
+
+  <div class="road-list">
+
+    <div class="road-row"><span class="road-n">1</span><div class="road-body"><b>Brand</b><span class="road-pill road-partial">Partial</span><p>Logo mark + wordmark exist and are documented in <a href="#icons">Icons ↑</a>. No variations (reverse/mono), no clear-space or minimum-size rule has ever been defined.</p></div></div>
+
+    <div class="road-row"><span class="road-n">1</span><div class="road-body"><b>Color tokens</b><span class="road-pill road-partial">Partial</span><p>Ink / Brand / Status / Surface tokens are documented in <a href="#colors">Colors ↑</a>, but named by role rather than the exact semantic slots this spec asks for. <code>Elevated surface</code>, <code>Divider</code>, <code>Text disabled</code>, <code>Warning</code>, <code>Info</code> and <code>Overlay/scrim</code> don't exist as tokens — because nothing in the product currently needs them (no disabled fields, no elevation, no warning/info status anywhere).</p></div></div>
+
+    <div class="road-row"><span class="road-n">1</span><div class="road-body"><b>Light + Dark theme</b><span class="road-pill road-decision">Needs your call</span><p>Rallo is light-only. This is the single biggest gap on this list, and the most consequential one to get right — see the recommendation below.</p></div></div>
+
+    <div class="road-row"><span class="road-n">2</span><div class="road-body"><b>Typography</b><span class="road-pill road-done">Documented</span><p>Family, weights and scale are covered in <a href="#type">Typography ↑</a>. Sizes use <code>clamp()</code> to interpolate rather than fixed desktop/tablet/mobile numbers — can be broken into explicit tiers if you want the exact ladder this spec describes.</p></div></div>
+
+    <div class="road-row"><span class="road-n">3</span><div class="road-body"><b>Spacing</b><span class="road-pill road-done">Documented</span><p>Scale is covered in <a href="#spacing">Spacing ↑</a>. No separate page/section/grid-gap token distinct from the general scale yet; the 1280px container width isn't tokenized.</p></div></div>
+
+    <div class="road-row"><span class="road-n">4</span><div class="road-body"><b>Layout &amp; grid — Website</b><span class="road-pill road-partial">Partial</span><p>Max-width and gutters are used consistently in practice, not formalized as a grid token.</p></div></div>
+    <div class="road-row"><span class="road-n">4</span><div class="road-body"><b>Layout &amp; grid — Web App</b><span class="road-pill road-blocked">No surface yet</span><p>No sidebar / app-shell / dashboard / table layout exists — the "web app" screens are the same page pattern as the marketing site.</p></div></div>
+    <div class="road-row"><span class="road-n">4</span><div class="road-body"><b>Layout &amp; grid — Mobile</b><span class="road-pill road-blocked">No surface yet</span><p>No native mobile app exists in this repo.</p></div></div>
+
+    <div class="road-row"><span class="road-n">5</span><div class="road-body"><b>Responsive system</b><span class="road-pill road-partial">Partial</span><p>Breakpoints are used ad hoc (<code>clamp()</code>, one 760px query on this page) rather than tokenized. The specific transformations asked for — table→card, sidebar→drawer, modal→sheet — don't apply because none of those components exist yet.</p></div></div>
+
+    <div class="road-row"><span class="road-n">6</span><div class="road-body"><b>Elevation &amp; surfaces</b><span class="road-pill road-done">Documented</span><p>Covered in <a href="#spacing">Spacing ↑</a> as a deliberate absence — Rallo uses borders, not shadows, at any elevation. That's a real decision already made, not a gap. A dark-theme elevation strategy is blocked on the theme itself.</p></div></div>
+
+    <div class="road-row"><span class="road-n">7</span><div class="road-body"><b>Borders &amp; radius</b><span class="road-pill road-partial">Partial</span><p>Widths and the radius scale are documented in <a href="#spacing">Spacing ↑</a>. Gap: no visible focus ring exists anywhere in the product — a real, fixable accessibility issue, not a missing surface.</p></div></div>
+
+    <div class="road-row"><span class="road-n">8</span><div class="road-body"><b>Icons</b><span class="road-pill road-partial">Partial</span><p>Documented honestly in <a href="#icons">Icons ↑</a> — there is no icon library, only the logo mark and a handful of text glyphs. A real icon set (sizes, stroke width, filled/outline variants) is new production work, not documentation of something that exists.</p></div></div>
+
+    <div class="road-row"><span class="road-n">9</span><div class="road-body"><b>Core components</b><span class="road-pill road-partial">Partial</span><p>9 of the ~80 components this spec lists exist and are documented in <a href="#components">Components ↑</a>: Button, Badge, Segmented control, Tabs, Card, List row, Chip, Empty state, CTA banner. Nearly everything else — every text input, most selection controls, icon buttons, alerts/toasts/tooltips/skeletons, modals/drawers/popovers/dropdowns, tables, avatars — has no surface in the product yet.</p></div></div>
+
+    <div class="road-row"><span class="road-n">10</span><div class="road-body"><b>Component states</b><span class="road-pill road-decision">Needs your call</span><p>Every component that exists today effectively only has Default and Hover. No Focus, Disabled, Loading or Error state is defined anywhere — buildable right now, on existing components, without waiting on new product surfaces.</p></div></div>
+
+    <div class="road-row"><span class="road-n">11</span><div class="road-body"><b>Complex product patterns</b><span class="road-pill road-blocked">No surface yet</span><p>Search / filter / sort are real and documented in <a href="#components">Components ↑</a> (the tournaments listing). Login / signup is a placeholder modal with no actual input fields. Onboarding, account setup, CRUD, delete flows, notifications, settings, profile, dashboard — none exist; the product has no backend.</p></div></div>
+
+    <div class="road-row"><span class="road-n">12</span><div class="road-body"><b>Tables &amp; data-dense UI</b><span class="road-pill road-blocked">No surface yet</span><p>Zero tables anywhere in the product.</p></div></div>
+
+    <div class="road-row"><span class="road-n">13</span><div class="road-body"><b>Forms</b><span class="road-pill road-blocked">No surface yet</span><p>No real form exists — the auth modal has no input fields to define rules for.</p></div></div>
+
+    <div class="road-row"><span class="road-n">14</span><div class="road-body"><b>Navigation architecture</b><span class="road-pill road-partial">Partial</span><p>Website nav is real and documented in <a href="#components">Components ↑</a> (the sticky navbar). Web-app nav (sidebar, user menu) and mobile nav have no surface yet.</p></div></div>
+
+    <div class="road-row"><span class="road-n">15</span><div class="road-body"><b>Mobile-specific components</b><span class="road-pill road-blocked">No surface yet</span><p>No native mobile app exists in this repo.</p></div></div>
+
+    <div class="road-row"><span class="road-n">16</span><div class="road-body"><b>Accessibility</b><span class="road-pill road-decision">Needs your call</span><p>The most important buildable-now item on this list. Nothing has been contrast-checked, there are no visible focus states, and there's no screen-reader pass — except the hero animation, which does correctly respect <code>prefers-reduced-motion</code>. Worth doing regardless of what else gets built.</p></div></div>
+
+    <div class="road-row"><span class="road-n">17</span><div class="road-body"><b>Motion</b><span class="road-pill road-partial">Partial</span><p>One duration exists (<code>.18s</code> ease) and is documented in <a href="#spacing">Spacing ↑</a>, plus reduced-motion handling on the hero. No Normal/Slow tiers or modal/drawer/dropdown animation, since those components don't exist yet.</p></div></div>
+
+    <div class="road-row"><span class="road-n">18</span><div class="road-body"><b>Design tokens (Primitive → Semantic → Component)</b><span class="road-pill road-decision">Needs your call</span><p>Semantic tokens exist (color/type/spacing/radius, documented throughout this page) but there's no Primitive layer underneath them — right now the semantic token <em>is</em> the raw value (<code>--lime: #9ECE16</code>) rather than pointing at one. This is the architectural backbone the rest of this spec assumes, and it's buildable now, alongside the theme work below.</p></div></div>
+
+    <div class="road-row"><span class="road-n">19</span><div class="road-body"><b>Light &amp; dark theme architecture</b><span class="road-pill road-decision">Needs your call</span><p>Same gap as #1. Worth building together with #18 — a primitive layer makes swapping what a semantic token resolves to per theme far cleaner than duplicating every component twice.</p></div></div>
+
+    <div class="road-row"><span class="road-n">20</span><div class="road-body"><b>Figma architecture</b><span class="road-pill road-blocked">N/A</span><p>This project isn't authored in Figma. The equivalent structure is this repo's file layout — <code>Rallo.dc.html</code> plus <code>design-system.html</code> — not a Figma page tree.</p></div></div>
+
+    <div class="road-row"><span class="road-n">21</span><div class="road-body"><b>Documentation</b><span class="road-pill road-partial">Partial</span><p>Every component in <a href="#components">Components ↑</a> has a live preview and copyable code, but not the fuller format this spec wants — when to use / when not to use, content guidelines, do/don't examples. Addable incrementally per component.</p></div></div>
+
+    <div class="road-row"><span class="road-n">22</span><div class="road-body"><b>Developer handoff</b><span class="road-pill road-partial">Partial</span><p>Token naming (kebab-case CSS custom properties) and component class naming exist as a convention in practice but aren't written down as a rule. No versioning or changelog for this page yet.</p></div></div>
+
+    <div class="road-row"><span class="road-n">23</span><div class="road-body"><b>QA / definition of done</b><span class="road-pill road-blocked">Not started</span><p>This is a checklist to run against a finished system, not something to build. Worth revisiting once the gaps above close.</p></div></div>
+
+  </div>
+
+  <div class="cta-banner" style="margin-top:32px">
+    <div><b>Recommended next step</b><p>Build the Primitive → Semantic → Component token layer (#18) together with Light + Dark theme (#1, #19) — the two foundational, non-speculative items everything else in this spec depends on. Everything blocked on "no surface yet" should wait until that surface is actually being built, so this page keeps documenting the real product rather than a fictional one.</p></div>
   </div>
 
 </section>
