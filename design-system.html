@@ -52,6 +52,17 @@
 
   --r-400: #FF5C61;   /* live/urgent, dark theme — bumped for contrast on black */
   --r-500: #E5484D;   /* live/urgent, light theme */
+  /* ---- state colors (added for #10/#16: error/warning/success + focus ring) ---- */
+  --a-100: #FCEFD9;   /* amber wash, light */
+  --a-300: #FFCE85;   /* amber on-dark text (light amber, for use on black) */
+  --a-500: #F0A020;   /* amber fill, light theme */
+  --a-450: #FFBA4D;   /* amber fill, dark theme -- brighter for visibility on black */
+  --a-700: #9A5F0A;   /* amber, saturated -- small text on white */
+
+  --sg-100: #E8F4E4;  /* success wash, light */
+  --sg-400: #6FBF5C;  /* success, dark theme */
+  --sg-500: #4B9B3F;  /* success, light theme -- deliberately distinct from brand --lime,
+                          so "this succeeded" and "this is on-brand" never look identical */
 
   /* ================================================================
      SEMANTIC — the only tier components should reference. Same names
@@ -94,6 +105,21 @@
   --border-strong: rgba(10,10,10,.16);
   --on-dark-border: rgba(255,255,255,.16);  /* fixed: for use on --surface-dark, doesn't invert */
   --on-dark-faint: rgba(255,255,255,.45);   /* fixed: for use on --surface-dark, doesn't invert */
+
+  /* ---- status (form/feedback) ---- */
+  --error: var(--r-500);              /* same red family as --live, named separately: a field
+                                          erroring and a match being live are different meanings
+                                          that happen to share a color, not the same concept */
+  --error-wash: #FBEAEB;
+  --warning: var(--a-500);
+  --warning-text: var(--a-700);       /* small warning text/links on white */
+  --warning-wash: var(--a-100);
+  --ink-on-warning: var(--n-950);     /* amber fill is bright in both themes -- text stays dark, both themes */
+  --success: var(--sg-500);
+  --success-wash: var(--sg-100);
+
+  /* ---- focus ring (accessibility -- #16) ---- */
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4.5px var(--lime);
 
   /* ---- type ---- */
   --font-display: Anton, sans-serif;
@@ -150,6 +176,14 @@
     --border-soft: rgba(255,255,255,.06);
     --border-strong: rgba(255,255,255,.18);
 
+    --error: var(--r-400);
+    --error-wash: rgba(255,92,97,.14);
+    --warning: var(--a-450);
+    --warning-text: var(--a-300);
+    --warning-wash: rgba(240,160,32,.16);
+    --success: var(--sg-400);
+    --success-wash: rgba(111,191,92,.16);
+
     color-scheme: dark;
   }
 }
@@ -178,10 +212,24 @@
   --border-soft: rgba(255,255,255,.06);
   --border-strong: rgba(255,255,255,.18);
 
+  --error: var(--r-400);
+  --error-wash: rgba(255,92,97,.14);
+  --warning: var(--a-450);
+  --warning-text: var(--a-300);
+  --warning-wash: rgba(240,160,32,.16);
+  --success: var(--sg-400);
+  --success-wash: rgba(111,191,92,.16);
+
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
+:focus { outline: none; }
+:focus-visible { box-shadow: var(--focus-ring); border-radius: inherit; outline: none; }
+[tabindex]:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  box-shadow: var(--focus-ring);
+}
 html { scroll-behavior: smooth; }
 body {
   margin: 0; background: var(--surface); color: var(--ink);
@@ -292,6 +340,23 @@ h3.sub-title:first-child { margin-top: 0; }
 .btn-outline:hover { border-color: var(--ink); }
 .btn-ghost-dark { background: transparent; color: #fff; border: 1.5px solid var(--on-dark-border); }
 .btn-ghost-dark:hover { border-color: #fff; }
+.btn:disabled, .btn.is-disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+.btn.is-loading { color: transparent; pointer-events: none; position: relative; }
+.btn.is-loading::after {
+  content: ''; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px;
+  margin: -8px 0 0 -8px; border-radius: 50%;
+  border: 2px solid var(--spinner-color, currentColor);
+  border-right-color: transparent; border-top-color: transparent;
+  animation: btn-spin .7s linear infinite;
+}
+.btn-primary.is-loading { --spinner-color: var(--surface); }
+.btn-lime.is-loading { --spinner-color: var(--ink-on-accent); }
+.btn-outline.is-loading { --spinner-color: var(--ink); }
+.btn-ghost-dark.is-loading { --spinner-color: #fff; }
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .btn.is-loading::after { animation: none; opacity: .7; }
+}
 
 .badge { font-size: 10.5px; font-weight: 800; letter-spacing: .07em; padding: 6px 10px; border-radius: var(--r-tag); white-space: nowrap; display: inline-block; }
 .badge-live { background: var(--live); color: #fff; }
@@ -390,8 +455,8 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
       <a href="#status">Status</a>
     </nav>
     <div class="seg-wrap" id="theme-toggle" role="group" aria-label="Theme">
-      <span class="seg" data-set-theme="light">Light</span>
-      <span class="seg" data-set-theme="dark">Dark</span>
+      <span class="seg" tabindex="0" role="button" data-set-theme="light">Light</span>
+      <span class="seg" tabindex="0" role="button" data-set-theme="dark">Dark</span>
     </div>
   </div>
 </div>
@@ -587,7 +652,7 @@ Component
 
   <h3 class="sub-title">Buttons</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Button — 4 variants</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Button — 4 variants, 3 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage">
       <button class="btn btn-primary">Primary</button>
       <button class="btn btn-outline">Secondary</button>
@@ -595,6 +660,12 @@ Component
     <div class="demo-stage dark" style="padding-top:28px">
       <button class="btn btn-lime">Lime on dark</button>
       <button class="btn btn-ghost-dark">Ghost on dark</button>
+    </div>
+    <div class="demo-stage" style="padding-top:0">
+      <button class="btn btn-primary" disabled>Disabled</button>
+      <button class="btn btn-primary is-loading">Register to play</button>
+      <button class="btn btn-outline" disabled>Disabled</button>
+      <button class="btn btn-outline is-loading">Live scores</button>
     </div>
     <div class="demo-code"><pre>&lt;!-- Primary --&gt;
 &lt;button class="btn btn-primary"&gt;Register to play&lt;/button&gt;
@@ -608,17 +679,31 @@ Component
 &lt;!-- Ghost, for use on a dark surface --&gt;
 &lt;button class="btn btn-ghost-dark"&gt;Get entry alerts&lt;/button&gt;
 
+&lt;!-- Disabled: use the real attribute, not just a class, so
+     assistive tech and forms both treat it as non-interactive --&gt;
+&lt;button class="btn btn-primary" disabled&gt;Register to play&lt;/button&gt;
+
+&lt;!-- Loading: label hidden via color, spinner drawn with ::after --&gt;
+&lt;button class="btn btn-primary is-loading"&gt;Register to play&lt;/button&gt;
+
 .btn { font-size:15px; font-weight:800; padding:15px 26px;
   border-radius:var(--r-pill); border:none; cursor:pointer; }
 .btn-primary { background:var(--ink); color:var(--surface); }
 .btn-outline { background:var(--surface); color:var(--ink); border:1.5px solid var(--border-strong); }
 .btn-lime { background:var(--lime); color:var(--ink-on-accent); }
+.btn:disabled { opacity:.4; cursor:not-allowed; pointer-events:none; }
+.btn.is-loading { color:transparent; pointer-events:none; position:relative; }
+.btn.is-loading::after { content:''; position:absolute; inset:0; margin:auto; width:16px; height:16px;
+  border-radius:50%; border:2px solid var(--spinner-color, currentColor);
+  border-right-color:transparent; border-top-color:transparent; animation:btn-spin .7s linear infinite; }
+.btn-primary.is-loading { --spinner-color: var(--surface); }
+.btn-outline.is-loading { --spinner-color: var(--ink); }
 .btn-ghost-dark { background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.16); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
   <h3 class="sub-title">Status badges</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Badge — 4 states</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Badge — 4 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage">
       <span class="badge badge-live">LIVE NOW</span>
       <span class="badge badge-open">REGISTRATION OPEN</span>
@@ -640,10 +725,10 @@ Component
 
   <h3 class="sub-title">Segmented control</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Filter (ink-active) / Sort (lime-active)</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Filter (ink-active) / Sort (lime-active)</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage column">
-      <div class="seg-wrap"><span class="seg is-on">All</span><span class="seg">Bangalore</span><span class="seg">Pune</span></div>
-      <div class="sort-wrap"><span class="sort-seg is-on">Most live</span><span class="sort-seg">Longest</span><span class="sort-seg">A–Z</span></div>
+      <div class="seg-wrap"><span class="seg is-on" tabindex="0" role="button">All</span><span class="seg" tabindex="0" role="button">Bangalore</span><span class="seg" tabindex="0" role="button">Pune</span></div>
+      <div class="sort-wrap"><span class="sort-seg is-on" tabindex="0" role="button">Most live</span><span class="sort-seg" tabindex="0" role="button">Longest</span><span class="sort-seg" tabindex="0" role="button">A–Z</span></div>
     </div>
     <div class="demo-code"><pre>&lt;!-- Filter: narrows the list. Active segment fills with ink. --&gt;
 &lt;div class="seg-wrap"&gt;
@@ -670,12 +755,12 @@ Component
 
   <h3 class="sub-title">Tabs with count</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Tab bar</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Tab bar</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage" style="padding-bottom:0">
       <div class="tabs-row" style="width:100%">
-        <span class="tab is-on">Live Matches<span class="tab-count">12</span></span>
-        <span class="tab">Upcoming<span class="tab-count">5</span></span>
-        <span class="tab">Recent<span class="tab-count">4</span></span>
+        <span class="tab is-on" tabindex="0" role="button">Live Matches<span class="tab-count">12</span></span>
+        <span class="tab" tabindex="0" role="button">Upcoming<span class="tab-count">5</span></span>
+        <span class="tab" tabindex="0" role="button">Recent<span class="tab-count">4</span></span>
       </div>
     </div>
     <div class="demo-code"><pre>&lt;div class="tabs-row"&gt;
@@ -694,7 +779,7 @@ Component
 
   <h3 class="sub-title">Cards</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Tournament card</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Tournament card</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage" style="max-width:360px">
       <div class="card" style="width:100%">
         <div class="card-banner"><span class="badge badge-open">REGISTRATION OPEN</span></div>
@@ -726,7 +811,7 @@ Component
   </div>
 
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Live match row</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Live match row</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage column">
       <div class="row">
         <div style="display:flex;flex-direction:column;gap:7px;min-width:80px"><span class="badge badge-live">LIVE</span><span class="row-court">COURT 03</span></div>
@@ -759,7 +844,7 @@ Component
 
   <h3 class="sub-title">Chip / tag</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Static tag (categories, filters-summary)</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Static tag (categories, filters-summary)</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage"><span class="chip-tag">Men's Singles</span><span class="chip-tag">Women's Doubles</span><span class="chip-tag">Mixed Doubles</span></div>
     <div class="demo-code"><pre>&lt;span class="chip-tag"&gt;Men's Singles&lt;/span&gt;
 
@@ -769,7 +854,7 @@ Component
 
   <h3 class="sub-title">Empty state</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">No results</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">No results</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage" style="background:var(--surface-subtle)">
       <div class="empty" style="width:100%"><b>Nothing here yet</b><p>No draws match that combination. Try a wider filter.</p></div>
     </div>
@@ -784,7 +869,7 @@ Component
 
   <h3 class="sub-title">CTA banner</h3>
   <div class="demo">
-    <div class="demo-title-row"><span class="demo-title">Dark panel with lime CTA</span><span class="demo-code-toggle" data-toggle>Code</span></div>
+    <div class="demo-title-row"><span class="demo-title">Dark panel with lime CTA</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
     <div class="demo-stage"><div class="cta-banner" style="width:100%"><div><b>Running a draw of your own?</b><p>Publish entries and let Rallo file every score automatically.</p></div><button class="btn btn-lime">Organise a Tournament</button></div></div>
     <div class="demo-code"><pre>&lt;div class="cta-banner"&gt;
   &lt;div&gt;
@@ -951,6 +1036,17 @@ Component
 
   paintToggle();
   refreshSwatches();
+
+  /* Enter/Space activates any non-native interactive element built as a
+     <span role="button">, matching how a real <button> already behaves. */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target;
+    if (el.getAttribute && el.getAttribute('role') === 'button' && el.hasAttribute('tabindex')) {
+      e.preventDefault();
+      el.click();
+    }
+  });
 
   function flashCopy(el, ok) {
     if (!ok) return;
