@@ -535,6 +535,38 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
 .combobox-option:hover, .combobox-option.is-active { background: var(--surface-fill); }
 .combobox-option.is-selected { color: var(--lime-strong); font-weight: 800; }
 
+/* ---- FAB ---- */
+.fab { width: 56px; height: 56px; border-radius: 50%; border: none; background: var(--ink); color: var(--surface);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer;
+  transition: background var(--ease), transform var(--ease); }
+.fab:hover { background: var(--ink-hover); transform: scale(1.05); }
+.fab:focus-visible { transform: scale(1.05); }
+.fab:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; transform: none; }
+.fab-lime { background: var(--lime); color: var(--ink-on-accent); }
+.fab-lime:hover { background: var(--lime-mid); }
+
+/* ---- link ---- */
+.link { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px; cursor: pointer; transition: color var(--ease), text-decoration-color var(--ease); }
+.link:hover { color: var(--lime-strong); text-decoration-color: currentColor; }
+.link-quiet { color: var(--ink); font-weight: 800; text-decoration: none; border-bottom: 1px solid var(--border-strong);
+  cursor: pointer; padding-bottom: 1px; transition: color var(--ease), border-color var(--ease); }
+.link-quiet:hover { color: var(--lime-strong); border-color: var(--lime-strong); }
+
+/* ---- menu ---- */
+.menu { border: 1px solid var(--border); border-radius: var(--r-panel); padding: 6px; background: var(--surface);
+  display: flex; flex-direction: column; gap: 2px; width: 220px; }
+.menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-control);
+  font-family: var(--font-body); font-size: 13.5px; font-weight: 700; color: var(--ink); cursor: pointer;
+  text-align: left; border: none; background: transparent; width: 100%; }
+.menu-item:hover { background: var(--surface-fill); }
+.menu-item.is-selected { color: var(--lime-strong); }
+.menu-item.is-selected .check { margin-left: auto; }
+.menu-item.is-danger { color: var(--error); }
+.menu-item:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+.menu-item .shortcut { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-family: var(--font-mono); }
+.menu-divider { height: 1px; background: var(--border); margin: 4px 6px; }
+
 @media (max-width: 760px) {
   .toc { display: none; }
   .cta-banner { flex-direction: column; align-items: flex-start; }
@@ -1420,6 +1452,97 @@ textarea.field-input { resize:vertical; min-height:88px; }
    close) still needs to be wired up by whoever implements this. */
 .combobox-list { border:1.5px solid var(--border-strong); border-top:none; border-radius:0 0 var(--r-control) var(--r-control); }
 .combobox-option:hover, .combobox-option.is-active { background:var(--surface-fill); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Icon button</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Icon button — 4 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <button class="icon-btn" type="button" aria-label="Close">✕</button>
+      <button class="icon-btn" type="button" aria-label="Search">🔍</button>
+      <button class="icon-btn" type="button" aria-label="Remove" disabled>✕</button>
+    </div>
+    <div class="demo-code"><pre>&lt;!-- Icon-only buttons always need aria-label -- there's no visible
+     text for a screen reader to announce otherwise. --&gt;
+&lt;button class="icon-btn" type="button" aria-label="Close"&gt;✕&lt;/button&gt;
+&lt;button class="icon-btn" type="button" aria-label="Remove" disabled&gt;✕&lt;/button&gt;
+
+.icon-btn { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px;
+  border-radius:var(--r-control); border:none; background:transparent; color:var(--ink-muted); cursor:pointer; }
+.icon-btn:hover { background:var(--surface-fill); color:var(--ink); }
+.icon-btn:disabled { opacity:.4; cursor:not-allowed; }
+/* Introduced in the Inputs batch for the password-reveal toggle --
+   reused here as its own documented component, not rebuilt. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Floating action button</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">FAB — 3 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <button class="fab" type="button" aria-label="Log a match">+</button>
+      <button class="fab fab-lime" type="button" aria-label="Log a match">+</button>
+      <button class="fab" type="button" aria-label="Log a match" disabled>+</button>
+    </div>
+    <div class="demo-code"><pre>&lt;button class="fab" type="button" aria-label="Log a match"&gt;+&lt;/button&gt;
+&lt;button class="fab fab-lime" type="button" aria-label="Log a match"&gt;+&lt;/button&gt;
+
+.fab { width:56px; height:56px; border-radius:50%; border:none; background:var(--ink); color:var(--surface); }
+.fab:hover { background:var(--ink-hover); transform:scale(1.05); }
+.fab-lime { background:var(--lime); color:var(--ink-on-accent); }
+/* Scale on hover, not shadow -- this system separates surfaces with
+   color and border, never elevation (see Spacing ↑). */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Link</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Link — underlined &amp; quiet</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="gap:24px">
+      <span class="link" tabindex="0" role="button">View full results</span>
+      <span class="link-quiet" tabindex="0" role="button">Colors ↑</span>
+    </div>
+    <div class="demo-code"><pre>&lt;!-- Underlined: prose links, inline in a paragraph --&gt;
+&lt;a class="link" href="/results"&gt;View full results&lt;/a&gt;
+
+&lt;!-- Quiet: cross-references and inline actions (used throughout
+     the Status &amp; Roadmap section ↓ to point back at other sections) --&gt;
+&lt;a class="link-quiet" href="#colors"&gt;Colors ↑&lt;/a&gt;
+
+.link { color:var(--ink); font-weight:700; text-decoration:underline;
+  text-decoration-color:var(--border-strong); text-underline-offset:3px; }
+.link:hover { color:var(--lime-strong); text-decoration-color:currentColor; }
+.link-quiet { text-decoration:none; border-bottom:1px solid var(--border-strong); font-weight:800; }
+.link-quiet:hover { color:var(--lime-strong); border-color:var(--lime-strong); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Menu item</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Menu — default, selected, danger, disabled</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div class="menu" role="menu">
+        <button class="menu-item" role="menuitem" type="button">Edit tournament</button>
+        <button class="menu-item is-selected" role="menuitem" type="button">Sort by soonest <span class="check">✓</span></button>
+        <button class="menu-item" role="menuitem" type="button">Duplicate <span class="shortcut">⌘D</span></button>
+        <div class="menu-divider"></div>
+        <button class="menu-item" role="menuitem" type="button" disabled>Publish results</button>
+        <button class="menu-item is-danger" role="menuitem" type="button">Delete tournament</button>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="menu" role="menu"&gt;
+  &lt;button class="menu-item" role="menuitem" type="button"&gt;Edit tournament&lt;/button&gt;
+  &lt;button class="menu-item is-selected" role="menuitem" type="button"&gt;
+    Sort by soonest &lt;span class="check"&gt;✓&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="menu-divider"&gt;&lt;/div&gt;
+  &lt;button class="menu-item is-danger" role="menuitem" type="button"&gt;Delete tournament&lt;/button&gt;
+&lt;/div&gt;
+
+.menu { border:1px solid var(--border); border-radius:var(--r-panel); padding:6px; width:220px; }
+.menu-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:var(--r-control);
+  font-weight:700; color:var(--ink); border:none; background:transparent; width:100%; text-align:left; }
+.menu-item:hover { background:var(--surface-fill); }
+.menu-item.is-selected { color:var(--lime-strong); }
+.menu-item.is-danger { color:var(--error); }
+.menu-divider { height:1px; background:var(--border); margin:4px 6px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
 </section>
