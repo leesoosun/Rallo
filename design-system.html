@@ -567,6 +567,51 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
 .menu-item .shortcut { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-family: var(--font-mono); }
 .menu-divider { height: 1px; background: var(--border); margin: 4px 6px; }
 
+/* ---- breadcrumbs ---- */
+.breadcrumb { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--ink-muted); flex-wrap: wrap; }
+.breadcrumb-item { color: var(--ink-muted); cursor: pointer; background: none; border: none; font: inherit; padding: 0; }
+.breadcrumb-item:hover { color: var(--ink); }
+.breadcrumb-current { color: var(--ink); }
+.breadcrumb-sep { color: var(--border-strong); }
+
+/* ---- pagination ---- */
+.pagination { display: flex; align-items: center; gap: 4px; }
+.page-btn { min-width: 34px; height: 34px; padding: 0 8px; border-radius: var(--r-control); border: none;
+  background: transparent; color: var(--ink-soft); font-family: var(--font-body); font-weight: 700; font-size: 13.5px; cursor: pointer; }
+.page-btn:hover { background: var(--surface-fill); color: var(--ink); }
+.page-btn.is-current { background: var(--ink); color: var(--surface); }
+.page-btn:disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+.page-ellipsis { color: var(--ink-faint); padding: 0 4px; font-weight: 700; }
+
+/* ---- stepper ---- */
+.stepper { display: flex; align-items: center; }
+.step { display: flex; align-items: center; gap: 8px; }
+.step-circle { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; border: 1.5px solid var(--border-strong); color: var(--ink-muted); flex-shrink: 0; background: var(--surface); }
+.step-label { font-size: 13px; font-weight: 700; color: var(--ink-muted); white-space: nowrap; }
+.step.is-done .step-circle { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.step.is-done .step-label { color: var(--ink); }
+.step.is-current .step-circle { border-color: var(--lime); border-width: 2px; color: var(--ink); background: var(--lime-wash); }
+.step.is-current .step-label { color: var(--ink); font-weight: 800; }
+.step-line { width: 40px; height: 1.5px; background: var(--border-strong); margin: 0 6px; flex-shrink: 0; }
+.step-line.is-done { background: var(--ink); }
+
+/* ---- sidebar (representative -- see note in demo) ---- */
+.sidebar { width: 220px; border-right: 1px solid var(--border); padding: 16px 10px; display: flex; flex-direction: column; gap: 2px; background: var(--surface); }
+.sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-control);
+  font-size: 13.5px; font-weight: 700; color: var(--ink-soft); cursor: pointer; border: none; background: transparent; width: 100%; text-align: left; }
+.sidebar-item:hover { background: var(--surface-fill); color: var(--ink); }
+.sidebar-item.is-active { background: var(--ink); color: var(--surface); }
+.sidebar-section { font-size: 10.5px; font-weight: 800; letter-spacing: .07em; color: var(--ink-faint); padding: 14px 12px 6px; text-transform: uppercase; }
+.sidebar-section:first-child { padding-top: 4px; }
+
+/* ---- bottom navigation (mobile) ---- */
+.bottom-nav { display: flex; border-top: 1px solid var(--border); background: var(--surface); padding: 8px 4px; width: 100%; }
+.bottom-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px;
+  font-size: 10.5px; font-weight: 700; color: var(--ink-muted); cursor: pointer; border: none; background: transparent; }
+.bottom-nav-item .ic { font-size: 18px; line-height: 1; }
+.bottom-nav-item.is-active { color: var(--ink); }
+
 @media (max-width: 760px) {
   .toc { display: none; }
   .cta-banner { flex-direction: column; align-items: flex-start; }
@@ -1543,6 +1588,148 @@ textarea.field-input { resize:vertical; min-height:88px; }
 .menu-item.is-selected { color:var(--lime-strong); }
 .menu-item.is-danger { color:var(--error); }
 .menu-divider { height:1px; background:var(--border); margin:4px 6px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Breadcrumbs</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Breadcrumbs</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <button class="breadcrumb-item" type="button">Home</button>
+        <span class="breadcrumb-sep">/</span>
+        <button class="breadcrumb-item" type="button">Tournaments</button>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current" aria-current="page">Bangalore Smash Open</span>
+      </nav>
+    </div>
+    <div class="demo-code"><pre>&lt;nav class="breadcrumb" aria-label="Breadcrumb"&gt;
+  &lt;button class="breadcrumb-item" type="button"&gt;Home&lt;/button&gt;
+  &lt;span class="breadcrumb-sep"&gt;/&lt;/span&gt;
+  &lt;button class="breadcrumb-item" type="button"&gt;Tournaments&lt;/button&gt;
+  &lt;span class="breadcrumb-sep"&gt;/&lt;/span&gt;
+  &lt;span class="breadcrumb-current" aria-current="page"&gt;Bangalore Smash Open&lt;/span&gt;
+&lt;/nav&gt;
+
+/* This is the exact pattern already used on every detail page in
+   Rallo.dc.html -- muted links, "/" separators, ink-colored current
+   page -- formalized into reusable classes rather than rebuilt. */
+.breadcrumb-item { color:var(--ink-muted); cursor:pointer; background:none; border:none; font:inherit; }
+.breadcrumb-item:hover { color:var(--ink); }
+.breadcrumb-current { color:var(--ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Pagination</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Pagination</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <nav class="pagination" aria-label="Pagination">
+        <button class="page-btn" type="button" aria-label="Previous page" disabled>‹</button>
+        <button class="page-btn is-current" type="button" aria-current="page">1</button>
+        <button class="page-btn" type="button">2</button>
+        <button class="page-btn" type="button">3</button>
+        <span class="page-ellipsis">…</span>
+        <button class="page-btn" type="button">12</button>
+        <button class="page-btn" type="button" aria-label="Next page">›</button>
+      </nav>
+    </div>
+    <div class="demo-code"><pre>&lt;nav class="pagination" aria-label="Pagination"&gt;
+  &lt;button class="page-btn" type="button" aria-label="Previous page" disabled&gt;‹&lt;/button&gt;
+  &lt;button class="page-btn is-current" type="button" aria-current="page"&gt;1&lt;/button&gt;
+  &lt;button class="page-btn" type="button"&gt;2&lt;/button&gt;
+  &lt;span class="page-ellipsis"&gt;…&lt;/span&gt;
+  &lt;button class="page-btn" type="button"&gt;12&lt;/button&gt;
+  &lt;button class="page-btn" type="button" aria-label="Next page"&gt;›&lt;/button&gt;
+&lt;/nav&gt;
+
+.page-btn { min-width:34px; height:34px; border-radius:var(--r-control); color:var(--ink-soft); font-weight:700; }
+.page-btn:hover { background:var(--surface-fill); color:var(--ink); }
+.page-btn.is-current { background:var(--ink); color:var(--surface); }
+.page-btn:disabled { opacity:.35; cursor:not-allowed; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Stepper</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Stepper — done, current, upcoming</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div class="stepper">
+        <div class="step is-done"><div class="step-circle">✓</div><div class="step-label">Details</div></div>
+        <div class="step-line is-done"></div>
+        <div class="step is-done"><div class="step-circle">✓</div><div class="step-label">Categories</div></div>
+        <div class="step-line is-done"></div>
+        <div class="step is-current"><div class="step-circle">3</div><div class="step-label">Entry &amp; prizes</div></div>
+        <div class="step-line"></div>
+        <div class="step"><div class="step-circle">4</div><div class="step-label">Review</div></div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="stepper"&gt;
+  &lt;div class="step is-done"&gt;&lt;div class="step-circle"&gt;✓&lt;/div&gt;&lt;div class="step-label"&gt;Details&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="step-line is-done"&gt;&lt;/div&gt;
+  &lt;div class="step is-current"&gt;&lt;div class="step-circle"&gt;3&lt;/div&gt;&lt;div class="step-label"&gt;Entry &amp; prizes&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="step-line"&gt;&lt;/div&gt;
+  &lt;div class="step"&gt;&lt;div class="step-circle"&gt;4&lt;/div&gt;&lt;div class="step-label"&gt;Review&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.step-circle { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--border-strong); }
+.step.is-done .step-circle { background:var(--ink); border-color:var(--ink); color:var(--surface); }
+.step.is-current .step-circle { border-color:var(--lime); border-width:2px; background:var(--lime-wash); }
+.step-line { width:40px; height:1.5px; background:var(--border-strong); }
+.step-line.is-done { background:var(--ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Sidebar</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Sidebar — representative web-app nav</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="padding:0">
+      <div class="sidebar">
+        <div class="sidebar-section">Manage</div>
+        <button class="sidebar-item is-active" type="button">Overview</button>
+        <button class="sidebar-item" type="button">Tournaments</button>
+        <button class="sidebar-item" type="button">Players</button>
+        <div class="sidebar-section">Organisation</div>
+        <button class="sidebar-item" type="button">Host profile</button>
+        <button class="sidebar-item" type="button">Settings</button>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="sidebar"&gt;
+  &lt;div class="sidebar-section"&gt;Manage&lt;/div&gt;
+  &lt;button class="sidebar-item is-active" type="button"&gt;Overview&lt;/button&gt;
+  &lt;button class="sidebar-item" type="button"&gt;Tournaments&lt;/button&gt;
+&lt;/div&gt;
+
+/* Representative: Rallo has no authenticated app-shell today (see
+   Status ↓, #4), so there's no real sidebar to audit this against --
+   this follows the same token set as everything else on this page,
+   ready for whenever that shell gets built. */
+.sidebar { width:220px; border-right:1px solid var(--border); padding:16px 10px; }
+.sidebar-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:var(--r-control);
+  font-weight:700; color:var(--ink-soft); width:100%; text-align:left; }
+.sidebar-item.is-active { background:var(--ink); color:var(--surface); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Bottom navigation</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Bottom navigation — representative mobile nav</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="padding:0;background:var(--surface-subtle)">
+      <div style="max-width:360px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)">
+        <div style="height:120px;display:flex;align-items:center;justify-content:center;color:var(--ink-faint);font-size:12px;font-family:var(--font-mono)">screen content</div>
+        <nav class="bottom-nav" aria-label="Primary">
+          <button class="bottom-nav-item is-active" type="button"><span class="ic">🏠</span>Home</button>
+          <button class="bottom-nav-item" type="button"><span class="ic">🏆</span>Tournaments</button>
+          <button class="bottom-nav-item" type="button"><span class="ic">👤</span>Profile</button>
+        </nav>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;nav class="bottom-nav" aria-label="Primary"&gt;
+  &lt;button class="bottom-nav-item is-active" type="button"&gt;&lt;span class="ic"&gt;🏠&lt;/span&gt;Home&lt;/button&gt;
+  &lt;button class="bottom-nav-item" type="button"&gt;&lt;span class="ic"&gt;🏆&lt;/span&gt;Tournaments&lt;/button&gt;
+&lt;/nav&gt;
+
+/* Representative: no native mobile app exists in this repo (Status ↓,
+   #15) -- this is the token set applied to the standard bottom-tab
+   pattern, not audited against a real screen. */
+.bottom-nav { display:flex; border-top:1px solid var(--border); padding:8px 4px; }
+.bottom-nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--ink-muted); }
+.bottom-nav-item.is-active { color:var(--ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
 </section>
