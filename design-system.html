@@ -674,6 +674,61 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
 .spinner-sm { width: 16px; height: 16px; border-width: 2px; }
 @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 1.6s; } }
 
+/* ---- accordion ---- */
+.accordion { border-top: 1px solid var(--border); }
+.accordion-item { border-bottom: 1px solid var(--border); }
+.accordion-trigger { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 16px 4px;
+  background: none; border: none; font-family: var(--font-body); font-size: 14px; font-weight: 800; color: var(--ink); cursor: pointer; text-align: left; }
+.accordion-trigger .chev { transition: transform var(--ease); color: var(--ink-muted); flex-shrink: 0; margin-left: 12px; }
+.accordion-item.is-open .accordion-trigger .chev { transform: rotate(180deg); }
+.accordion-panel { max-height: 0; overflow: hidden; transition: max-height .25s ease; }
+.accordion-item.is-open .accordion-panel { max-height: 240px; }
+.accordion-panel-inner { padding: 0 4px 16px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+
+/* ---- shared overlay mechanics: modal / drawer / bottom sheet ---- */
+.overlay-backdrop { position: fixed; inset: 0; background: rgba(10,10,10,.5); opacity: 0; pointer-events: none;
+  transition: opacity var(--ease); z-index: 40; }
+.overlay-backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+.modal-panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-48%) scale(.97); opacity: 0; pointer-events: none;
+  background: var(--surface); border-radius: var(--r-panel-lg); border: 1px solid var(--border); padding: 24px;
+  width: min(420px, 90vw); transition: opacity var(--ease), transform var(--ease); z-index: 41; }
+.modal-panel.is-open { opacity: 1; pointer-events: auto; transform: translate(-50%,-50%) scale(1); }
+.overlay-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
+.overlay-title { font-family: var(--font-display); font-size: 22px; text-transform: uppercase; }
+.overlay-body { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; margin: 8px 0 20px; }
+.overlay-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+.drawer-panel { position: fixed; top: 0; right: 0; height: 100%; width: min(360px, 88vw); background: var(--surface);
+  border-left: 1px solid var(--border); padding: 24px; transform: translateX(100%); transition: transform var(--ease);
+  z-index: 41; overflow-y: auto; }
+.drawer-panel.is-open { transform: translateX(0); }
+
+.sheet-panel { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border);
+  border-radius: var(--r-panel-lg) var(--r-panel-lg) 0 0; padding: 14px 24px 28px; transform: translateY(100%);
+  transition: transform var(--ease); z-index: 41; max-height: 80vh; overflow-y: auto; }
+.sheet-panel.is-open { transform: translateY(0); }
+.sheet-handle { width: 36px; height: 4px; border-radius: 99px; background: var(--border-strong); margin: 0 auto 18px; }
+
+/* ---- popover / dropdown (anchored to their trigger, no backdrop) ---- */
+.popover-wrap { position: relative; display: inline-block; }
+.popover-panel { position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-panel); padding: 16px; width: 240px; opacity: 0; transform: translateY(-4px); pointer-events: none;
+  transition: opacity var(--ease), transform var(--ease); z-index: 20; }
+.popover-panel.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.popover-title { font-size: 12.5px; font-weight: 800; margin-bottom: 8px; }
+
+.dropdown-panel { position: absolute; top: calc(100% + 6px); left: 0; opacity: 0; transform: translateY(-4px); pointer-events: none;
+  transition: opacity var(--ease), transform var(--ease); z-index: 20; }
+.dropdown-panel.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ---- context menu (positioned at cursor via JS) ---- */
+.context-menu { position: fixed; opacity: 0; pointer-events: none; transform: scale(.97); transform-origin: top left;
+  transition: opacity .12s, transform .12s; z-index: 50; }
+.context-menu.is-open { opacity: 1; pointer-events: auto; transform: scale(1); }
+.context-zone { border: 1.5px dashed var(--border-strong); border-radius: var(--r-panel); padding: 30px 20px;
+  text-align: center; color: var(--ink-muted); font-size: 13px; font-weight: 700; user-select: none; }
+
 @media (max-width: 760px) {
   .toc { display: none; }
   .cta-banner { flex-direction: column; align-items: flex-start; }
@@ -1948,6 +2003,232 @@ textarea.field-input { resize:vertical; min-height:88px; }
    so they share one component with a different heading color. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
+  <h3 class="sub-title">Accordion</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Accordion — real expand/collapse</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div class="accordion" style="width:100%">
+        <div class="accordion-item is-open">
+          <button class="accordion-trigger" aria-expanded="true" data-accordion-trigger>Entry &amp; withdrawal<span class="chev">▾</span></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner">Entries close 48 hours before the first match. Withdrawals after seeding is published forfeit the entry fee.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-accordion-trigger>Format &amp; scoring<span class="chev">▾</span></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner">Best of 3 games to 21, rally point scoring. Knockout draw, no consolation bracket.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-accordion-trigger>Equipment<span class="chev">▾</span></button>
+          <div class="accordion-panel"><div class="accordion-panel-inner">Feather shuttles provided per game. Players bring their own rackets.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="accordion-item is-open"&gt;
+  &lt;button class="accordion-trigger" aria-expanded="true" data-accordion-trigger&gt;
+    Entry &amp; withdrawal&lt;span class="chev"&gt;▾&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-panel"&gt;&lt;div class="accordion-panel-inner"&gt;…&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.accordion-panel { max-height:0; overflow:hidden; transition:max-height .25s ease; }
+.accordion-item.is-open .accordion-panel { max-height:240px; }
+.accordion-item.is-open .accordion-trigger .chev { transform:rotate(180deg); }
+/* JS just toggles .is-open and flips aria-expanded -- the height
+   transition and chevron rotation are pure CSS off that one class. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Modal</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Modal — click to open, real overlay</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <button class="btn btn-primary" type="button" data-open-target="#demo-modal">Delete tournament</button>
+    </div>
+    <div class="demo-code"><pre>&lt;button class="btn btn-primary" type="button" data-open-target="#my-modal"&gt;Delete tournament&lt;/button&gt;
+
+&lt;div class="overlay-backdrop" data-close&gt;&lt;/div&gt;
+&lt;div class="modal-panel" id="my-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"&gt;
+  &lt;div class="overlay-head"&gt;
+    &lt;div class="overlay-title" id="modal-title"&gt;Delete this tournament?&lt;/div&gt;
+    &lt;button class="icon-btn" type="button" aria-label="Close" data-close&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="overlay-body"&gt;This can't be undone. 142 registered players will be notified.&lt;/div&gt;
+  &lt;div class="overlay-actions"&gt;
+    &lt;button class="btn btn-outline" type="button" data-close&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn-primary" type="button" data-close&gt;Delete&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+/* Closes on: the ✕ button, Cancel, backdrop click, or Escape --
+   all four wired through one shared handler (see the script at the
+   bottom of this page), not duplicated per component. Focus moves
+   to the panel's first focusable element on open. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Drawer</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Drawer — slides in from the edge</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <button class="btn btn-outline" type="button" data-open-target="#demo-drawer">Filter results</button>
+    </div>
+    <div class="demo-code"><pre>&lt;button class="btn btn-outline" type="button" data-open-target="#my-drawer"&gt;Filter results&lt;/button&gt;
+
+&lt;div class="overlay-backdrop" data-close&gt;&lt;/div&gt;
+&lt;div class="drawer-panel" id="my-drawer" role="dialog" aria-modal="true"&gt;
+  &lt;div class="overlay-head"&gt;
+    &lt;div class="overlay-title"&gt;Filters&lt;/div&gt;
+    &lt;button class="icon-btn" type="button" aria-label="Close" data-close&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+  …
+&lt;/div&gt;
+
+/* Same backdrop, same close mechanics as Modal -- only the panel's
+   own position/transform differ (slide from the right vs. scale
+   from center), so the two share the same JS untouched. */
+.drawer-panel { position:fixed; top:0; right:0; height:100%; width:min(360px, 88vw); transform:translateX(100%); }
+.drawer-panel.is-open { transform:translateX(0); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Bottom sheet</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Bottom sheet — mobile pattern</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <button class="btn btn-outline" type="button" data-open-target="#demo-sheet">Sort by</button>
+    </div>
+    <div class="demo-code"><pre>&lt;button class="btn btn-outline" type="button" data-open-target="#my-sheet"&gt;Sort by&lt;/button&gt;
+
+&lt;div class="overlay-backdrop" data-close&gt;&lt;/div&gt;
+&lt;div class="sheet-panel" id="my-sheet" role="dialog" aria-modal="true"&gt;
+  &lt;div class="sheet-handle"&gt;&lt;/div&gt;
+  &lt;div class="overlay-title"&gt;Sort by&lt;/div&gt;
+  …
+&lt;/div&gt;
+
+/* The mobile equivalent of Drawer -- slides up from the bottom edge
+   instead of in from the side. Same shared open/close JS again. */
+.sheet-panel { position:fixed; bottom:0; left:0; right:0; border-radius:var(--r-panel-lg) var(--r-panel-lg) 0 0;
+  transform:translateY(100%); }
+.sheet-panel.is-open { transform:translateY(0); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Popover</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Popover — click, closes on outside click</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="padding-bottom:180px">
+      <div class="popover-wrap">
+        <button class="btn btn-outline" type="button" data-popover-trigger="#demo-popover">Match stats</button>
+        <div class="popover-panel" id="demo-popover">
+          <div class="popover-title">Points on serve</div>
+          <div class="progress" style="margin-bottom:10px"><div class="progress-fill" style="width:62%"></div></div>
+          <div style="font-size:12px;color:var(--ink-muted)">62% · 8 of 13 rallies</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="popover-wrap"&gt;
+  &lt;button class="btn btn-outline" type="button" data-popover-trigger="#my-popover"&gt;Match stats&lt;/button&gt;
+  &lt;div class="popover-panel" id="my-popover"&gt;
+    &lt;div class="popover-title"&gt;Points on serve&lt;/div&gt;
+    …
+  &lt;/div&gt;
+&lt;/div&gt;
+
+/* No backdrop -- a popover closes when you click anywhere outside
+   its own wrapper, not behind a dedicated dimmed layer like Modal. */
+.popover-panel { position:absolute; top:calc(100% + 8px); left:0; opacity:0; pointer-events:none; }
+.popover-panel.is-open { opacity:1; pointer-events:auto; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Dropdown</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Dropdown — button + Menu ↑, same anchoring as Popover</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="padding-bottom:200px">
+      <div class="popover-wrap">
+        <button class="btn btn-outline" type="button" data-popover-trigger="#demo-dropdown">Sort ▾</button>
+        <div class="dropdown-panel" id="demo-dropdown">
+          <div class="menu" role="menu">
+            <button class="menu-item is-selected" role="menuitem" type="button">Soonest first <span class="check">✓</span></button>
+            <button class="menu-item" role="menuitem" type="button">Prize pool</button>
+            <button class="menu-item" role="menuitem" type="button">Draw size</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="popover-wrap"&gt;
+  &lt;button class="btn btn-outline" type="button" data-popover-trigger="#my-dropdown"&gt;Sort ▾&lt;/button&gt;
+  &lt;div class="dropdown-panel" id="my-dropdown"&gt;
+    &lt;div class="menu" role="menu"&gt;
+      &lt;button class="menu-item is-selected" role="menuitem" type="button"&gt;Soonest first ✓&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+/* A dropdown IS a popover -- same trigger/anchor/outside-click
+   mechanics -- that happens to contain a Menu ↑ instead of arbitrary
+   content. Not a separate component underneath the two class names. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Context menu</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Context menu — right-click the zone below</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div class="context-zone" data-context-target="#demo-context" style="width:100%">Right-click here</div>
+    </div>
+    <div class="context-menu" id="demo-context">
+      <div class="menu" role="menu">
+        <button class="menu-item" role="menuitem" type="button">View match</button>
+        <button class="menu-item" role="menuitem" type="button">Copy score link <span class="shortcut">⌘C</span></button>
+        <div class="menu-divider"></div>
+        <button class="menu-item is-danger" role="menuitem" type="button">Report an issue</button>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="context-zone" data-context-target="#my-context"&gt;Right-click here&lt;/div&gt;
+
+&lt;div class="context-menu" id="my-context"&gt;
+  &lt;div class="menu" role="menu"&gt;
+    &lt;button class="menu-item" role="menuitem" type="button"&gt;View match&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+/* Same Menu ↑ again, positioned at the cursor's (clientX, clientY) on
+   the browser's own contextmenu event rather than the default
+   right-click menu -- e.preventDefault() on that event is what swaps
+   one for the other. */
+.context-menu { position:fixed; opacity:0; pointer-events:none; transform:scale(.97); transform-origin:top left; }
+.context-menu.is-open { opacity:1; pointer-events:auto; transform:scale(1); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <!-- shared backdrop + the three viewport-anchored overlay panels -->
+  <div class="overlay-backdrop" data-close></div>
+  <div class="modal-panel" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title">
+    <div class="overlay-head">
+      <div class="overlay-title" id="demo-modal-title">Delete this tournament?</div>
+      <button class="icon-btn" type="button" aria-label="Close" data-close>✕</button>
+    </div>
+    <div class="overlay-body">This can't be undone. 142 registered players will be notified.</div>
+    <div class="overlay-actions">
+      <button class="btn btn-outline" type="button" data-close>Cancel</button>
+      <button class="btn btn-primary" type="button" data-close>Delete</button>
+    </div>
+  </div>
+  <div class="drawer-panel" id="demo-drawer" role="dialog" aria-modal="true" aria-labelledby="demo-drawer-title">
+    <div class="overlay-head">
+      <div class="overlay-title" id="demo-drawer-title">Filters</div>
+      <button class="icon-btn" type="button" aria-label="Close" data-close>✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
+      <label class="check-row"><input type="checkbox" class="check-input" checked><span class="check-box"></span><span class="check-label">Bangalore</span></label>
+      <label class="check-row"><input type="checkbox" class="check-input"><span class="check-box"></span><span class="check-label">Pune</span></label>
+      <button class="btn btn-primary" type="button" data-close style="margin-top:8px">Apply filters</button>
+    </div>
+  </div>
+  <div class="sheet-panel" id="demo-sheet" role="dialog" aria-modal="true" aria-labelledby="demo-sheet-title">
+    <div class="sheet-handle"></div>
+    <div class="overlay-title" id="demo-sheet-title" style="margin-bottom:14px">Sort by</div>
+    <div class="menu" role="menu" style="width:100%">
+      <button class="menu-item is-selected" role="menuitem" type="button" data-close>Soonest first ✓</button>
+      <button class="menu-item" role="menuitem" type="button" data-close>Prize pool</button>
+      <button class="menu-item" role="menuitem" type="button" data-close>Draw size</button>
+    </div>
+  </div>
+
 </section>
 
 <section class="block" id="status">
@@ -2173,6 +2454,83 @@ textarea.field-input { resize:vertical; min-height:88px; }
         btn.textContent = ok ? 'Copied ✓' : 'Select & copy';
         setTimeout(function () { btn.textContent = prev; }, 1100);
       });
+    });
+  });
+
+  /* ---- accordion ---- */
+  document.querySelectorAll('[data-accordion-trigger]').forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var item = trigger.closest('.accordion-item');
+      var open = item.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* ---- modal / drawer / bottom sheet: one shared backdrop, shared open/close ---- */
+  var overlayBackdrop = document.querySelector('.overlay-backdrop');
+  function openOverlayPanel(panel) {
+    panel.classList.add('is-open');
+    if (overlayBackdrop) overlayBackdrop.classList.add('is-open');
+    var focusable = panel.querySelector('button, [href], input, select, textarea, [tabindex]');
+    if (focusable) focusable.focus();
+  }
+  function closeAllOverlayPanels() {
+    document.querySelectorAll('.modal-panel.is-open, .drawer-panel.is-open, .sheet-panel.is-open').forEach(function (p) {
+      p.classList.remove('is-open');
+    });
+    if (overlayBackdrop) overlayBackdrop.classList.remove('is-open');
+  }
+  document.querySelectorAll('[data-open-target]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = document.querySelector(btn.getAttribute('data-open-target'));
+      if (panel) openOverlayPanel(panel);
+    });
+  });
+  document.querySelectorAll('.modal-panel [data-close], .drawer-panel [data-close], .sheet-panel [data-close]').forEach(function (el) {
+    el.addEventListener('click', closeAllOverlayPanels);
+  });
+  if (overlayBackdrop) overlayBackdrop.addEventListener('click', closeAllOverlayPanels);
+
+  /* ---- popover / dropdown: anchored to trigger, closes on outside click ---- */
+  document.querySelectorAll('[data-popover-trigger]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var panel = document.querySelector(btn.getAttribute('data-popover-trigger'));
+      var wasOpen = panel.classList.contains('is-open');
+      document.querySelectorAll('.popover-panel.is-open, .dropdown-panel.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+      if (!wasOpen) panel.classList.add('is-open');
+    });
+  });
+
+  /* ---- context menu: right-click a zone, position at the cursor ---- */
+  document.querySelectorAll('[data-context-target]').forEach(function (zone) {
+    zone.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      var menu = document.querySelector(zone.getAttribute('data-context-target'));
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var mw = 220, mh = 180; // rough estimate, enough to keep the menu on-screen
+      menu.style.left = Math.min(e.clientX, vw - mw - 12) + 'px';
+      menu.style.top = Math.min(e.clientY, vh - mh - 12) + 'px';
+      document.querySelectorAll('.context-menu.is-open').forEach(function (m) { m.classList.remove('is-open'); });
+      menu.classList.add('is-open');
+    });
+  });
+
+  /* ---- one shared outside-click + Escape handler for popover/dropdown/context-menu ---- */
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.popover-panel.is-open, .dropdown-panel.is-open').forEach(function (panel) {
+      var wrap = panel.closest('.popover-wrap');
+      if (wrap && !wrap.contains(e.target)) panel.classList.remove('is-open');
+    });
+    document.querySelectorAll('.context-menu.is-open').forEach(function (m) {
+      if (!m.contains(e.target)) m.classList.remove('is-open');
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    closeAllOverlayPanels();
+    document.querySelectorAll('.popover-panel.is-open, .dropdown-panel.is-open, .context-menu.is-open').forEach(function (p) {
+      p.classList.remove('is-open');
     });
   });
 })();
