@@ -240,10 +240,11 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   box-shadow: var(--focus-ring);
 }
 html { scroll-behavior: smooth; }
+html { overflow-x: hidden; }
 body {
   margin: 0; background: var(--surface); color: var(--ink);
   font-family: var(--font-body); -webkit-font-smoothing: antialiased;
-  font-size: 15px; line-height: 1.5;
+  font-size: 15px; line-height: 1.5; overflow-x: hidden;
 }
 a { color: var(--ink); text-decoration: none; }
 a:hover { color: var(--lime-strong); }
@@ -268,6 +269,10 @@ code { font-family: var(--font-mono); }
 .toc { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
 .toc a { font-size: 13px; font-weight: 700; color: var(--ink-muted); padding: 8px 12px; border-radius: var(--r-pill); }
 .toc a:hover { color: var(--ink); background: var(--surface-fill); }
+.topbar-download { font-family: var(--font-body); font-size: 12.5px; font-weight: 800; padding: 9px 14px;
+  border-radius: var(--r-pill); border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink);
+  cursor: pointer; white-space: nowrap; }
+.topbar-download:hover { border-color: var(--ink); background: var(--surface-fill); }
 
 /* ---- hero / intro ---- */
 .intro { padding: 56px 0 40px; border-bottom: 1px solid var(--border); background: var(--surface-subtle); }
@@ -803,6 +808,7 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
       <a href="#components">Components</a>
       <a href="#status">Status</a>
     </nav>
+    <button class="topbar-download" id="download-md" type="button" title="Download this page as a Markdown file">↓ .md</button>
     <div class="seg-wrap" id="theme-toggle" role="group" aria-label="Theme">
       <span class="seg" tabindex="0" role="button" data-set-theme="light">Light</span>
       <span class="seg" tabindex="0" role="button" data-set-theme="dark">Dark</span>
@@ -2782,6 +2788,141 @@ textarea.field-input { resize:vertical; min-height:88px; }
       refreshSelection();
     });
   }
+
+  /* ---- .md export: generated live from the DOM, not a hand-maintained
+     second copy -- so it can never say something the page itself doesn't. ---- */
+  function mdEscape(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+
+  function walkNode(el, out) {
+    if (el.tagName === 'H3' && el.classList.contains('sub-title')) {
+      out.push('### ' + mdEscape(el.textContent), ''); return;
+    }
+    if (el.classList.contains('callout')) {
+      var clone = el.cloneNode(true);
+      var pre = clone.querySelector('pre');
+      if (pre) pre.remove();
+      out.push('> ' + mdEscape(clone.textContent));
+      if (el.querySelector('pre')) {
+        out.push('', '```', el.querySelector('pre').textContent.replace(/\n+$/, ''), '```');
+      }
+      out.push(''); return;
+    }
+    if (el.classList.contains('swatch-grid')) {
+      var swatchEls = el.querySelectorAll('.swatch');
+      if (swatchEls.length) {
+        swatchEls.forEach(function (sw) {
+          var name = mdEscape(sw.querySelector('.name') && sw.querySelector('.name').textContent);
+          var v = mdEscape(sw.querySelector('.var') && sw.querySelector('.var').textContent);
+          var hex = mdEscape(sw.querySelector('.hex') && sw.querySelector('.hex').textContent);
+          var role = mdEscape(sw.querySelector('.role') && sw.querySelector('.role').textContent);
+          out.push('- **' + name + '** `' + v + '` — `' + hex + '`' + (role ? ' — ' + role : ''));
+        });
+      } else {
+        // Typography > Families reuses this class purely for its grid layout,
+        // wrapping .card samples instead of .swatch tokens.
+        el.querySelectorAll('.card').forEach(function (c) {
+          var sample = c.querySelector('.card-body > div');
+          var meta = c.querySelector('.card-meta');
+          out.push('- **' + mdEscape(sample && sample.textContent) + '** — ' + mdEscape(meta && meta.textContent));
+        });
+      }
+      out.push(''); return;
+    }
+    if (el.hasAttribute('data-type-scale')) {
+      out.push('| Role | Spec |', '|---|---|');
+      el.querySelectorAll('.type-row').forEach(function (row) {
+        var role = mdEscape(row.querySelector('.role') && row.querySelector('.role').textContent);
+        var spec = mdEscape(row.querySelector('.spec') && row.querySelector('.spec').textContent);
+        out.push('| ' + role + ' | `' + spec + '` |');
+      });
+      out.push(''); return;
+    }
+    if (el.classList.contains('scale-list')) {
+      el.querySelectorAll('.scale-item .label').forEach(function (l) { out.push('- `' + mdEscape(l.textContent) + '`'); });
+      out.push(''); return;
+    }
+    if (el.classList.contains('radius-grid')) {
+      el.querySelectorAll('.radius-item .label').forEach(function (l) { out.push('- `' + mdEscape(l.textContent) + '`'); });
+      out.push(''); return;
+    }
+    if (el.classList.contains('glyph-grid')) {
+      el.querySelectorAll('.glyph').forEach(function (g) {
+        var gl = mdEscape(g.querySelector('.g') && g.querySelector('.g').textContent);
+        var n = mdEscape(g.querySelector('.n') && g.querySelector('.n').textContent);
+        out.push('- ' + gl + ' — ' + n);
+      });
+      out.push(''); return;
+    }
+    if (el.classList.contains('demo')) {
+      var title = mdEscape(el.querySelector('.demo-title') && el.querySelector('.demo-title').textContent);
+      var code = el.querySelector('.demo-code pre');
+      out.push('#### ' + title, '');
+      if (code) out.push('```html', code.textContent.replace(/\n+$/, ''), '```', '');
+      return;
+    }
+    if (el.classList.contains('road-list')) {
+      el.querySelectorAll('.road-row').forEach(function (row) {
+        var n = mdEscape(row.querySelector('.road-n') && row.querySelector('.road-n').textContent);
+        var b = mdEscape(row.querySelector('.road-body b') && row.querySelector('.road-body b').textContent);
+        var pill = mdEscape(row.querySelector('.road-pill') && row.querySelector('.road-pill').textContent);
+        var p = mdEscape(row.querySelector('.road-body p') && row.querySelector('.road-body p').textContent);
+        out.push('- **#' + n + ' ' + b + '** — _' + pill + '_  ');
+        out.push('  ' + p, '');
+      });
+      return;
+    }
+    if (el.classList.contains('cta-banner')) {
+      var b2 = el.querySelector('b'), p2 = el.querySelector('p');
+      out.push('> **' + mdEscape(b2 && b2.textContent) + '**' + (p2 ? ' — ' + mdEscape(p2.textContent) : ''), '');
+      return;
+    }
+  }
+
+  function generateMarkdown() {
+    var out = [];
+    out.push('# Rallo Design System', '');
+    out.push('_Exported from `design-system.html`, generated live from the page rather than kept as a separate hand-maintained file -- it reflects exactly what the page shows at export time, nothing more, nothing stale. Source of truth: `Rallo.dc.html`._', '');
+
+    var intro = document.querySelector('.intro .wrap');
+    if (intro) {
+      var lede = intro.querySelector('.lede');
+      if (lede) out.push(mdEscape(lede.textContent), '');
+      intro.querySelectorAll('.callouts .callout').forEach(function (c) {
+        var b = c.querySelector('b'), span = c.querySelector('span');
+        out.push('- **' + mdEscape(b && b.textContent) + '** — ' + mdEscape(span && span.textContent));
+      });
+      out.push('');
+    }
+
+    document.querySelectorAll('section.block').forEach(function (section) {
+      var h2 = section.querySelector(':scope > .block-head .block-title');
+      var desc = section.querySelector(':scope > .block-head .block-desc');
+      out.push('---', '');
+      if (h2) out.push('## ' + mdEscape(h2.textContent), '');
+      if (desc) out.push(mdEscape(desc.textContent), '');
+      [...section.children].forEach(function (child) {
+        if (child.classList.contains('block-head')) return;
+        walkNode(child, out);
+      });
+    });
+
+    return out.join('\n');
+  }
+
+  function downloadMarkdown() {
+    var md = generateMarkdown();
+    var blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'rallo-design-system.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  var downloadBtn = document.getElementById('download-md');
+  if (downloadBtn) downloadBtn.addEventListener('click', downloadMarkdown);
 })();
 </script>
 </body>
