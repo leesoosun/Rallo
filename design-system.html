@@ -13,7 +13,7 @@
 <meta name="description" content="Design tokens and component reference for Rallo — colors, typography, spacing and copyable component markup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,100..900;1,100..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    TOKENS
@@ -127,12 +127,9 @@
   --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4.5px var(--lime);
 
   /* ---- type ---- */
-  --font-display: 'Archivo Black', sans-serif;
-  --font-body: Manrope, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;  /* weight 800 -- the family has no true 900/Black cut */
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: ui-monospace, Menlo, monospace;
-  --font-archivo: Archivo, sans-serif;  /* full variable family (100-900, roman + italic) --
-                                            available, not yet assigned to a role. See
-                                            Typography > Archivo family ↓ */
 
   /* ---- radius ---- */
   --r-pill: 99px;
@@ -267,7 +264,7 @@ code { font-family: var(--font-mono); }
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo-mark { width: 26px; height: 26px; border-radius: 8px; background: var(--lime); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .logo-mark i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--ink-on-accent); display: block; }
-.logo-word { font-family: var(--font-display); font-size: 19px; letter-spacing: .02em; text-transform: uppercase; }
+.logo-word { font-family: var(--font-display); font-weight: 800; font-size: 19px; letter-spacing: .02em; text-transform: uppercase; }
 .logo-tag { font-size: 12px; font-weight: 700; color: var(--ink-muted); padding-left: 10px; margin-left: 2px; border-left: 1px solid var(--border-strong); }
 .toc { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
 .toc a { font-size: 13px; font-weight: 700; color: var(--ink-muted); padding: 8px 12px; border-radius: var(--r-pill); }
@@ -281,7 +278,7 @@ code { font-family: var(--font-mono); }
 .intro { padding: 56px 0 40px; border-bottom: 1px solid var(--border); background: var(--surface-subtle); }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; color: var(--ink-muted); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 7px 13px; background: var(--surface); }
 .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); display: block; }
-h1.page-title { font-family: var(--font-display); font-size: clamp(38px, 5.4vw, 64px); text-transform: uppercase; line-height: .98; margin: 18px 0 0; }
+h1.page-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(38px, 5.4vw, 64px); text-transform: uppercase; line-height: .98; margin: 18px 0 0; }
 .intro p.lede { font-size: 17px; color: var(--ink-soft); max-width: 700px; margin: 14px 0 0; line-height: 1.55; }
 .intro .callouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 28px; }
 .callout { border: 1px solid var(--border); border-radius: var(--r-panel); padding: 16px 18px; background: var(--surface); }
@@ -292,7 +289,7 @@ h1.page-title { font-family: var(--font-display); font-size: clamp(38px, 5.4vw, 
 section.block { padding: 56px 0; border-bottom: 1px solid var(--border); scroll-margin-top: 76px; }
 section.block:last-of-type { border-bottom: none; }
 .block-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
-h2.block-title { font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 42px); text-transform: uppercase; margin: 0; line-height: 1; }
+h2.block-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.6vw, 42px); text-transform: uppercase; margin: 0; line-height: 1; }
 .block-desc { font-size: 14.5px; color: var(--ink-muted); max-width: 480px; margin: 0; }
 h3.sub-title { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 36px 0 16px; }
 h3.sub-title:first-child { margin-top: 0; }
@@ -399,10 +396,10 @@ h3.sub-title:first-child { margin-top: 0; }
 .card:hover { border-color: var(--ink); transform: translateY(-2px); }
 .card-banner { height: 84px; background: repeating-linear-gradient(135deg, var(--surface-fill) 0 12px, #EAEAE3 12px 24px); display: flex; align-items: flex-start; padding: 12px; }
 .card-body { padding: 18px 20px 20px; }
-.card-name { font-family: var(--font-display); font-size: 22px; text-transform: uppercase; line-height: 1.05; }
+.card-name { font-family: var(--font-display); font-weight: 800; font-size: 22px; text-transform: uppercase; line-height: 1.05; }
 .card-meta { font-size: 12.5px; color: var(--ink-muted); font-weight: 600; margin-top: 6px; }
 .card-stats { display: flex; gap: 22px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft); }
-.stat b { font-family: var(--font-display); font-size: 22px; display: block; line-height: 1; }
+.stat b { font-family: var(--font-display); font-weight: 800; font-size: 22px; display: block; line-height: 1; }
 .stat span { font-size: 10px; font-weight: 800; color: var(--ink-muted); letter-spacing: .06em; }
 
 .row { border: 1px solid var(--border); border-radius: var(--r-row); padding: 14px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; cursor: pointer; transition: border-color var(--ease); }
@@ -412,11 +409,11 @@ h3.sub-title:first-child { margin-top: 0; }
 .chip-tag { font-size: 12.5px; font-weight: 700; padding: 8px 12px; border-radius: var(--r-control); background: var(--surface-fill); display: inline-block; }
 
 .empty { border: 1px dashed var(--border-strong); border-radius: var(--r-panel); padding: 44px 24px; text-align: center; }
-.empty b { font-family: var(--font-display); font-size: 24px; text-transform: uppercase; }
+.empty b { font-family: var(--font-display); font-weight: 800; font-size: 24px; text-transform: uppercase; }
 .empty p { font-size: 13.5px; color: var(--ink-soft); margin: 8px 0 0; }
 
 .cta-banner { border: 1px solid var(--border); border-radius: var(--r-panel-lg); padding: 28px; background: var(--surface-dark); color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-.cta-banner b { font-family: var(--font-display); font-size: 26px; text-transform: uppercase; display: block; }
+.cta-banner b { font-family: var(--font-display); font-weight: 800; font-size: 26px; text-transform: uppercase; display: block; }
 .cta-banner p { font-size: 13.5px; color: var(--on-dark-faint); margin: 8px 0 0; max-width: 420px; }
 
 .glyph-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
@@ -703,7 +700,7 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
   width: min(420px, 90vw); transition: opacity var(--ease), transform var(--ease); z-index: 41; }
 .modal-panel.is-open { opacity: 1; pointer-events: auto; transform: translate(-50%,-50%) scale(1); }
 .overlay-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
-.overlay-title { font-family: var(--font-display); font-size: 22px; text-transform: uppercase; }
+.overlay-title { font-family: var(--font-display); font-weight: 800; font-size: 22px; text-transform: uppercase; }
 .overlay-body { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; margin: 8px 0 20px; }
 .overlay-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
@@ -766,7 +763,7 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
 
 /* ---- avatar ---- */
 .avatar { border-radius: 50%; background: var(--ink); color: var(--surface); display: inline-flex; align-items: center;
-  justify-content: center; font-family: var(--font-display); font-weight: 400; flex-shrink: 0; position: relative; letter-spacing: .02em; }
+  justify-content: center; font-family: var(--font-display); font-weight: 800; flex-shrink: 0; position: relative; letter-spacing: .02em; }
 .avatar-sm { width: 28px; height: 28px; font-size: 11px; }
 .avatar-md { width: 40px; height: 40px; font-size: 15px; }
 .avatar-lg { width: 56px; height: 56px; font-size: 20px; }
@@ -901,94 +898,86 @@ Component
 
 <section class="block" id="type">
   <div class="block-head">
-    <div><h2 class="block-title">Typography</h2><p class="block-desc">Two families, three weights, one scale. Click a row to copy its CSS.</p></div>
+    <div><h2 class="block-title">Typography</h2><p class="block-desc">One family, full weight range, one scale. Display and body used to be two separate typefaces (Archivo Black + Manrope) — both now draw from Plus Jakarta Sans, at different weights, for one font request instead of two. Click a row to copy its CSS.</p></div>
   </div>
 
-  <h3 class="sub-title">Families</h3>
+  <h3 class="sub-title">Family</h3>
   <div class="swatch-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-    <div class="card" style="cursor:default" onmouseenter="" ><div class="card-body"><div style="font-family:'Archivo Black',sans-serif;font-size:38px;text-transform:uppercase;line-height:1">Archivo Black</div><div class="card-meta">Display — headlines, scores, stat numerals. Always uppercase, tight leading.</div></div></div>
-    <div class="card" style="cursor:default"><div class="card-body"><div style="font-family:Manrope,sans-serif;font-size:32px;font-weight:800">Manrope</div><div class="card-meta">UI &amp; body — everything else. Weights 800 / 700 / 600 only; no regular 400 in the live UI.</div></div></div>
+    <div class="card" style="cursor:default" onmouseenter="" ><div class="card-body"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:38px;text-transform:uppercase;line-height:1">Plus Jakarta Sans</div><div class="card-meta">Display — headlines, scores, stat numerals. Weight 800 (no true 900/Black cut exists), always uppercase, tight leading.</div></div></div>
+    <div class="card" style="cursor:default"><div class="card-body"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:700">Plus Jakarta Sans</div><div class="card-meta">UI &amp; body — everything else. Same family, weights 800 / 700 / 600.</div></div></div>
     <div class="card" style="cursor:default"><div class="card-body"><div style="font-family:ui-monospace,Menlo,monospace;font-size:26px">Mono 09:12</div><div class="card-meta">System monospace — live clocks, court codes, code samples on this page.</div></div></div>
   </div>
 
   <h3 class="sub-title">Scale</h3>
   <div data-type-scale>
-    <div class="type-row" data-copy="font-family:'Archivo Black',sans-serif;font-size:clamp(38px,6vw,72px);text-transform:uppercase;line-height:.96" style="--sample-family:'Archivo Black',sans-serif;--sample-size:44px;--sample-tt:uppercase">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(38px,6vw,72px);text-transform:uppercase;line-height:.96" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-weight:800;--sample-size:44px;--sample-tt:uppercase">
       <div class="type-sample">Play. Compete.</div>
-      <div class="type-meta"><div class="role">Hero title</div><div class="spec">Archivo Black · clamp(38–72px) · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Hero title</div><div class="spec">Plus Jakarta Sans 800 · clamp(38–72px) · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:'Archivo Black',sans-serif;font-size:clamp(28px,3.6vw,42px);text-transform:uppercase" style="--sample-family:'Archivo Black',sans-serif;--sample-size:34px;--sample-tt:uppercase">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(28px,3.6vw,42px);text-transform:uppercase" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-weight:800;--sample-size:34px;--sample-tt:uppercase">
       <div class="type-sample">Section title</div>
-      <div class="type-meta"><div class="role">Page / section H2</div><div class="spec">Archivo Black · clamp(28–42px) · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Page / section H2</div><div class="spec">Plus Jakarta Sans 800 · clamp(28–42px) · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:'Archivo Black',sans-serif;font-size:26px;text-transform:uppercase" style="--sample-family:'Archivo Black',sans-serif;--sample-size:26px;--sample-tt:uppercase">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;text-transform:uppercase" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-weight:800;--sample-size:26px;--sample-tt:uppercase">
       <div class="type-sample">Card title</div>
-      <div class="type-meta"><div class="role">Card / row H3</div><div class="spec">Archivo Black · 26px · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Card / row H3</div><div class="spec">Plus Jakarta Sans 800 · 26px · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:'Archivo Black',sans-serif;font-size:22px" style="--sample-family:'Archivo Black',sans-serif;--sample-size:22px">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-weight:800;--sample-size:22px">
       <div class="type-sample">18–16</div>
-      <div class="type-meta"><div class="role">Score / stat numeral</div><div class="spec">Archivo Black · 22px</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Score / stat numeral</div><div class="spec">Plus Jakarta Sans 800 · 22px</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Manrope,sans-serif;font-size:17px;color:#55554F;font-weight:600" style="--sample-family:Manrope,sans-serif;--sample-size:17px;--sample-weight:600">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;color:#55554F;font-weight:600" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:17px;--sample-weight:600">
       <div class="type-sample" style="color:var(--ink-soft)">Lede paragraph text sits here.</div>
-      <div class="type-meta"><div class="role">Lede / intro copy</div><div class="spec">Manrope 600 · 17px</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Lede / intro copy</div><div class="spec">Plus Jakarta Sans 600 · 17px</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Manrope,sans-serif;font-size:15px;font-weight:700" style="--sample-family:Manrope,sans-serif;--sample-size:15px;--sample-weight:700">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:15px;--sample-weight:700">
       <div class="type-sample">Body / label text</div>
-      <div class="type-meta"><div class="role">Body default</div><div class="spec">Manrope 700 · 15px</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Body default</div><div class="spec">Plus Jakarta Sans 700 · 15px</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Manrope,sans-serif;font-size:12.5px;font-weight:600;color:#8A8A82" style="--sample-family:Manrope,sans-serif;--sample-size:12.5px;--sample-weight:600">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:600;color:#8A8A82" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:12.5px;--sample-weight:600">
       <div class="type-sample" style="color:var(--ink-muted)">Meta / caption text</div>
-      <div class="type-meta"><div class="role">Meta, timestamps</div><div class="spec">Manrope 600 · 12.5px</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Meta, timestamps</div><div class="spec">Plus Jakarta Sans 600 · 12.5px</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Manrope,sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase" style="--sample-family:Manrope,sans-serif;--sample-size:10.5px;--sample-weight:800;--sample-ls:.07em;--sample-tt:uppercase">
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:10.5px;--sample-weight:800;--sample-ls:.07em;--sample-tt:uppercase">
       <div class="type-sample">Eyebrow label</div>
-      <div class="type-meta"><div class="role">Eyebrow / micro-label</div><div class="spec">Manrope 800 · 10.5px · +.07em</div><div class="type-copy">Click to copy CSS ↗</div></div>
+      <div class="type-meta"><div class="role">Eyebrow / micro-label</div><div class="spec">Plus Jakarta Sans 800 · 10.5px · +.07em</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
   </div>
 
-  <h3 class="sub-title">Archivo family</h3>
-  <p class="block-desc" style="margin-bottom:16px">The full variable family, loaded but not yet assigned to a role (<code>--font-archivo</code>) — --font-display stays 'Archivo Black' as tested. Click a row to copy its CSS.</p>
+  <h3 class="sub-title">Full family</h3>
+  <p class="block-desc" style="margin-bottom:16px">The complete variable range loaded by <code>--font-body</code> / <code>--font-display</code> — every weight below is already available with no extra font request. Click a row to copy its CSS.</p>
   <div data-type-scale>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:100" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:100">
-      <div class="type-sample">Archivo Thin</div>
-      <div class="type-meta"><div class="role">100 · Thin</div><div class="spec">Archivo 100</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:200" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:200">
+      <div class="type-sample">Jakarta ExtraLight</div>
+      <div class="type-meta"><div class="role">200 · ExtraLight</div><div class="spec">Plus Jakarta Sans 200</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:200" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:200">
-      <div class="type-sample">Archivo ExtraLight</div>
-      <div class="type-meta"><div class="role">200 · ExtraLight</div><div class="spec">Archivo 200</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:300" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:300">
+      <div class="type-sample">Jakarta Light</div>
+      <div class="type-meta"><div class="role">300 · Light</div><div class="spec">Plus Jakarta Sans 300</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:300" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:300">
-      <div class="type-sample">Archivo Light</div>
-      <div class="type-meta"><div class="role">300 · Light</div><div class="spec">Archivo 300</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:400" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:400">
+      <div class="type-sample">Jakarta Regular</div>
+      <div class="type-meta"><div class="role">400 · Regular</div><div class="spec">Plus Jakarta Sans 400</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:400" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:400">
-      <div class="type-sample">Archivo Regular</div>
-      <div class="type-meta"><div class="role">400 · Regular</div><div class="spec">Archivo 400</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:500" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:500">
+      <div class="type-sample">Jakarta Medium</div>
+      <div class="type-meta"><div class="role">500 · Medium</div><div class="spec">Plus Jakarta Sans 500</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:500" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:500">
-      <div class="type-sample">Archivo Medium</div>
-      <div class="type-meta"><div class="role">500 · Medium</div><div class="spec">Archivo 500</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:600">
+      <div class="type-sample">Jakarta SemiBold</div>
+      <div class="type-meta"><div class="role">600 · SemiBold</div><div class="spec">Plus Jakarta Sans 600</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:600" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:600">
-      <div class="type-sample">Archivo SemiBold</div>
-      <div class="type-meta"><div class="role">600 · SemiBold</div><div class="spec">Archivo 600</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:700">
+      <div class="type-sample">Jakarta Bold</div>
+      <div class="type-meta"><div class="role">700 · Bold</div><div class="spec">Plus Jakarta Sans 700</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:700" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:700">
-      <div class="type-sample">Archivo Bold</div>
-      <div class="type-meta"><div class="role">700 · Bold</div><div class="spec">Archivo 700</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:800">
+      <div class="type-sample">Jakarta ExtraBold</div>
+      <div class="type-meta"><div class="role">800 · ExtraBold — display role</div><div class="spec">Plus Jakarta Sans 800</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:800" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:800">
-      <div class="type-sample">Archivo ExtraBold</div>
-      <div class="type-meta"><div class="role">800 · ExtraBold</div><div class="spec">Archivo 800</div><div class="type-copy">Click to copy CSS ↗</div></div>
-    </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:900" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:900">
-      <div class="type-sample">Archivo Black</div>
-      <div class="type-meta"><div class="role">900 · Black</div><div class="spec">Archivo 900</div><div class="type-copy">Click to copy CSS ↗</div></div>
-    </div>
-    <div class="type-row" data-copy="font-family:Archivo,sans-serif;font-weight:700;font-style:italic" style="--sample-family:Archivo,sans-serif;--sample-size:22px;--sample-weight:700;--sample-style:italic">
-      <div class="type-sample">Archivo Bold Italic</div>
-      <div class="type-meta"><div class="role">700 · Bold, italic</div><div class="spec">Archivo 700 italic</div><div class="type-copy">Click to copy CSS ↗</div></div>
+    <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-style:italic" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:700;--sample-style:italic">
+      <div class="type-sample">Jakarta Bold Italic</div>
+      <div class="type-meta"><div class="role">700 · Bold, italic</div><div class="spec">Plus Jakarta Sans 700 italic</div><div class="type-copy">Click to copy CSS ↗</div></div>
     </div>
   </div>
 </section>
@@ -1208,8 +1197,8 @@ Component
 .card { border:1px solid var(--border); border-radius:var(--r-panel-lg);
   overflow:hidden; cursor:pointer; transition:.18s; }
 .card:hover { border-color:var(--ink); transform:translateY(-2px); }
-.card-name { font-family:var(--font-display); font-size:22px; text-transform:uppercase; }
-.stat b { font-family:var(--font-display); font-size:22px; display:block; }
+.card-name { font-family:var(--font-display); font-weight:800; font-size:22px; text-transform:uppercase; }
+.stat b { font-family:var(--font-display); font-weight:800; font-size:22px; display:block; }
 .stat span { font-size:10px; font-weight:800; color:var(--ink-muted); letter-spacing:.06em; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
@@ -1218,7 +1207,7 @@ Component
     <div class="demo-stage column">
       <div class="row">
         <div style="display:flex;flex-direction:column;gap:7px;min-width:80px"><span class="badge badge-live">LIVE</span><span class="row-court">COURT 03</span></div>
-        <div style="flex:1;min-width:200px"><div style="display:flex;justify-content:space-between"><span style="font-weight:800">Rahul Kumar</span><span style="font-family:'Archivo Black',sans-serif;font-size:22px">18</span></div><div style="display:flex;justify-content:space-between;margin-top:5px"><span style="font-weight:800">Arjun Singh</span><span style="font-family:'Archivo Black',sans-serif;font-size:22px;color:var(--ink-faint)">16</span></div></div>
+        <div style="flex:1;min-width:200px"><div style="display:flex;justify-content:space-between"><span style="font-weight:800">Rahul Kumar</span><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px">18</span></div><div style="display:flex;justify-content:space-between;margin-top:5px"><span style="font-weight:800">Arjun Singh</span><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;color:var(--ink-faint)">16</span></div></div>
       </div>
     </div>
     <div class="demo-code"><pre>&lt;div class="row"&gt;
@@ -1229,11 +1218,11 @@ Component
   &lt;div style="flex:1;min-width:200px"&gt;
     &lt;div style="display:flex;justify-content:space-between"&gt;
       &lt;span style="font-weight:800"&gt;Rahul Kumar&lt;/span&gt;
-      &lt;span style="font-family:'Archivo Black',sans-serif;font-size:22px"&gt;18&lt;/span&gt;
+      &lt;span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px"&gt;18&lt;/span&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;justify-content:space-between;margin-top:5px"&gt;
       &lt;span style="font-weight:800"&gt;Arjun Singh&lt;/span&gt;
-      &lt;span style="font-family:'Archivo Black',sans-serif;font-size:22px;color:var(--ink-faint)"&gt;16&lt;/span&gt;
+      &lt;span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;color:var(--ink-faint)"&gt;16&lt;/span&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -2414,7 +2403,7 @@ textarea.field-input { resize:vertical; min-height:88px; }
    in this product, and a placeholder headshot would look more real
    than the data actually is. Rallo already uses this same honesty
    rule for every other "photo" slot on the live site. */
-.avatar { border-radius:50%; background:var(--ink); color:var(--surface); font-family:var(--font-display); }
+.avatar { border-radius:50%; background:var(--ink); color:var(--surface); font-family:var(--font-display); font-weight:800; }
 .avatar-group .avatar { border:2px solid var(--surface); margin-left:-10px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
