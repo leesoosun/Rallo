@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  try {
+    var t = localStorage.getItem('rallo-ds-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
 <title>Rallo Design System</title>
 <meta name="description" content="Design tokens and component reference for Rallo — colors, typography, spacing and copyable component markup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,40 +24,76 @@
    values. Change a value here and everything downstream updates.
    ============================================================ */
 :root {
-  /* ---- ink (text & structure) ---- */
-  --ink: #0A0A0A;
-  --ink-soft: #55554F;    /* secondary body copy */
-  --ink-muted: #8A8A82;   /* labels, meta, captions */
-  --ink-faint: #B4B4AC;   /* trailing scores, disabled text */
+  /* ================================================================
+     PRIMITIVES — raw values, no meaning attached. Never used directly
+     in a component; only ever referenced by a semantic token below.
+     ================================================================ */
+  --n-0:   #FFFFFF;
+  --n-25:  #FAFAF7;
+  --n-50:  #F4F4EF;
+  --n-100: #EFEFE9;
+  --n-300: #B4B4AC;
+  --n-500: #8A8A82;
+  --n-650: #9A9A92;   /* dark-theme muted text */
+  --n-700: #55554F;
+  --n-800: #C9C7BE;   /* dark-theme soft text */
+  --n-850: #66655F;   /* dark-theme faint text */
+  --n-900: #141412;   /* dark-theme card / raised-once surface */
+  --n-925: #1C1C19;   /* dark-theme raised-twice surface (panels, "always-dark" chips) */
+  --n-950: #0A0A0A;   /* near-black */
+  --n-white: #F5F5F0; /* dark-theme primary text — warm off-white, not pure #fff */
+
+  --g-100: #EDF4D8;   /* lime wash, light */
+  --g-300: #C3E668;   /* on-dark accent text/links */
+  --g-500: #9ECE16;   /* lime — the brand color itself, constant across themes */
+  --g-550: #B4DE47;   /* dark-theme lime hover (brightens instead of darkening) */
+  --g-600: #8CBB10;   /* light-theme lime hover (darkens) */
+  --g-700: #6E9410;   /* light-theme accent-strong (text on white) */
+
+  --r-400: #FF5C61;   /* live/urgent, dark theme — bumped for contrast on black */
+  --r-500: #E5484D;   /* live/urgent, light theme */
+
+  /* ================================================================
+     SEMANTIC — the only tier components should reference. Same names
+     resolve to different primitives per theme; see the dark overrides
+     below. This is the layer a component's CSS is written against.
+     ================================================================ */
+  /* ---- ink (page text & structure — inverts with the theme) ---- */
+  --ink: var(--n-950);            /* primary text, headlines, active states */
+  --ink-soft: var(--n-700);       /* secondary body copy */
+  --ink-muted: var(--n-500);      /* labels, meta, captions */
+  --ink-faint: var(--n-300);      /* trailing scores, deprioritised numerals */
+  --ink-hover: #242420;           /* primary-button / active-segment hover fill */
+  --ink-on-accent: var(--n-950);  /* text/icons ON the lime accent — always dark, both themes */
 
   /* ---- brand ---- */
-  --lime: #9ECE16;
-  --lime-mid: #8CBB10;    /* lime on a dark surface (footer links etc.) */
-  --lime-strong: #6E9410; /* link hover, small text on light bg */
-  --lime-wash: #EDF4D8;   /* filter-summary chip fill */
+  --lime: var(--g-500);
+  --lime-mid: var(--g-600);       /* lime button hover */
+  --lime-strong: var(--g-700);    /* link hover, small text on light bg */
+  --lime-wash: var(--g-100);      /* filter-summary chip fill */
   --lime-wash-border: rgba(110,148,16,.22);
 
   /* ---- status ---- */
-  --live: #E5484D;        /* live / urgent */
-  --open: var(--lime);    /* registration open */
-  --soon: var(--ink);     /* opens soon / scheduled */
-  --done: #EFEFE9;        /* completed (fill) */
-  --done-ink: var(--ink-soft); /* completed (text on --done) */
+  --live: var(--r-500);                 /* live / urgent */
+  --open: var(--lime);                  /* registration open */
+  --soon: var(--surface-dark);          /* opens soon / scheduled — a fixed dark chip, NOT page ink */
+  --done: var(--n-100);                 /* completed (fill) */
+  --done-ink: var(--ink-soft);          /* completed (text on --done) */
 
-  /* ---- surface ---- */
-  --surface: #fff;
-  --surface-subtle: #FAFAF7;  /* section backgrounds, headers */
-  --surface-fill: #F4F4EF;    /* chip / tag fill on white */
-  --surface-dark: var(--ink);
-  --surface-dark-soft: #171716;
+  /* ---- surface (page background — inverts opposite to --ink) ---- */
+  --surface: var(--n-0);                /* page / card background */
+  --surface-subtle: var(--n-25);        /* section backgrounds, headers */
+  --surface-fill: var(--n-50);          /* chip / tag fill on white */
+  --surface-dark: var(--n-950);         /* fixed dark panel (CTA banner, "soon"/decision chips) — always
+                                            dark-toned in both themes, but not pinned to --ink's own value,
+                                            so dark theme can raise it a step instead of going black-on-black */
 
-  /* ---- border & overlay (ink at low opacity) ---- */
+  /* ---- border & overlay (ink at low opacity — inverts with the theme) ---- */
   --border: rgba(10,10,10,.10);
   --border-soft: rgba(10,10,10,.07);
   --border-strong: rgba(10,10,10,.16);
-  --on-dark-border: rgba(255,255,255,.16);
-  --on-dark-soft: rgba(255,255,255,.55);
-  --on-dark-faint: rgba(255,255,255,.45);
+  --on-dark-border: rgba(255,255,255,.16);  /* fixed: for use on --surface-dark, doesn't invert */
+  --on-dark-faint: rgba(255,255,255,.45);   /* fixed: for use on --surface-dark, doesn't invert */
 
   /* ---- type ---- */
   --font-display: Anton, sans-serif;
@@ -79,6 +121,66 @@
   color-scheme: light;
 }
 
+/* Dark theme: same semantic names, different primitives underneath.
+   Respects system preference by default; an explicit [data-theme]
+   attribute (set by the toggle, persisted in localStorage) always wins. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: var(--n-white);
+    --ink-soft: var(--n-800);
+    --ink-muted: var(--n-650);
+    --ink-faint: var(--n-850);
+    --ink-hover: #DEDBD2;
+    --ink-on-accent: var(--n-950);
+
+    --lime-mid: var(--g-550);
+    --lime-wash: rgba(158,206,22,.14);
+    --lime-wash-border: rgba(178,222,50,.3);
+
+    --live: var(--r-400);
+    --soon: var(--surface-dark);
+    --done: var(--n-925);
+
+    --surface: var(--n-950);
+    --surface-subtle: #121210;
+    --surface-fill: var(--n-900);
+    --surface-dark: var(--n-925);
+
+    --border: rgba(255,255,255,.10);
+    --border-soft: rgba(255,255,255,.06);
+    --border-strong: rgba(255,255,255,.18);
+
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ink: var(--n-white);
+  --ink-soft: var(--n-800);
+  --ink-muted: var(--n-650);
+  --ink-faint: var(--n-850);
+  --ink-hover: #DEDBD2;
+  --ink-on-accent: var(--n-950);
+
+  --lime-mid: var(--g-550);
+  --lime-wash: rgba(158,206,22,.14);
+  --lime-wash-border: rgba(178,222,50,.3);
+
+  --live: var(--r-400);
+  --soon: var(--surface-dark);
+  --done: var(--n-925);
+
+  --surface: var(--n-950);
+  --surface-subtle: #121210;
+  --surface-fill: var(--n-900);
+  --surface-dark: var(--n-925);
+
+  --border: rgba(255,255,255,.10);
+  --border-soft: rgba(255,255,255,.06);
+  --border-strong: rgba(255,255,255,.18);
+
+  color-scheme: dark;
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -103,7 +205,7 @@ code { font-family: var(--font-mono); }
 }
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo-mark { width: 26px; height: 26px; border-radius: 8px; background: var(--lime); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.logo-mark i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--ink); display: block; }
+.logo-mark i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--ink-on-accent); display: block; }
 .logo-word { font-family: var(--font-display); font-size: 19px; letter-spacing: .02em; text-transform: uppercase; }
 .logo-tag { font-size: 12px; font-weight: 700; color: var(--ink-muted); padding-left: 10px; margin-left: 2px; border-left: 1px solid var(--border-strong); }
 .toc { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
@@ -170,7 +272,7 @@ h3.sub-title:first-child { margin-top: 0; }
 .demo-title { font-size: 13.5px; font-weight: 800; }
 .demo-note { font-size: 12px; color: var(--ink-muted); }
 .demo-stage { padding: 28px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-.demo-stage.dark { background: var(--ink); }
+.demo-stage.dark { background: var(--surface-dark); }
 .demo-stage.column { flex-direction: column; align-items: stretch; }
 .demo-code-toggle { font-size: 12px; font-weight: 800; color: var(--ink-muted); cursor: pointer; padding: 6px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--surface); }
 .demo-code-toggle:hover { border-color: var(--ink); color: var(--ink); }
@@ -182,34 +284,34 @@ h3.sub-title:first-child { margin-top: 0; }
 
 /* ---- reusable component classes (referenced live above AND copied verbatim below) ---- */
 .btn { font-family: var(--font-body); font-size: 15px; font-weight: 800; padding: 15px 26px; border-radius: var(--r-pill); border: none; cursor: pointer; transition: background var(--ease), border-color var(--ease); }
-.btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { background: #242420; }
-.btn-lime { background: var(--lime); color: var(--ink); }
+.btn-primary { background: var(--ink); color: var(--surface); }
+.btn-primary:hover { background: var(--ink-hover); }
+.btn-lime { background: var(--lime); color: var(--ink-on-accent); }
 .btn-lime:hover { background: var(--lime-mid); }
-.btn-outline { background: #fff; color: var(--ink); border: 1.5px solid var(--border-strong); }
+.btn-outline { background: var(--surface); color: var(--ink); border: 1.5px solid var(--border-strong); }
 .btn-outline:hover { border-color: var(--ink); }
 .btn-ghost-dark { background: transparent; color: #fff; border: 1.5px solid var(--on-dark-border); }
 .btn-ghost-dark:hover { border-color: #fff; }
 
 .badge { font-size: 10.5px; font-weight: 800; letter-spacing: .07em; padding: 6px 10px; border-radius: var(--r-tag); white-space: nowrap; display: inline-block; }
 .badge-live { background: var(--live); color: #fff; }
-.badge-open { background: var(--open); color: var(--ink); }
+.badge-open { background: var(--open); color: var(--ink-on-accent); }
 .badge-soon { background: var(--soon); color: #fff; }
 .badge-done { background: var(--done); color: var(--done-ink); }
 
 .seg-wrap { display: inline-flex; align-items: center; gap: 3px; padding: 4px; border-radius: var(--r-pill); background: var(--surface-fill); border: 1px solid var(--border-soft); }
 .seg { font-size: 12.5px; font-weight: 700; padding: 8px 15px; border-radius: var(--r-pill); background: transparent; color: var(--ink-soft); cursor: pointer; white-space: nowrap; border: none; font-family: var(--font-body); }
-.seg.is-on { font-weight: 800; background: var(--ink); color: #fff; }
+.seg.is-on { font-weight: 800; background: var(--ink); color: var(--surface); }
 .seg:hover:not(.is-on) { box-shadow: inset 0 0 0 1px var(--border-strong); }
-.sort-wrap { display: inline-flex; align-items: center; gap: 3px; padding: 4px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--border-strong); }
+.sort-wrap { display: inline-flex; align-items: center; gap: 3px; padding: 4px; border-radius: var(--r-pill); background: var(--surface); border: 1px solid var(--border-strong); }
 .sort-seg { font-size: 12.5px; font-weight: 700; padding: 8px 15px; border-radius: var(--r-pill); background: transparent; color: var(--ink-muted); cursor: pointer; white-space: nowrap; border: none; font-family: var(--font-body); }
-.sort-seg.is-on { font-weight: 800; background: var(--lime); color: var(--ink); }
+.sort-seg.is-on { font-weight: 800; background: var(--lime); color: var(--ink-on-accent); }
 
 .tabs-row { display: flex; gap: 26px; border-bottom: 1px solid var(--border); }
 .tab { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 700; color: var(--ink-muted); padding: 16px 2px; border-bottom: 3px solid transparent; cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; font-family: var(--font-body); }
 .tab.is-on { font-weight: 800; color: var(--ink); border-bottom-color: var(--ink); }
 .tab-count { font-size: 11.5px; font-weight: 800; background: var(--done); color: var(--ink-muted); padding: 3px 8px; border-radius: var(--r-pill); min-width: 22px; text-align: center; }
-.tab.is-on .tab-count { background: var(--lime); color: var(--ink); }
+.tab.is-on .tab-count { background: var(--lime); color: var(--ink-on-accent); }
 
 .card { border: 1px solid var(--border); border-radius: var(--r-panel-lg); overflow: hidden; cursor: pointer; transition: border-color var(--ease), transform var(--ease); background: var(--surface); }
 .card:hover { border-color: var(--ink); transform: translateY(-2px); }
@@ -231,7 +333,7 @@ h3.sub-title:first-child { margin-top: 0; }
 .empty b { font-family: var(--font-display); font-size: 24px; text-transform: uppercase; }
 .empty p { font-size: 13.5px; color: var(--ink-soft); margin: 8px 0 0; }
 
-.cta-banner { border: 1px solid var(--border); border-radius: var(--r-panel-lg); padding: 28px; background: var(--ink); color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.cta-banner { border: 1px solid var(--border); border-radius: var(--r-panel-lg); padding: 28px; background: var(--surface-dark); color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
 .cta-banner b { font-family: var(--font-display); font-size: 26px; text-transform: uppercase; display: block; }
 .cta-banner p { font-size: 13.5px; color: var(--on-dark-faint); margin: 8px 0 0; max-width: 420px; }
 
@@ -253,9 +355,9 @@ h3.sub-title:first-child { margin-top: 0; }
 .road-body a { border-bottom: 1px solid var(--border-strong); }
 .road-body a:hover { border-color: var(--lime-strong); }
 .road-pill { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .04em; padding: 4px 9px; border-radius: var(--r-tag); vertical-align: 2px; }
-.road-done { background: var(--lime); color: var(--ink); }
+.road-done { background: var(--lime); color: var(--ink-on-accent); }
 .road-partial { background: transparent; color: var(--ink); border: 1px solid var(--border-strong); }
-.road-decision { background: var(--ink); color: #fff; }
+.road-decision { background: var(--surface-dark); color: #fff; }
 .road-blocked { background: transparent; color: var(--ink-muted); border: 1px dashed var(--border-strong); }
 
 footer.credit { padding: 40px 0 60px; text-align: center; font-size: 12.5px; color: var(--ink-muted); }
@@ -287,6 +389,10 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
       <a href="#components">Components</a>
       <a href="#status">Status</a>
     </nav>
+    <div class="seg-wrap" id="theme-toggle" role="group" aria-label="Theme">
+      <span class="seg" data-set-theme="light">Light</span>
+      <span class="seg" data-set-theme="dark">Dark</span>
+    </div>
   </div>
 </div>
 
@@ -307,7 +413,28 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
 <section class="block" id="colors">
   <div class="block-head">
-    <div><h2 class="block-title">Color</h2><p class="block-desc">Click any swatch to copy its hex value.</p></div>
+    <div><h2 class="block-title">Color</h2><p class="block-desc">Every swatch below is theme-aware — toggle Light/Dark in the header and watch them repaint. Click any swatch to copy its current resolved value.</p></div>
+  </div>
+
+  <div class="callout" style="margin-bottom:28px;max-width:none">
+    <b>Primitive → Semantic → Component</b>
+    <span style="display:block;margin-top:10px">Components never reference a raw color — they reference a semantic token, which resolves to a different primitive depending on the active theme. That indirection is the entire point: change what a semantic token points to, and every component using it updates, in both themes, without being touched.</span>
+    <pre style="margin:14px 0 0;padding:14px 16px;background:var(--surface-fill);border-radius:var(--r-control);font-family:var(--font-mono);font-size:12.5px;line-height:1.7;overflow-x:auto">Primitive
+  --g-500: #9ECE16                    (light theme, dark theme — same value; lime doesn't invert)
+
+    ↓
+
+Semantic
+  --lime: var(--g-500)                (light) → #9ECE16
+  --lime: var(--g-500)                (dark)  → #9ECE16   /* unchanged on purpose */
+  --ink-on-accent: var(--n-950)       (light) → #0A0A0A
+  --ink-on-accent: var(--n-950)       (dark)  → #0A0A0A   /* stays dark — lime never gets light text */
+
+    ↓
+
+Component
+  .btn-lime { background: var(--lime); color: var(--ink-on-accent); }</pre>
+    <span style="display:block;margin-top:10px">Primitives are internal plumbing, not shown as their own swatch gallery below — a component should never reach past the semantic layer to use one directly.</span>
   </div>
 
   <h3 class="sub-title">Ink — text &amp; structure</h3>
@@ -329,8 +456,8 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
   <h3 class="sub-title">Status</h3>
   <div class="swatch-grid" data-swatches>
     <div class="swatch" data-copy="#E5484D"><div class="fill bordered" style="background:var(--live)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Live</span><span class="var">--live</span><br><span class="hex">#E5484D</span><div class="role">In-progress matches, urgent badges</div></div></div>
-    <div class="swatch" data-copy="#9ECE16"><div class="fill bordered" style="background:var(--open)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Open</span><span class="var">--open</span><br><span class="hex">= --lime</span><div class="role">Registration open</div></div></div>
-    <div class="swatch" data-copy="#0A0A0A"><div class="fill bordered" style="background:var(--soon)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Soon</span><span class="var">--soon</span><br><span class="hex">= --ink</span><div class="role">Scheduled / opens soon</div></div></div>
+    <div class="swatch" data-copy="#9ECE16"><div class="fill bordered" style="background:var(--open)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Open</span><span class="var">--open</span><br><span class="hex">#9ECE16</span><div class="role">Registration open</div></div></div>
+    <div class="swatch" data-copy="#0A0A0A"><div class="fill bordered" style="background:var(--soon)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Soon</span><span class="var">--soon</span><br><span class="hex">#0A0A0A</span><div class="role">Scheduled / opens soon</div></div></div>
     <div class="swatch" data-copy="#EFEFE9"><div class="fill bordered" style="background:var(--done)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Done</span><span class="var">--done</span><br><span class="hex">#EFEFE9</span><div class="role">Completed — fill (pair with --done-ink for text)</div></div></div>
   </div>
 
@@ -339,8 +466,8 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
     <div class="swatch" data-copy="#FFFFFF"><div class="fill bordered" style="background:var(--surface)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Surface</span><span class="var">--surface</span><br><span class="hex">#FFFFFF</span><div class="role">Page &amp; card background</div></div></div>
     <div class="swatch" data-copy="#FAFAF7"><div class="fill bordered" style="background:var(--surface-subtle)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Surface subtle</span><span class="var">--surface-subtle</span><br><span class="hex">#FAFAF7</span><div class="role">Section backgrounds, header bands</div></div></div>
     <div class="swatch" data-copy="#F4F4EF"><div class="fill bordered" style="background:var(--surface-fill)"><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Surface fill</span><span class="var">--surface-fill</span><br><span class="hex">#F4F4EF</span><div class="role">Chip/tag fill on white, segmented-control track</div></div></div>
-    <div class="swatch" data-copy="rgba(10,10,10,.1)"><div class="fill bordered" style="background:#fff;position:relative"><div style="position:absolute;inset:10px;border:2px solid var(--border)"></div><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Border</span><span class="var">--border</span><br><span class="hex">rgba(10,10,10,.1)</span><div class="role">Default hairline — cards, rows, dividers</div></div></div>
-    <div class="swatch" data-copy="rgba(10,10,10,.16)"><div class="fill bordered" style="background:#fff;position:relative"><div style="position:absolute;inset:10px;border:2px solid var(--border-strong)"></div><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Border strong</span><span class="var">--border-strong</span><br><span class="hex">rgba(10,10,10,.16)</span><div class="role">Outline buttons, hover rings</div></div></div>
+    <div class="swatch" data-copy="rgba(10,10,10,.1)"><div class="fill bordered" style="background:#fff;position:relative"><div class="border-preview" style="position:absolute;inset:10px;border:2px solid var(--border)"></div><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Border</span><span class="var">--border</span><br><span class="hex">rgba(10,10,10,.1)</span><div class="role">Default hairline — cards, rows, dividers</div></div></div>
+    <div class="swatch" data-copy="rgba(10,10,10,.16)"><div class="fill bordered" style="background:#fff;position:relative"><div class="border-preview" style="position:absolute;inset:10px;border:2px solid var(--border-strong)"></div><div class="copy-flag">Copied</div></div><div class="meta"><span class="name">Border strong</span><span class="var">--border-strong</span><br><span class="hex">rgba(10,10,10,.16)</span><div class="role">Outline buttons, hover rings</div></div></div>
   </div>
 
   <div class="callout" style="margin-top:22px;max-width:none">
@@ -483,9 +610,9 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
 .btn { font-size:15px; font-weight:800; padding:15px 26px;
   border-radius:var(--r-pill); border:none; cursor:pointer; }
-.btn-primary { background:var(--ink); color:#fff; }
-.btn-outline { background:#fff; color:var(--ink); border:1.5px solid var(--border-strong); }
-.btn-lime { background:var(--lime); color:var(--ink); }
+.btn-primary { background:var(--ink); color:var(--surface); }
+.btn-outline { background:var(--surface); color:var(--ink); border:1.5px solid var(--border-strong); }
+.btn-lime { background:var(--lime); color:var(--ink-on-accent); }
 .btn-ghost-dark { background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.16); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
@@ -506,7 +633,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 .badge { font-size:10.5px; font-weight:800; letter-spacing:.07em;
   padding:6px 10px; border-radius:var(--r-tag); }
 .badge-live { background:var(--live); color:#fff; }
-.badge-open { background:var(--open); color:var(--ink); }
+.badge-open { background:var(--open); color:var(--ink-on-accent); }
 .badge-soon { background:var(--soon); color:#fff; }
 .badge-done { background:var(--done); color:var(--done-ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
@@ -536,7 +663,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
   border-radius:var(--r-pill); background:var(--surface-fill); }
 .seg { font-size:12.5px; font-weight:700; padding:8px 15px;
   border-radius:var(--r-pill); color:var(--ink-soft); cursor:pointer; }
-.seg.is-on { font-weight:800; background:var(--ink); color:#fff; }
+.seg.is-on { font-weight:800; background:var(--ink); color:var(--surface); }
 .seg:hover:not(.is-on) { box-shadow:inset 0 0 0 1px var(--border-strong); }
 /* .sort-wrap / .sort-seg are identical except is-on uses --lime */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
@@ -562,7 +689,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 .tab.is-on { font-weight:800; color:var(--ink); border-bottom-color:var(--ink); }
 .tab-count { font-size:11.5px; font-weight:800; background:var(--done);
   color:var(--ink-muted); padding:3px 8px; border-radius:var(--r-pill); }
-.tab.is-on .tab-count { background:var(--lime); color:var(--ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+.tab.is-on .tab-count { background:var(--lime); color:var(--ink-on-accent); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
   <h3 class="sub-title">Cards</h3>
@@ -667,7 +794,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
   &lt;button class="btn btn-lime"&gt;Organise a Tournament&lt;/button&gt;
 &lt;/div&gt;
 
-.cta-banner { border-radius:var(--r-panel-lg); padding:28px; background:var(--ink);
+.cta-banner { border-radius:var(--r-panel-lg); padding:28px; background:var(--surface-dark);
   color:#fff; display:flex; justify-content:space-between; align-items:center; gap:24px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
@@ -689,7 +816,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
     <div class="road-row"><span class="road-n">1</span><div class="road-body"><b>Color tokens</b><span class="road-pill road-partial">Partial</span><p>Ink / Brand / Status / Surface tokens are documented in <a href="#colors">Colors ↑</a>, but named by role rather than the exact semantic slots this spec asks for. <code>Elevated surface</code>, <code>Divider</code>, <code>Text disabled</code>, <code>Warning</code>, <code>Info</code> and <code>Overlay/scrim</code> don't exist as tokens — because nothing in the product currently needs them (no disabled fields, no elevation, no warning/info status anywhere).</p></div></div>
 
-    <div class="road-row"><span class="road-n">1</span><div class="road-body"><b>Light + Dark theme</b><span class="road-pill road-decision">Needs your call</span><p>Rallo is light-only. This is the single biggest gap on this list, and the most consequential one to get right — see the recommendation below.</p></div></div>
+    <div class="road-row"><span class="road-n">1</span><div class="road-body"><b>Light + Dark theme</b><span class="road-pill road-done">Documented</span><p>Built on this page — a working toggle in the header, persisted per-visitor, respecting system preference until you choose explicitly. Direction: true black (<code>#0A0A0A</code>), lime unchanged, live/red bumped for contrast. Not yet retrofitted onto <code>Rallo.dc.html</code> itself — see the note below.</p></div></div>
 
     <div class="road-row"><span class="road-n">2</span><div class="road-body"><b>Typography</b><span class="road-pill road-done">Documented</span><p>Family, weights and scale are covered in <a href="#type">Typography ↑</a>. Sizes use <code>clamp()</code> to interpolate rather than fixed desktop/tablet/mobile numbers — can be broken into explicit tiers if you want the exact ladder this spec describes.</p></div></div>
 
@@ -701,7 +828,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
     <div class="road-row"><span class="road-n">5</span><div class="road-body"><b>Responsive system</b><span class="road-pill road-partial">Partial</span><p>Breakpoints are used ad hoc (<code>clamp()</code>, one 760px query on this page) rather than tokenized. The specific transformations asked for — table→card, sidebar→drawer, modal→sheet — don't apply because none of those components exist yet.</p></div></div>
 
-    <div class="road-row"><span class="road-n">6</span><div class="road-body"><b>Elevation &amp; surfaces</b><span class="road-pill road-done">Documented</span><p>Covered in <a href="#spacing">Spacing ↑</a> as a deliberate absence — Rallo uses borders, not shadows, at any elevation. That's a real decision already made, not a gap. A dark-theme elevation strategy is blocked on the theme itself.</p></div></div>
+    <div class="road-row"><span class="road-n">6</span><div class="road-body"><b>Elevation &amp; surfaces</b><span class="road-pill road-done">Documented</span><p>Covered in <a href="#spacing">Spacing ↑</a> as a deliberate absence — Rallo uses borders, not shadows, at any elevation. Dark-theme elevation now has an answer too: <code>--surface-dark</code> raises a step (<code>#0A0A0A</code> → <code>#1C1C19</code>) rather than trying to go darker than the page itself — see the CTA banner in <a href="#components">Components ↑</a> with Dark mode on.</p></div></div>
 
     <div class="road-row"><span class="road-n">7</span><div class="road-body"><b>Borders &amp; radius</b><span class="road-pill road-partial">Partial</span><p>Widths and the radius scale are documented in <a href="#spacing">Spacing ↑</a>. Gap: no visible focus ring exists anywhere in the product — a real, fixable accessibility issue, not a missing surface.</p></div></div>
 
@@ -725,9 +852,9 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
     <div class="road-row"><span class="road-n">17</span><div class="road-body"><b>Motion</b><span class="road-pill road-partial">Partial</span><p>One duration exists (<code>.18s</code> ease) and is documented in <a href="#spacing">Spacing ↑</a>, plus reduced-motion handling on the hero. No Normal/Slow tiers or modal/drawer/dropdown animation, since those components don't exist yet.</p></div></div>
 
-    <div class="road-row"><span class="road-n">18</span><div class="road-body"><b>Design tokens (Primitive → Semantic → Component)</b><span class="road-pill road-decision">Needs your call</span><p>Semantic tokens exist (color/type/spacing/radius, documented throughout this page) but there's no Primitive layer underneath them — right now the semantic token <em>is</em> the raw value (<code>--lime: #9ECE16</code>) rather than pointing at one. This is the architectural backbone the rest of this spec assumes, and it's buildable now, alongside the theme work below.</p></div></div>
+    <div class="road-row"><span class="road-n">18</span><div class="road-body"><b>Design tokens (Primitive → Semantic → Component)</b><span class="road-pill road-done">Documented</span><p>Built — see the worked example at the top of <a href="#colors">Colors ↑</a>. Semantic token names stayed the same (<code>--ink</code>, <code>--lime</code>, etc.) so every existing copyable snippet on this page kept working; primitives (<code>--n-*</code>, <code>--g-*</code>, <code>--r-*</code>) sit underneath as the layer semantics actually reference.</p></div></div>
 
-    <div class="road-row"><span class="road-n">19</span><div class="road-body"><b>Light &amp; dark theme architecture</b><span class="road-pill road-decision">Needs your call</span><p>Same gap as #1. Worth building together with #18 — a primitive layer makes swapping what a semantic token resolves to per theme far cleaner than duplicating every component twice.</p></div></div>
+    <div class="road-row"><span class="road-n">19</span><div class="road-body"><b>Light &amp; dark theme architecture</b><span class="road-pill road-done">Documented</span><p>Same primitive layer from #18 gets redefined per theme in one place (a <code>[data-theme]</code> override block plus a <code>prefers-color-scheme</code> fallback) — no component was duplicated. Building this surfaced eight real contrast bugs along the way: places that paired a theme-reactive token with a hardcoded <code>#fff</code> or vice versa (primary button, active segment, "Open"/"Documented" badges, the logo mark). All fixed; see the commit for the specific list.</p></div></div>
 
     <div class="road-row"><span class="road-n">20</span><div class="road-body"><b>Figma architecture</b><span class="road-pill road-blocked">N/A</span><p>This project isn't authored in Figma. The equivalent structure is this repo's file layout — <code>Rallo.dc.html</code> plus <code>design-system.html</code> — not a Figma page tree.</p></div></div>
 
@@ -740,7 +867,7 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
   </div>
 
   <div class="cta-banner" style="margin-top:32px">
-    <div><b>Recommended next step</b><p>Build the Primitive → Semantic → Component token layer (#18) together with Light + Dark theme (#1, #19) — the two foundational, non-speculative items everything else in this spec depends on. Everything blocked on "no surface yet" should wait until that surface is actually being built, so this page keeps documenting the real product rather than a fictional one.</p></div>
+    <div><b>Recommended next step</b><p>Tokens and theming (#1, #18, #19) are done on this page. Two things remain buildable right now without waiting on new product surfaces: Component states (#10 — Focus, Disabled, Loading, Error are undefined even on components that already exist) and Accessibility (#16 — no contrast audit has run, and there's still no visible focus ring anywhere). Everything else stays "no surface yet" until that surface is actually being built, so this page keeps documenting the real product rather than a fictional one. Separately: this theme architecture has not been retrofitted onto <code>Rallo.dc.html</code> — that's a larger, separate pass across the live site's ~1400 lines, worth doing deliberately rather than folded into this one.</p></div>
   </div>
 
 </section>
@@ -753,6 +880,78 @@ footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-r
 
 <script>
 (function () {
+  /* ---- theme toggle ---- */
+  var STORAGE_KEY = 'rallo-ds-theme';
+  var root = document.documentElement;
+  var toggle = document.getElementById('theme-toggle');
+  var segs = toggle ? toggle.querySelectorAll('[data-set-theme]') : [];
+
+  function effectiveTheme() {
+    var explicit = root.getAttribute('data-theme');
+    if (explicit === 'light' || explicit === 'dark') return explicit;
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+
+  function paintToggle() {
+    var cur = effectiveTheme();
+    segs.forEach(function (s) { s.classList.toggle('is-on', s.getAttribute('data-set-theme') === cur); });
+  }
+
+  function setTheme(mode) {
+    root.setAttribute('data-theme', mode);
+    try { localStorage.setItem(STORAGE_KEY, mode); } catch (e) {}
+    paintToggle();
+    refreshSwatches();
+  }
+
+  segs.forEach(function (s) {
+    s.addEventListener('click', function () { setTheme(s.getAttribute('data-set-theme')); });
+  });
+
+  // If the user hasn't made an explicit choice, keep the toggle (and swatches)
+  // in sync with a live system-preference change.
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+      if (!root.getAttribute('data-theme')) { paintToggle(); refreshSwatches(); }
+    });
+  }
+
+  /* ---- keep every color swatch's displayed hex true to the current theme ----
+     Swatches reference CSS custom properties for their fill, so the same
+     markup is correct in both themes -- but the hex TEXT beside it was
+     written once, by hand, for light mode. Rather than hand-maintain a
+     second set of numbers that silently goes stale the moment a token
+     changes, resolve each swatch's actual painted color from the DOM. */
+  function toColorString(computed) {
+    var m = computed.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)$/);
+    if (!m) return computed;
+    var r = +m[1], g = +m[2], b = +m[3], a = m[4] === undefined ? 1 : +m[4];
+    if (a >= 1) {
+      var hex = [r, g, b].map(function (v) { return v.toString(16).padStart(2, '0'); }).join('');
+      return '#' + hex.toUpperCase();
+    }
+    var alpha = String(Math.round(a * 100) / 100).replace(/^0\./, '.');
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  function refreshSwatches() {
+    document.querySelectorAll('.swatch[data-copy]').forEach(function (sw) {
+      var fill = sw.querySelector('.fill');
+      if (!fill) return;
+      var probe = fill.querySelector('.border-preview'); // border-preview swatches nest an inset div
+      var computed = probe
+        ? getComputedStyle(probe).borderColor
+        : getComputedStyle(fill).backgroundColor;
+      var value = toColorString(computed);
+      var hexEl = sw.querySelector('.hex');
+      if (hexEl) hexEl.textContent = value;
+      sw.setAttribute('data-copy', value);
+    });
+  }
+
+  paintToggle();
+  refreshSwatches();
+
   function flashCopy(el, ok) {
     if (!ok) return;
     el.classList.add('copied');
