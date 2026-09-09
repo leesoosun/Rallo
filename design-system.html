@@ -479,6 +479,62 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
 .upload-file .name { font-size: 13px; font-weight: 700; flex: 1; }
 .upload-file .size { font-size: 12px; color: var(--ink-muted); }
 
+/* ---- checkbox / radio (native input, custom-drawn box via a sibling) ---- */
+.check-row, .radio-row { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+.check-input, .radio-input { position: absolute; left: 0; top: 0; width: 20px; height: 20px; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.check-box, .radio-box { width: 20px; height: 20px; border: 1.5px solid var(--border-strong); background: var(--surface);
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;
+  transition: background var(--ease), border-color var(--ease); }
+.check-box { border-radius: 6px; }
+.radio-box { border-radius: 50%; }
+.check-label, .radio-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+.check-input:hover + .check-box, .radio-input:hover + .radio-box { border-color: var(--ink-muted); }
+.check-input:focus-visible + .check-box, .radio-input:focus-visible + .radio-box { box-shadow: var(--focus-ring); }
+.check-input:checked + .check-box { background: var(--ink); border-color: var(--ink); }
+.check-input:checked + .check-box::after { content: '✓'; color: var(--surface); font-size: 12.5px; font-weight: 800; line-height: 1; }
+.radio-input:checked + .radio-box { border-color: var(--ink); }
+.radio-input:checked + .radio-box::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }
+.check-input:disabled + .check-box, .radio-input:disabled + .radio-box { opacity: .4; cursor: not-allowed; }
+.check-input:disabled ~ .check-label, .radio-input:disabled ~ .radio-label { opacity: .4; cursor: not-allowed; }
+.check-row.has-error .check-box, .radio-row.has-error .radio-box { border-color: var(--error); }
+
+/* ---- switch ---- */
+.switch-row { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+.switch-input { position: absolute; left: 0; top: 0; width: 40px; height: 24px; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.switch-track { width: 40px; height: 24px; border-radius: var(--r-pill); background: var(--surface-fill); border: 1.5px solid var(--border-strong);
+  position: relative; flex-shrink: 0; transition: background var(--ease), border-color var(--ease); }
+.switch-thumb { position: absolute; top: 2.5px; left: 2.5px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface);
+  border: 1px solid var(--border); transition: transform var(--ease); }
+.switch-input:hover + .switch-track { border-color: var(--ink-muted); }
+.switch-input:focus-visible + .switch-track { box-shadow: var(--focus-ring); }
+.switch-input:checked + .switch-track { background: var(--lime); border-color: var(--lime); }
+.switch-input:checked + .switch-track .switch-thumb { transform: translateX(16px); border-color: transparent; }
+.switch-input:disabled + .switch-track { opacity: .4; cursor: not-allowed; }
+.switch-input:disabled ~ .switch-label { opacity: .4; cursor: not-allowed; }
+.switch-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+/* ---- select ---- */
+.select-wrap { position: relative; }
+.select-input { appearance: none; -webkit-appearance: none; padding-right: 38px !important; cursor: pointer; }
+.select-arrow { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--ink-muted); font-size: 11px; }
+
+/* ---- multi-select (chips inside a field-styled box) ---- */
+.multiselect-box { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 20px; }
+.multiselect-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700;
+  background: var(--surface-fill); border-radius: var(--r-pill); padding: 4px 6px 4px 10px; }
+.multiselect-chip button { border: none; background: transparent; color: var(--ink-muted); cursor: pointer; font-size: 11px;
+  width: 16px; height: 16px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+.multiselect-chip button:hover { background: var(--border-strong); color: var(--ink); }
+.multiselect-add { font-size: 12.5px; font-weight: 700; color: var(--ink-muted); cursor: pointer; padding: 4px 2px; }
+.multiselect-add:hover { color: var(--ink); }
+
+/* ---- combobox (open-state visual snapshot -- see note in the demo) ---- */
+.combobox-list { border: 1.5px solid var(--border-strong); border-top: none; border-radius: 0 0 var(--r-control) var(--r-control);
+  margin-top: -1.5px; background: var(--surface); overflow: hidden; }
+.combobox-option { padding: 10px 14px; font-size: 13.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+.combobox-option:hover, .combobox-option.is-active { background: var(--surface-fill); }
+.combobox-option.is-selected { color: var(--lime-strong); font-weight: 800; }
+
 @media (max-width: 760px) {
   .toc { display: none; }
   .cta-banner { flex-direction: column; align-items: flex-start; }
@@ -1174,6 +1230,196 @@ textarea.field-input { resize:vertical; min-height:88px; }
 .upload-zone.has-error { border-color:var(--error); background:var(--error-wash); }
 .upload-file { display:flex; align-items:center; gap:12px; border:1px solid var(--border);
   border-radius:var(--r-control); padding:10px 12px; margin-top:10px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Checkbox</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Checkbox — 6 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:14px">
+      <label class="check-row"><input type="checkbox" class="check-input"><span class="check-box"></span><span class="check-label">Unselected</span></label>
+      <label class="check-row"><input type="checkbox" class="check-input" checked><span class="check-box"></span><span class="check-label">Selected</span></label>
+      <label class="check-row has-error"><input type="checkbox" class="check-input"><span class="check-box"></span><span class="check-label">Accept the terms — required</span></label>
+      <label class="check-row"><input type="checkbox" class="check-input" disabled><span class="check-box"></span><span class="check-label">Disabled</span></label>
+      <label class="check-row"><input type="checkbox" class="check-input" checked disabled><span class="check-box"></span><span class="check-label">Disabled, selected</span></label>
+    </div>
+    <div class="demo-code"><pre>&lt;label class="check-row"&gt;
+  &lt;input type="checkbox" class="check-input"&gt;
+  &lt;span class="check-box"&gt;&lt;/span&gt;
+  &lt;span class="check-label"&gt;Remember me&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Error: modifier on the row, same pattern as .field --&gt;
+&lt;label class="check-row has-error"&gt;…&lt;/label&gt;
+
+&lt;!-- The real &lt;input&gt; stays in the DOM, invisible but interactive --
+     keyboard, screen readers and :checked all work natively. Only its
+     paint is replaced by .check-box, positioned exactly on top of it. --&gt;
+.check-row { display:inline-flex; align-items:center; gap:10px; position:relative; }
+.check-input { position:absolute; inset:0; width:20px; height:20px; opacity:0; cursor:pointer; z-index:1; }
+.check-box { width:20px; height:20px; border:1.5px solid var(--border-strong); border-radius:6px; }
+.check-input:hover + .check-box { border-color:var(--ink-muted); }
+.check-input:focus-visible + .check-box { box-shadow:var(--focus-ring); }
+.check-input:checked + .check-box { background:var(--ink); border-color:var(--ink); }
+.check-input:checked + .check-box::after { content:'✓'; color:var(--surface); font-weight:800; }
+.check-input:disabled + .check-box { opacity:.4; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Radio</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Radio — grouped, 6 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:14px">
+      <label class="radio-row"><input type="radio" name="draw-format" class="radio-input" checked><span class="radio-box"></span><span class="radio-label">Knockout</span></label>
+      <label class="radio-row"><input type="radio" name="draw-format" class="radio-input"><span class="radio-box"></span><span class="radio-label">Round robin</span></label>
+      <label class="radio-row"><input type="radio" name="draw-format" class="radio-input"><span class="radio-box"></span><span class="radio-label">Round robin + knockout</span></label>
+      <label class="radio-row"><input type="radio" name="draw-format-2" class="radio-input" disabled><span class="radio-box"></span><span class="radio-label">Ranked seeding (needs 8+ entries)</span></label>
+    </div>
+    <div class="demo-code"><pre>&lt;label class="radio-row"&gt;
+  &lt;input type="radio" name="format" class="radio-input" checked&gt;
+  &lt;span class="radio-box"&gt;&lt;/span&gt;
+  &lt;span class="radio-label"&gt;Knockout&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class="radio-row"&gt;
+  &lt;input type="radio" name="format" class="radio-input"&gt;
+  &lt;span class="radio-box"&gt;&lt;/span&gt;
+  &lt;span class="radio-label"&gt;Round robin&lt;/span&gt;
+&lt;/label&gt;
+
+/* Same technique as Checkbox: real input, custom box. A shared
+   `name` groups radios so the browser enforces single-selection --
+   nothing to wire up by hand. */
+.radio-box { border-radius:50%; }
+.radio-input:checked + .radio-box::after { content:''; width:9px; height:9px; border-radius:50%; background:var(--ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Switch</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Switch — 5 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:14px">
+      <label class="switch-row"><input type="checkbox" class="switch-input"><span class="switch-track"><span class="switch-thumb"></span></span><span class="switch-label">Email notifications</span></label>
+      <label class="switch-row"><input type="checkbox" class="switch-input" checked><span class="switch-track"><span class="switch-thumb"></span></span><span class="switch-label">Match reminders</span></label>
+      <label class="switch-row"><input type="checkbox" class="switch-input" disabled><span class="switch-track"><span class="switch-thumb"></span></span><span class="switch-label">SMS alerts (needs a verified phone)</span></label>
+      <label class="switch-row"><input type="checkbox" class="switch-input" checked disabled><span class="switch-track"><span class="switch-thumb"></span></span><span class="switch-label">Public profile</span></label>
+    </div>
+    <div class="demo-code"><pre>&lt;label class="switch-row"&gt;
+  &lt;input type="checkbox" class="switch-input" checked&gt;
+  &lt;span class="switch-track"&gt;&lt;span class="switch-thumb"&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="switch-label"&gt;Match reminders&lt;/span&gt;
+&lt;/label&gt;
+
+.switch-track { width:40px; height:24px; border-radius:var(--r-pill); background:var(--surface-fill);
+  border:1.5px solid var(--border-strong); position:relative; }
+.switch-thumb { position:absolute; top:2.5px; left:2.5px; width:16px; height:16px; border-radius:50%; background:var(--surface); }
+.switch-input:checked + .switch-track { background:var(--lime); border-color:var(--lime); }
+.switch-input:checked + .switch-track .switch-thumb { transform:translateX(16px); }
+/* No box-shadow on the thumb -- this system separates surfaces with
+   color and border only, never elevation (see Spacing ↑). */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Select</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Select — native, field-styled</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;width:100%">
+        <div class="field">
+          <label class="field-label" for="sel-cat">Category</label>
+          <div class="select-wrap">
+            <select class="field-input select-input" id="sel-cat">
+              <option>Men's Singles</option>
+              <option>Women's Singles</option>
+              <option>Mixed Doubles</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+        </div>
+        <div class="field has-error">
+          <label class="field-label" for="sel-city">City <span class="req">*</span></label>
+          <div class="select-wrap">
+            <select class="field-input select-input" id="sel-city">
+              <option value="">Choose a city</option>
+              <option>Bangalore</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+          <div class="field-help">✕ Select a city to continue.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="sel-off">Format</label>
+          <div class="select-wrap">
+            <select class="field-input select-input" id="sel-off" disabled>
+              <option>Knockout</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="select-wrap"&gt;
+  &lt;select class="field-input select-input"&gt;
+    &lt;option&gt;Men's Singles&lt;/option&gt;
+    &lt;option&gt;Women's Singles&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;span class="select-arrow"&gt;▾&lt;/span&gt;
+&lt;/div&gt;
+
+/* Real &lt;select&gt; -- native keyboard nav (type-ahead, arrow keys) and
+   mobile picker UI for free. appearance:none only hides the browser's
+   own arrow so ours can replace it consistently across platforms. */
+.select-input { appearance:none; padding-right:38px; }
+.select-arrow { position:absolute; right:14px; top:50%; transform:translateY(-50%); pointer-events:none; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Multi-select</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Multi-select — chips inside a field</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div class="field" style="max-width:420px;width:100%">
+        <label class="field-label" for="ms-1">Categories</label>
+        <div class="field-input multiselect-box" id="ms-1">
+          <span class="multiselect-chip">Men's Singles <button type="button" aria-label="Remove Men's Singles">✕</button></span>
+          <span class="multiselect-chip">Mixed Doubles <button type="button" aria-label="Remove Mixed Doubles">✕</button></span>
+          <span class="multiselect-add" tabindex="0" role="button">+ Add category</span>
+        </div>
+        <div class="field-help">Static snapshot of the filled state — the open dropdown/search list is application logic, not simulated here.</div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="field-input multiselect-box"&gt;
+  &lt;span class="multiselect-chip"&gt;Men's Singles &lt;button type="button" aria-label="Remove Men's Singles"&gt;✕&lt;/button&gt;&lt;/span&gt;
+  &lt;span class="multiselect-chip"&gt;Mixed Doubles &lt;button type="button" aria-label="Remove Mixed Doubles"&gt;✕&lt;/button&gt;&lt;/span&gt;
+  &lt;span class="multiselect-add" tabindex="0" role="button"&gt;+ Add category&lt;/span&gt;
+&lt;/div&gt;
+
+.multiselect-box { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.multiselect-chip { display:inline-flex; align-items:center; gap:6px; background:var(--surface-fill);
+  border-radius:var(--r-pill); padding:4px 6px 4px 10px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Combobox</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Combobox — search + list, open-state snapshot</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div class="field" style="max-width:340px;width:100%">
+        <label class="field-label" for="cb-1">Organiser</label>
+        <input class="field-input" id="cb-1" type="text" value="Smash" role="combobox" aria-expanded="true" style="border-radius:8px 8px 0 0">
+        <div class="combobox-list" role="listbox">
+          <div class="combobox-option is-active" role="option">Smash Club BLR</div>
+          <div class="combobox-option" role="option">Whitefield Smashers</div>
+          <div class="combobox-option is-selected" role="option" aria-selected="true">Deccan Shuttlers ✓</div>
+        </div>
+        <div class="field-help">A visual snapshot of the open state — real keyboard list navigation (aria-activedescendant, arrow keys, typeahead) isn't wired up on this reference page.</div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;input class="field-input" type="text" value="Smash" role="combobox" aria-expanded="true"&gt;
+&lt;div class="combobox-list" role="listbox"&gt;
+  &lt;div class="combobox-option is-active" role="option"&gt;Smash Club BLR&lt;/div&gt;
+  &lt;div class="combobox-option" role="option"&gt;Whitefield Smashers&lt;/div&gt;
+&lt;/div&gt;
+
+/* This shows the correct ARIA roles for the combobox pattern
+   (combobox / listbox / option) -- the interaction layer (open on
+   type, arrow-key roving focus via aria-activedescendant, Escape to
+   close) still needs to be wired up by whoever implements this. */
+.combobox-list { border:1.5px solid var(--border-strong); border-top:none; border-radius:0 0 var(--r-control) var(--r-control); }
+.combobox-option:hover, .combobox-option.is-active { background:var(--surface-fill); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
 </section>
