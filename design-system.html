@@ -58,6 +58,9 @@
   --a-500: #F0A020;   /* amber fill, light theme */
   --a-450: #FFBA4D;   /* amber fill, dark theme -- brighter for visibility on black */
   --a-700: #9A5F0A;   /* amber, saturated -- small text on white */
+  --b-100: #E8EEF5;   /* info wash, light */
+  --b-400: #6D9FD6;   /* info, dark theme -- brighter for contrast on black */
+  --b-500: #3D6FA8;   /* info, light theme */
 
   --sg-100: #E8F4E4;  /* success wash, light */
   --sg-400: #6FBF5C;  /* success, dark theme */
@@ -117,6 +120,8 @@
   --ink-on-warning: var(--n-950);     /* amber fill is bright in both themes -- text stays dark, both themes */
   --success: var(--sg-500);
   --success-wash: var(--sg-100);
+  --info: var(--b-500);
+  --info-wash: var(--b-100);
 
   /* ---- focus ring (accessibility -- #16) ---- */
   --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4.5px var(--lime);
@@ -183,6 +188,8 @@
     --warning-wash: rgba(240,160,32,.16);
     --success: var(--sg-400);
     --success-wash: rgba(111,191,92,.16);
+    --info: var(--b-400);
+    --info-wash: rgba(109,159,214,.16);
 
     color-scheme: dark;
   }
@@ -219,6 +226,8 @@
   --warning-wash: rgba(240,160,32,.16);
   --success: var(--sg-400);
   --success-wash: rgba(111,191,92,.16);
+  --info: var(--b-400);
+  --info-wash: rgba(109,159,214,.16);
 
   color-scheme: dark;
 }
@@ -611,6 +620,59 @@ textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--fo
   font-size: 10.5px; font-weight: 700; color: var(--ink-muted); cursor: pointer; border: none; background: transparent; }
 .bottom-nav-item .ic { font-size: 18px; line-height: 1; }
 .bottom-nav-item.is-active { color: var(--ink); }
+
+/* ---- alert ---- */
+.alert { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: var(--r-control);
+  border: 1px solid; font-size: 13.5px; }
+.alert .ic { font-size: 15px; line-height: 1.4; flex-shrink: 0; }
+.alert-title { font-weight: 800; margin-bottom: 2px; }
+.alert-body { color: var(--ink-soft); line-height: 1.5; }
+.alert-info { background: var(--info-wash); border-color: var(--info); }
+.alert-info .alert-title { color: var(--info); }
+.alert-success { background: var(--success-wash); border-color: var(--success); }
+.alert-success .alert-title { color: var(--success); }
+.alert-warning { background: var(--warning-wash); border-color: var(--warning); }
+.alert-warning .alert-title { color: var(--warning-text); }
+.alert-error { background: var(--error-wash); border-color: var(--error); }
+.alert-error .alert-title { color: var(--error); }
+
+/* ---- toast / snackbar ---- */
+.toast { display: flex; align-items: center; gap: 12px; background: var(--surface-dark); color: #fff;
+  padding: 14px 16px; border-radius: var(--r-control); font-size: 13.5px; font-weight: 700; max-width: 380px; }
+.toast .action { margin-left: auto; color: var(--lime); font-weight: 800; cursor: pointer; background: none;
+  border: none; font-size: 13px; font-family: var(--font-body); padding: 0; }
+
+/* ---- banner ---- */
+.banner { display: flex; align-items: center; gap: 12px; padding: 13px 20px; border-radius: var(--r-control); font-size: 13.5px; font-weight: 700; }
+.banner-info { background: var(--info-wash); color: var(--info); }
+.banner-warning { background: var(--warning-wash); color: var(--warning-text); }
+.banner .close { margin-left: auto; }
+
+/* ---- tooltip ---- */
+.tooltip-wrap { position: relative; display: inline-block; }
+.tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--surface-dark); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 10px;
+  border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--ease); z-index: 5; }
+.tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--surface-dark); }
+.tooltip-wrap:hover .tooltip, .tooltip-wrap:focus-within .tooltip { opacity: 1; }
+
+/* ---- progress ---- */
+.progress { height: 8px; border-radius: 99px; background: var(--surface-fill); overflow: hidden; }
+.progress-fill { height: 100%; background: var(--lime); border-radius: 99px; }
+.progress-fill.is-error { background: var(--error); }
+
+/* ---- skeleton ---- */
+.skeleton { background: linear-gradient(90deg, var(--surface-fill) 25%, var(--border-strong) 37%, var(--surface-fill) 63%);
+  background-size: 400% 100%; animation: skeleton-shimmer 1.4s ease infinite; border-radius: var(--r-control); }
+@keyframes skeleton-shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; opacity: .6; } }
+
+/* ---- loading indicator (standalone spinner, reuses Button's keyframe) ---- */
+.spinner { width: 24px; height: 24px; border-radius: 50%; border: 2.5px solid var(--border-strong);
+  border-top-color: var(--ink); animation: btn-spin .7s linear infinite; display: inline-block; }
+.spinner-sm { width: 16px; height: 16px; border-width: 2px; }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 1.6s; } }
 
 @media (max-width: 760px) {
   .toc { display: none; }
@@ -1730,6 +1792,160 @@ textarea.field-input { resize:vertical; min-height:88px; }
 .bottom-nav { display:flex; border-top:1px solid var(--border); padding:8px 4px; }
 .bottom-nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--ink-muted); }
 .bottom-nav-item.is-active { color:var(--ink); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Alert</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Alert — info, success, warning, error</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:12px">
+      <div class="alert alert-info"><span class="ic">ℹ</span><div><div class="alert-title">Entries close Sep 10</div><div class="alert-body">Draw seeding happens automatically once registration closes.</div></div></div>
+      <div class="alert alert-success"><span class="ic">✓</span><div><div class="alert-title">Draw published</div><div class="alert-body">All 32 entrants have been notified by email.</div></div></div>
+      <div class="alert alert-warning"><span class="ic">⚠</span><div><div class="alert-title">Only 3 courts confirmed</div><div class="alert-body">You've entered 6 courts in the schedule — double check the venue booking.</div></div></div>
+      <div class="alert alert-error"><span class="ic">✕</span><div><div class="alert-title">Payment failed</div><div class="alert-body">Your card was declined. Update payment details to keep this listing live.</div></div></div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="alert alert-warning"&gt;
+  &lt;span class="ic"&gt;⚠&lt;/span&gt;
+  &lt;div&gt;
+    &lt;div class="alert-title"&gt;Only 3 courts confirmed&lt;/div&gt;
+    &lt;div class="alert-body"&gt;You've entered 6 courts in the schedule — double check the venue booking.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+.alert { display:flex; gap:12px; padding:14px 16px; border-radius:var(--r-control); border:1px solid; }
+.alert-title { font-weight:800; }
+.alert-body { color:var(--ink-soft); }
+.alert-warning { background:var(--warning-wash); border-color:var(--warning); }
+.alert-warning .alert-title { color:var(--warning-text); }
+/* info / success / error follow the same pattern with their own token pair */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Toast / Snackbar</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Toast — with optional action</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="background:var(--surface-subtle)">
+      <div class="toast"><span>✓</span><span>Score updated — 21–18</span></div>
+      <div class="toast"><span>Match moved to Court 04</span><button class="action" type="button">Undo</button></div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="toast"&gt;
+  &lt;span&gt;Match moved to Court 04&lt;/span&gt;
+  &lt;button class="action" type="button"&gt;Undo&lt;/button&gt;
+&lt;/div&gt;
+
+/* Always uses --surface-dark, not --ink -- a toast needs to read as
+   a fixed-dark chip against either theme, the same reasoning as the
+   CTA banner and the "Soon" badge (see Colors ↑). */
+.toast { display:flex; align-items:center; gap:12px; background:var(--surface-dark); color:#fff;
+  padding:14px 16px; border-radius:var(--r-control); font-weight:700; }
+.toast .action { margin-left:auto; color:var(--lime); font-weight:800; border:none; background:none; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Banner</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Banner — page-level message</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:10px">
+      <div class="banner banner-info"><span>ℹ</span><span>You're viewing a public page — no account needed to browse.</span></div>
+      <div class="banner banner-warning"><span>⚠</span><span>Registration closes in 2 days.</span><button class="icon-btn close" type="button" aria-label="Dismiss">✕</button></div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="banner banner-warning"&gt;
+  &lt;span&gt;⚠&lt;/span&gt;
+  &lt;span&gt;Registration closes in 2 days.&lt;/span&gt;
+  &lt;button class="icon-btn close" type="button" aria-label="Dismiss"&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+.banner { display:flex; align-items:center; gap:12px; padding:13px 20px; border-radius:var(--r-control); font-weight:700; }
+.banner-warning { background:var(--warning-wash); color:var(--warning-text); }
+.banner .close { margin-left:auto; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Tooltip</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Tooltip — hover or focus a trigger</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="padding:60px 28px">
+      <div class="tooltip-wrap">
+        <button class="icon-btn" type="button" aria-label="Match stats" aria-describedby="tt-1">📊</button>
+        <span class="tooltip" role="tooltip" id="tt-1">Points on serve: 62%</span>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="tooltip-wrap"&gt;
+  &lt;button class="icon-btn" type="button" aria-label="Match stats" aria-describedby="tt-1"&gt;📊&lt;/button&gt;
+  &lt;span class="tooltip" role="tooltip" id="tt-1"&gt;Points on serve: 62%&lt;/span&gt;
+&lt;/div&gt;
+
+/* Shows on real :hover and :focus-within -- so it appears for mouse
+   AND keyboard users, not just one. Opacity + pointer-events, not
+   display:none, so it can transition instead of popping. */
+.tooltip { position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  background:var(--surface-dark); color:#fff; padding:6px 10px; border-radius:6px; opacity:0; pointer-events:none; }
+.tooltip-wrap:hover .tooltip, .tooltip-wrap:focus-within .tooltip { opacity:1; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Progress</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Progress bar</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:16px">
+      <div style="width:100%;max-width:340px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-muted);margin-bottom:6px"><span>18 of 32 entries</span><span>56%</span></div>
+        <div class="progress" role="progressbar" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"><div class="progress-fill" style="width:56%"></div></div>
+      </div>
+      <div style="width:100%;max-width:340px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-muted);margin-bottom:6px"><span>Upload failed</span><span>34%</span></div>
+        <div class="progress"><div class="progress-fill is-error" style="width:34%"></div></div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="progress" role="progressbar" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"&gt;
+  &lt;div class="progress-fill" style="width:56%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress { height:8px; border-radius:99px; background:var(--surface-fill); overflow:hidden; }
+.progress-fill { height:100%; background:var(--lime); border-radius:99px; }
+.progress-fill.is-error { background:var(--error); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Skeleton &amp; loading indicator</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Skeleton · spinner</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:18px">
+      <div style="display:flex;gap:14px;align-items:center;width:100%;max-width:360px">
+        <div class="skeleton" style="width:44px;height:44px;border-radius:50%;flex-shrink:0"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <div class="skeleton" style="height:14px;width:70%"></div>
+          <div class="skeleton" style="height:12px;width:45%"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="spinner"></span><span style="font-size:13px;color:var(--ink-muted);font-weight:700">Loading standings…</span>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="skeleton" style="width:44px;height:44px;border-radius:50%"&gt;&lt;/div&gt;
+&lt;div class="skeleton" style="height:14px;width:70%"&gt;&lt;/div&gt;
+
+&lt;span class="spinner"&gt;&lt;/span&gt;
+
+.skeleton { background:linear-gradient(90deg, var(--surface-fill) 25%, var(--border-strong) 37%, var(--surface-fill) 63%);
+  background-size:400% 100%; animation:skeleton-shimmer 1.4s ease infinite; }
+.spinner { width:24px; height:24px; border-radius:50%; border:2.5px solid var(--border-strong);
+  border-top-color:var(--ink); animation:btn-spin .7s linear infinite; }
+/* Reuses the same @keyframes btn-spin defined for the Button's loading
+   state -- one spin animation for the whole system, not two. Both
+   respect prefers-reduced-motion. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Error &amp; success state</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Full-section states — same shell as Empty state</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage" style="background:var(--surface-subtle)">
+      <div class="empty" style="width:100%"><b style="color:var(--error)">Couldn't load this tournament</b><p>Something went wrong on our end. Try again in a moment.</p><button class="btn btn-outline" style="margin-top:14px">Retry</button></div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="empty"&gt;
+  &lt;b style="color:var(--error)"&gt;Couldn't load this tournament&lt;/b&gt;
+  &lt;p&gt;Something went wrong on our end. Try again in a moment.&lt;/p&gt;
+  &lt;button class="btn btn-outline"&gt;Retry&lt;/button&gt;
+&lt;/div&gt;
+
+/* Deliberately the same .empty shell documented in Components ↑, not
+   a new class -- an error state and an empty state are the same
+   layout problem (nothing to show, here's why, here's what to do),
+   so they share one component with a different heading color. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
 </section>
