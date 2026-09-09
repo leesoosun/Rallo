@@ -428,6 +428,57 @@ h3.sub-title:first-child { margin-top: 0; }
 footer.credit { padding: 40px 0 60px; text-align: center; font-size: 12.5px; color: var(--ink-muted); }
 footer.credit code { background: var(--surface-fill); padding: 2px 6px; border-radius: 4px; }
 
+/* ---- fields (text field, textarea, and every variant built on them) ---- */
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field-label { font-size: 13px; font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+.field-label .req { color: var(--error); }
+.field-label .opt { font-size: 11.5px; font-weight: 600; color: var(--ink-muted); }
+.field-input { font-family: var(--font-body); font-size: 14.5px; font-weight: 600; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: var(--r-control);
+  padding: 12px 14px; transition: border-color var(--ease); width: 100%; }
+.field-input::placeholder { color: var(--ink-faint); font-weight: 500; }
+.field-input:hover:not(:disabled):not(:read-only) { border-color: var(--ink-muted); }
+.field-input:focus-visible { border-color: var(--lime); }
+.field-input:disabled { background: var(--surface-fill); color: var(--ink-faint); cursor: not-allowed; border-color: var(--border); }
+.field-input:read-only { background: var(--surface-fill); border-color: var(--border); }
+textarea.field-input { resize: vertical; min-height: 88px; font-family: var(--font-body); }
+.field-help { font-size: 12px; font-weight: 600; color: var(--ink-muted); display: flex; align-items: center; gap: 5px; }
+.field.has-error .field-input { border-color: var(--error); }
+.field.has-error .field-help { color: var(--error); }
+.field.has-warning .field-input { border-color: var(--warning); }
+.field.has-warning .field-help { color: var(--warning-text); }
+.field.has-success .field-input { border-color: var(--success); }
+.field.has-success .field-help { color: var(--success); }
+
+/* adornments: icon/prefix/suffix inside a text field, e.g. search, currency, password */
+.field-input-wrap { position: relative; display: flex; align-items: center; }
+.field-input-wrap .field-input { width: 100%; }
+.field-input-wrap.has-start .field-input { padding-left: 40px; }
+.field-input-wrap.has-end .field-input { padding-right: 40px; }
+.field-adorn-start, .field-adorn-end { position: absolute; display: flex; align-items: center; color: var(--ink-muted); font-weight: 700; font-size: 13.5px; }
+.field-adorn-start { left: 13px; pointer-events: none; }
+.field-adorn-end { right: 6px; }
+.field-adorn-end.is-static { right: 13px; pointer-events: none; }
+
+/* icon button -- also used standalone in the Actions batch later */
+.icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  border-radius: var(--r-control); border: none; background: transparent; color: var(--ink-muted);
+  cursor: pointer; transition: background var(--ease), color var(--ease); font-size: 15px; padding: 0; }
+.icon-btn:hover { background: var(--surface-fill); color: var(--ink); }
+.icon-btn:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+
+/* file upload */
+.upload-zone { border: 1.5px dashed var(--border-strong); border-radius: var(--r-panel); padding: 30px 20px;
+  text-align: center; cursor: pointer; transition: border-color var(--ease), background var(--ease); }
+.upload-zone:hover { border-color: var(--ink-muted); background: var(--surface-fill); }
+.upload-zone.has-error { border-color: var(--error); background: var(--error-wash); }
+.upload-zone b { font-size: 14px; }
+.upload-zone .hint { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+.upload-file { display: flex; align-items: center; gap: 12px; border: 1px solid var(--border); border-radius: var(--r-control);
+  padding: 10px 12px; margin-top: 10px; }
+.upload-file .name { font-size: 13px; font-weight: 700; flex: 1; }
+.upload-file .size { font-size: 12px; color: var(--ink-muted); }
+
 @media (max-width: 760px) {
   .toc { display: none; }
   .cta-banner { flex-direction: column; align-items: flex-start; }
@@ -883,6 +934,248 @@ Component
   color:#fff; display:flex; justify-content:space-between; align-items:center; gap:24px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
   </div>
 
+  <h3 class="sub-title">Text field</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Text field — 9 states</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;width:100%">
+        <div class="field">
+          <label class="field-label" for="tf-default">Team name <span class="req">*</span></label>
+          <input class="field-input" id="tf-default" type="text" placeholder="e.g. Smash Club BLR">
+          <div class="field-help">Shown on your tournament listing.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="tf-filled">Team name <span class="req">*</span></label>
+          <input class="field-input" id="tf-filled" type="text" value="Whitefield Smashers">
+          <div class="field-help">Shown on your tournament listing.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="tf-focus">City <span class="opt">(optional)</span></label>
+          <input class="field-input" id="tf-focus" type="text" placeholder="e.g. Bangalore">
+          <div class="field-help">Tab to this field to see it focused.</div>
+        </div>
+        <div class="field has-error">
+          <label class="field-label" for="tf-error">Email</label>
+          <input class="field-input" id="tf-error" type="text" value="rahul@">
+          <div class="field-help">✕ Enter a valid email address.</div>
+        </div>
+        <div class="field has-warning">
+          <label class="field-label" for="tf-warn">Team name <span class="req">*</span></label>
+          <input class="field-input" id="tf-warn" type="text" value="BLR">
+          <div class="field-help">⚠ Short names get truncated on mobile.</div>
+        </div>
+        <div class="field has-success">
+          <label class="field-label" for="tf-ok">Team name <span class="req">*</span></label>
+          <input class="field-input" id="tf-ok" type="text" value="Koramangala Masters">
+          <div class="field-help">✓ Available.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="tf-disabled">Tournament ID</label>
+          <input class="field-input" id="tf-disabled" type="text" value="RL-2026-0842" disabled>
+          <div class="field-help">Assigned automatically.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="tf-readonly">Organiser</label>
+          <input class="field-input" id="tf-readonly" type="text" value="Smash Club BLR" readonly>
+          <div class="field-help">Set from your account — read only.</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="field"&gt;
+  &lt;label class="field-label" for="team"&gt;Team name &lt;span class="req"&gt;*&lt;/span&gt;&lt;/label&gt;
+  &lt;input class="field-input" id="team" type="text" placeholder="e.g. Smash Club BLR"&gt;
+  &lt;div class="field-help"&gt;Shown on your tournament listing.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Error / warning / success: add a modifier class to .field, not the input --&gt;
+&lt;div class="field has-error"&gt;
+  &lt;label class="field-label" for="email"&gt;Email&lt;/label&gt;
+  &lt;input class="field-input" id="email" type="text" value="rahul@"&gt;
+  &lt;div class="field-help"&gt;Enter a valid email address.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Disabled / read-only: real HTML attributes, not classes --&gt;
+&lt;input class="field-input" value="RL-2026-0842" disabled&gt;
+&lt;input class="field-input" value="Smash Club BLR" readonly&gt;
+
+.field { display:flex; flex-direction:column; gap:7px; }
+.field-label { font-size:13px; font-weight:800; color:var(--ink); }
+.field-label .req { color:var(--error); }
+.field-input { font-size:14.5px; font-weight:600; color:var(--ink); background:var(--surface);
+  border:1.5px solid var(--border-strong); border-radius:var(--r-control); padding:12px 14px; width:100%; }
+.field-input:hover:not(:disabled):not(:read-only) { border-color:var(--ink-muted); }
+.field-input:focus-visible { border-color:var(--lime); }
+.field-input:disabled { background:var(--surface-fill); color:var(--ink-faint); border-color:var(--border); }
+.field-input:read-only { background:var(--surface-fill); border-color:var(--border); }
+.field-help { font-size:12px; font-weight:600; color:var(--ink-muted); }
+.field.has-error .field-input { border-color:var(--error); }
+.field.has-error .field-help { color:var(--error); }
+.field.has-warning .field-input { border-color:var(--warning); }
+.field.has-warning .field-help { color:var(--warning-text); }
+.field.has-success .field-input { border-color:var(--success); }
+.field.has-success .field-help { color:var(--success); }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Text field variants</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Search · Number · Password · Currency</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;width:100%">
+        <div class="field">
+          <label class="field-label" for="v-search">Search players</label>
+          <div class="field-input-wrap has-start">
+            <span class="field-adorn-start">🔍</span>
+            <input class="field-input" id="v-search" type="text" placeholder="Search by name">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="v-number">Entry fee</label>
+          <div class="field-input-wrap has-end">
+            <input class="field-input" id="v-number" type="number" placeholder="0">
+            <span class="field-adorn-end is-static">/ team</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="v-pw">Password</label>
+          <div class="field-input-wrap has-end">
+            <input class="field-input" id="v-pw" type="password" value="rallosmash">
+            <button class="icon-btn field-adorn-end" type="button" aria-label="Show password" data-pw-toggle>Show</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="v-currency">Prize pool</label>
+          <div class="field-input-wrap has-start">
+            <span class="field-adorn-start">₹</span>
+            <input class="field-input" id="v-currency" type="text" placeholder="40,000">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;!-- Adornment wrapper: has-start / has-end pads the input to clear the icon --&gt;
+&lt;div class="field-input-wrap has-start"&gt;
+  &lt;span class="field-adorn-start"&gt;🔍&lt;/span&gt;
+  &lt;input class="field-input" type="text" placeholder="Search by name"&gt;
+&lt;/div&gt;
+
+&lt;!-- Currency prefix uses the same has-start pattern --&gt;
+&lt;div class="field-input-wrap has-start"&gt;
+  &lt;span class="field-adorn-start"&gt;₹&lt;/span&gt;
+  &lt;input class="field-input" type="text" placeholder="40,000"&gt;
+&lt;/div&gt;
+
+&lt;!-- Password: the end adornment is a real button, not decoration --&gt;
+&lt;div class="field-input-wrap has-end"&gt;
+  &lt;input class="field-input" type="password" value="rallosmash"&gt;
+  &lt;button class="icon-btn field-adorn-end" type="button" aria-label="Show password"&gt;Show&lt;/button&gt;
+&lt;/div&gt;
+
+.field-input-wrap { position:relative; display:flex; align-items:center; }
+.field-input-wrap.has-start .field-input { padding-left:40px; }
+.field-input-wrap.has-end .field-input { padding-right:40px; }
+.field-adorn-start { position:absolute; left:13px; color:var(--ink-muted); pointer-events:none; }
+.field-adorn-end { position:absolute; right:6px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Textarea</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Textarea</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;width:100%">
+        <div class="field">
+          <label class="field-label" for="ta-default">Tournament description</label>
+          <textarea class="field-input" id="ta-default" rows="3" placeholder="Knockout draw, feather shuttles…"></textarea>
+          <div class="field-help">Shown under the tournament title.</div>
+        </div>
+        <div class="field has-error">
+          <label class="field-label" for="ta-error">Tournament description <span class="req">*</span></label>
+          <textarea class="field-input" id="ta-error" rows="3"></textarea>
+          <div class="field-help">✕ A description is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="field"&gt;
+  &lt;label class="field-label" for="desc"&gt;Tournament description&lt;/label&gt;
+  &lt;textarea class="field-input" id="desc" rows="3" placeholder="Knockout draw, feather shuttles…"&gt;&lt;/textarea&gt;
+  &lt;div class="field-help"&gt;Shown under the tournament title.&lt;/div&gt;
+&lt;/div&gt;
+
+textarea.field-input { resize:vertical; min-height:88px; }
+/* everything else is identical to Text field -- same states, same classes */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">Date &amp; time</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">Date · Time — native picker, field-styled</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%">
+        <div class="field">
+          <label class="field-label" for="d-date">Tournament date</label>
+          <input class="field-input" id="d-date" type="date" value="2026-09-14">
+        </div>
+        <div class="field">
+          <label class="field-label" for="d-time">Check-in time</label>
+          <input class="field-input" id="d-time" type="time" value="08:30">
+        </div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="field"&gt;
+  &lt;label class="field-label" for="date"&gt;Tournament date&lt;/label&gt;
+  &lt;input class="field-input" id="date" type="date"&gt;
+&lt;/div&gt;
+
+&lt;div class="field"&gt;
+  &lt;label class="field-label" for="time"&gt;Check-in time&lt;/label&gt;
+  &lt;input class="field-input" id="time" type="time"&gt;
+&lt;/div&gt;
+
+/* Deliberately the browser's own native date/time picker rather than a custom
+   calendar widget -- correct keyboard nav and locale formatting for free,
+   and it already matches .field-input's border/radius/focus treatment. */</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
+  <h3 class="sub-title">File upload</h3>
+  <div class="demo">
+    <div class="demo-title-row"><span class="demo-title">File upload — empty, filled, error</span><span class="demo-code-toggle" data-toggle tabindex="0" role="button">Code</span></div>
+    <div class="demo-stage column" style="gap:16px">
+      <div class="upload-zone" tabindex="0" role="button" aria-label="Upload a file">
+        <b>Click to upload</b> or drag and drop
+        <div class="hint">PNG or JPG, up to 5MB</div>
+      </div>
+      <div>
+        <div class="upload-zone" tabindex="0" role="button" aria-label="Upload a file" style="padding:16px;text-align:left">
+          <b>Change file</b>
+        </div>
+        <div class="upload-file">
+          <span class="name">bangalore-smash-open-banner.png</span>
+          <span class="size">1.4 MB</span>
+          <button class="icon-btn" type="button" aria-label="Remove file">✕</button>
+        </div>
+      </div>
+      <div class="upload-zone has-error" tabindex="0" role="button" aria-label="Upload a file">
+        <b>Click to upload</b> or drag and drop
+        <div class="hint" style="color:var(--error)">✕ File too large — 5MB limit</div>
+      </div>
+    </div>
+    <div class="demo-code"><pre>&lt;div class="upload-zone" tabindex="0" role="button" aria-label="Upload a file"&gt;
+  &lt;b&gt;Click to upload&lt;/b&gt; or drag and drop
+  &lt;div class="hint"&gt;PNG or JPG, up to 5MB&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Filled: the zone stays (to allow replacing), plus a file row below it --&gt;
+&lt;div class="upload-file"&gt;
+  &lt;span class="name"&gt;banner.png&lt;/span&gt;
+  &lt;span class="size"&gt;1.4 MB&lt;/span&gt;
+  &lt;button class="icon-btn" type="button" aria-label="Remove file"&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+.upload-zone { border:1.5px dashed var(--border-strong); border-radius:var(--r-panel);
+  padding:30px 20px; text-align:center; cursor:pointer; }
+.upload-zone:hover { border-color:var(--ink-muted); background:var(--surface-fill); }
+.upload-zone.has-error { border-color:var(--error); background:var(--error-wash); }
+.upload-file { display:flex; align-items:center; gap:12px; border:1px solid var(--border);
+  border-radius:var(--r-control); padding:10px 12px; margin-top:10px; }</pre><button class="copy-btn" data-copy-target>Copy</button></div>
+  </div>
+
 </section>
 
 <section class="block" id="status">
@@ -1036,6 +1329,17 @@ Component
 
   paintToggle();
   refreshSwatches();
+
+  /* password field show/hide toggle */
+  document.querySelectorAll('[data-pw-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var input = btn.parentElement.querySelector('input');
+      var showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      btn.textContent = showing ? 'Show' : 'Hide';
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+  });
 
   /* Enter/Space activates any non-native interactive element built as a
      <span role="button">, matching how a real <button> already behaves. */
