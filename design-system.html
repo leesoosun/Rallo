@@ -926,15 +926,15 @@ Component
     <div><h2 class="block-title">Typography</h2><p class="block-desc">One family, full weight range, one scale. Display and body used to be two separate typefaces (Archivo Black + Manrope) — both now draw from Plus Jakarta Sans, at different weights, for one font request instead of two. Click a row to copy its CSS.</p></div>
   </div>
 
-  <h3 class="sub-title">Family</h3>
+  <h3 class="sub-title">Family <span style="font-weight:600;color:var(--ink-muted);text-transform:none;font-size:12.5px">— follows the Font preview picker in the topbar ↑</span></h3>
   <div class="swatch-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-    <div class="card" style="cursor:default" onmouseenter="" ><div class="card-body"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:38px;text-transform:uppercase;line-height:1">Plus Jakarta Sans</div><div class="card-meta">Display — headlines, scores, stat numerals. Weight 800 (no true 900/Black cut exists), always uppercase, tight leading.</div></div></div>
-    <div class="card" style="cursor:default"><div class="card-body"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:700">Plus Jakarta Sans</div><div class="card-meta">UI &amp; body — everything else. Same family, weights 800 / 700 / 600.</div></div></div>
+    <div class="card" style="cursor:default" onmouseenter="" ><div class="card-body"><div id="type-family-display-name" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:38px;text-transform:uppercase;line-height:1">Plus Jakarta Sans</div><div class="card-meta" id="type-family-display-meta">Display — headlines, scores, stat numerals. Weight 800 (no true 900/Black cut exists), always uppercase, tight leading.</div></div></div>
+    <div class="card" style="cursor:default"><div class="card-body"><div id="type-family-body-name" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:700">Plus Jakarta Sans</div><div class="card-meta" id="type-family-body-meta">UI &amp; body — everything else. Same family, weights 800 / 700 / 600.</div></div></div>
     <div class="card" style="cursor:default"><div class="card-body"><div style="font-family:ui-monospace,Menlo,monospace;font-size:26px">Mono 09:12</div><div class="card-meta">System monospace — live clocks, court codes, code samples on this page.</div></div></div>
   </div>
 
   <h3 class="sub-title">Scale</h3>
-  <div data-type-scale>
+  <div data-type-scale id="type-scale-rows">
     <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(38px,6vw,72px);text-transform:uppercase;line-height:.96" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-weight:800;--sample-size:44px;--sample-tt:uppercase">
       <div class="type-sample">Play. Compete.</div>
       <div class="type-meta"><div class="role">Hero title</div><div class="spec">Plus Jakarta Sans 800 · clamp(38–72px) · uppercase</div><div class="type-copy">Click to copy CSS ↗</div></div>
@@ -970,8 +970,8 @@ Component
   </div>
 
   <h3 class="sub-title">Full family</h3>
-  <p class="block-desc" style="margin-bottom:16px">The complete variable range loaded by <code>--font-body</code> / <code>--font-display</code> — every weight below is already available with no extra font request. Click a row to copy its CSS.</p>
-  <div data-type-scale>
+  <p class="block-desc" style="margin-bottom:16px" id="type-full-family-desc">The complete variable range loaded by <code>--font-body</code> / <code>--font-display</code> — every weight below is already available with no extra font request. Click a row to copy its CSS.</p>
+  <div data-type-scale id="type-full-family-rows">
     <div class="type-row" data-copy="font-family:'Plus Jakarta Sans',sans-serif;font-weight:200" style="--sample-family:'Plus Jakarta Sans',sans-serif;--sample-size:22px;--sample-weight:200">
       <div class="type-sample">Jakarta ExtraLight</div>
       <div class="type-meta"><div class="role">200 · ExtraLight</div><div class="spec">Plus Jakarta Sans 200</div><div class="type-copy">Click to copy CSS ↗</div></div>
@@ -2699,12 +2699,12 @@ textarea.field-input { resize:vertical; min-height:88px; }
       copyText(el.getAttribute('data-copy')).then(function (ok) { flashCopy(el, ok); });
     });
   });
-  document.querySelectorAll('[data-type-scale] .type-row').forEach(function (el) {
-    el.addEventListener('click', function () {
-      copyText(el.getAttribute('data-copy')).then(function (ok) {
-        var f = el.querySelector('.type-copy');
-        if (ok && f) { var prev = f.textContent; f.textContent = 'Copied ✓'; f.style.opacity = 1; setTimeout(function () { f.textContent = prev; }, 900); }
-      });
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-type-scale] .type-row');
+    if (!el) return;
+    copyText(el.getAttribute('data-copy')).then(function (ok) {
+      var f = el.querySelector('.type-copy');
+      if (ok && f) { var prev = f.textContent; f.textContent = 'Copied ✓'; f.style.opacity = 1; setTimeout(function () { f.textContent = prev; }, 900); }
     });
   });
   document.querySelectorAll('[data-toggle]').forEach(function (el) {
@@ -2774,36 +2774,162 @@ textarea.field-input { resize:vertical; min-height:88px; }
   var FONT_PREVIEWS = [
     { id: 'pjs', name: 'Plus Jakarta Sans', tag: 'Current', tagClass: '',
       family: "'Plus Jakarta Sans', sans-serif", google: 'family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800', weight: 800,
+      weights: [200, 300, 400, 500, 600, 700, 800], italic: true, singleCut: false,
       blurb: 'The live default since the one-font consolidation. 200-800, no true 900 Black.' },
     { id: 'archivo', name: 'Archivo', tag: 'Recommended', tagClass: 'is-rec',
       family: "'Archivo', sans-serif", google: 'family=Archivo:ital,wght@0,100..900;1,100..900', weight: 900,
+      weights: [100, 200, 300, 400, 500, 600, 700, 800, 900], italic: true, singleCut: false,
       blurb: 'Same lineage as Archivo Black, but one variable family spanning 100-900 -- the only option here with a genuine Black cut, so headlines keep their full punch without a second font request.' },
     { id: 'big-shoulders', name: 'Big Shoulders Display', tag: 'Display pick', tagClass: '',
       family: "'Big Shoulders Display', sans-serif", google: 'family=Big+Shoulders+Display:wght@100..900', weight: 900,
+      weights: [100, 200, 300, 400, 500, 600, 700, 800, 900], italic: false, singleCut: false,
       blurb: "Condensed, stadium-scoreboard energy -- built for headlines and big numbers, not paragraphs. Variable 100-900 with a genuine Black. Literally named 'Display' -- the most single-purpose pick on this list, worth trying for headlines only." },
     { id: 'poppins', name: 'Poppins', tag: 'Popular', tagClass: '',
-      family: "'Poppins', sans-serif", google: 'family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700', weight: 900,
-      blurb: 'Geometric and rounded, one of the most-used Google Fonts. True 900 Black across static cuts 400-900, but friendlier and less distinctive than Archivo.' },
+      family: "'Poppins', sans-serif", google: 'family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700', weight: 900,
+      weights: [100, 200, 300, 400, 500, 600, 700, 800, 900], italic: true, singleCut: false,
+      blurb: 'Geometric and rounded, one of the most-used Google Fonts. True 900 Black across static cuts 100-900, but friendlier and less distinctive than Archivo.' },
     { id: 'inter', name: 'Inter', tag: 'Popular', tagClass: '',
       family: "'Inter', sans-serif", google: 'family=Inter:ital,wght@0,100..900;1,100..900', weight: 900,
+      weights: [100, 200, 300, 400, 500, 600, 700, 800, 900], italic: true, singleCut: false,
       blurb: "The default modern UI typeface -- exceptional readability at small sizes, true variable 100-900 with a real Black cut, but neutral enough to read as 'no particular brand' rather than sporty." },
     { id: 'archivo-black', name: 'Archivo Black', tag: 'Former display', tagClass: '',
       family: "'Archivo Black', sans-serif", google: 'family=Archivo+Black', weight: 400,
+      weights: [400], italic: false, singleCut: true,
       blurb: 'What --font-display was before this page consolidated to one family. Single static cut -- weight has no effect.' },
     { id: 'manrope', name: 'Manrope', tag: 'Former body', tagClass: '',
-      family: "'Manrope', sans-serif", google: 'family=Manrope:wght@400;500;600;700;800', weight: 800,
+      family: "'Manrope', sans-serif", google: 'family=Manrope:wght@200..800', weight: 800,
+      weights: [200, 300, 400, 500, 600, 700, 800], italic: false, singleCut: false,
       blurb: 'What --font-body was before consolidation, shown here applied to display roles too so you can compare.' },
     { id: 'anton', name: 'Anton', tag: 'Original', tagClass: '',
       family: "'Anton', sans-serif", google: 'family=Anton', weight: 400,
+      weights: [400], italic: false, singleCut: true,
       blurb: 'The very first display face this project used, before Archivo Black. Single static cut -- weight has no effect.' }
   ];
+  var WEIGHT_NAMES = { 100: 'Thin', 200: 'ExtraLight', 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold', 800: 'ExtraBold', 900: 'Black' };
+  function nearestWeight(weights, target) {
+    var best = weights[0];
+    weights.forEach(function (w) { if (Math.abs(w - target) < Math.abs(best - target)) best = w; });
+    return best;
+  }
+  function resolveWeight(entry, wanted) {
+    return entry.singleCut ? entry.weight : nearestWeight(entry.weights, wanted);
+  }
+  // Scale rows: everything that doesn't depend on the selected font (role label, sample copy,
+  // rendered/CSS font sizes, uppercase, letter-spacing, sample color) plus which weight role
+  // ('display' reuses the font's --font-display-weight pick; a number is resolved per-font).
+  var SCALE_ROWS = [
+    { role: 'Hero title', sample: 'Play. Compete.', copySize: 'clamp(38px,6vw,72px)', sampleSize: '44px', weightKind: 'display', tt: true },
+    { role: 'Page / section H2', sample: 'Section title', copySize: 'clamp(28px,3.6vw,42px)', sampleSize: '34px', weightKind: 'display', tt: true },
+    { role: 'Card / row H3', sample: 'Card title', copySize: '26px', sampleSize: '26px', weightKind: 'display', tt: true },
+    { role: 'Score / stat numeral', sample: '18–16', copySize: '22px', sampleSize: '22px', weightKind: 'display' },
+    { role: 'Lede / intro copy', sample: 'Lede paragraph text sits here.', copySize: '17px', sampleSize: '17px', weightKind: 600, specColor: '#55554F', sampleColor: 'var(--ink-soft)' },
+    { role: 'Body default', sample: 'Body / label text', copySize: '15px', sampleSize: '15px', weightKind: 700 },
+    { role: 'Meta, timestamps', sample: 'Meta / caption text', copySize: '12.5px', sampleSize: '12.5px', weightKind: 600, specColor: '#8A8A82', sampleColor: 'var(--ink-muted)' },
+    { role: 'Eyebrow / micro-label', sample: 'Eyebrow label', copySize: '10.5px', sampleSize: '10.5px', weightKind: 800, ls: '.07em', tt: true }
+  ];
+
+  function renderFamilyCards(entry) {
+    var dName = document.getElementById('type-family-display-name');
+    var dMeta = document.getElementById('type-family-display-meta');
+    var bName = document.getElementById('type-family-body-name');
+    var bMeta = document.getElementById('type-family-body-meta');
+    if (!dName || !dMeta || !bName || !bMeta) return;
+    var dw = resolveWeight(entry, entry.weight);
+    var bw = resolveWeight(entry, 700);
+    dName.textContent = entry.name;
+    dName.style.fontFamily = entry.family;
+    dName.style.fontWeight = dw;
+    dMeta.textContent = 'Display — headlines, scores, stat numerals. ' +
+      (entry.singleCut ? 'Single static cut -- weight has no effect.' : 'Weight ' + dw + (dw === 900 ? ' (true Black)' : '') + ' of ' + entry.weights[0] + '-' + entry.weights[entry.weights.length - 1] + '.') +
+      ' Always uppercase, tight leading.';
+    bName.textContent = entry.name;
+    bName.style.fontFamily = entry.family;
+    bName.style.fontWeight = bw;
+    bMeta.textContent = 'UI & body — everything else. ' +
+      (entry.singleCut ? 'Same single cut -- no separate weights available.' : 'Same family, weights ' + entry.weights.slice().reverse().slice(0, 3).join(' / ') + '.');
+  }
+
+  function renderScaleRows(entry) {
+    var container = document.getElementById('type-scale-rows');
+    if (!container) return;
+    container.innerHTML = '';
+    SCALE_ROWS.forEach(function (r) {
+      var weight = r.weightKind === 'display' ? resolveWeight(entry, entry.weight) : resolveWeight(entry, r.weightKind);
+      var weightLabel = entry.singleCut ? 'single cut' : weight;
+      var copy = 'font-family:' + entry.family + (entry.singleCut ? '' : ';font-weight:' + weight) + ';font-size:' + r.copySize +
+        (r.tt ? ';text-transform:uppercase' : '') + (r.ls ? ';letter-spacing:' + r.ls : '') + (r.specColor ? ';color:' + r.specColor : '');
+      var row = document.createElement('div');
+      row.className = 'type-row';
+      row.setAttribute('data-copy', copy);
+      row.style.setProperty('--sample-family', entry.family);
+      row.style.setProperty('--sample-size', r.sampleSize);
+      if (!entry.singleCut) row.style.setProperty('--sample-weight', weight);
+      if (r.tt) row.style.setProperty('--sample-tt', 'uppercase');
+      if (r.ls) row.style.setProperty('--sample-ls', r.ls);
+      var spec = entry.name + ' ' + weightLabel + ' · ' + r.copySize.replace('clamp(38px,6vw,72px)', 'clamp(38–72px)').replace('clamp(28px,3.6vw,42px)', 'clamp(28–42px)') + (r.tt ? ' · uppercase' : '') + (r.ls ? ' · +' + r.ls : '');
+      row.innerHTML =
+        '<div class="type-sample"' + (r.sampleColor ? ' style="color:' + r.sampleColor + '"' : '') + '>' + r.sample + '</div>' +
+        '<div class="type-meta"><div class="role">' + r.role + '</div><div class="spec">' + spec + '</div><div class="type-copy">Click to copy CSS ↗</div></div>';
+      container.appendChild(row);
+    });
+  }
+
+  function renderFullFamily(entry) {
+    var container = document.getElementById('type-full-family-rows');
+    var desc = document.getElementById('type-full-family-desc');
+    if (!container || !desc) return;
+    container.innerHTML = '';
+    if (entry.singleCut) {
+      desc.textContent = entry.name + ' ships as a single static font file -- there is no weight range to show. Whatever font-weight is requested renders identically.';
+      var note = document.createElement('div');
+      note.className = 'callout';
+      note.style.maxWidth = 'none';
+      note.innerHTML = '<b>Single weight only</b><span>' + entry.name + ' has exactly one cut. Setting <code>font-weight</code> on it has no visual effect.</span>';
+      container.appendChild(note);
+      return;
+    }
+    desc.innerHTML = 'The complete variable range for <b>' + entry.name + '</b> (<code>--font-body</code> / <code>--font-display</code>) — every weight below is already available with no extra font request. Click a row to copy its CSS.';
+    entry.weights.forEach(function (w) {
+      var row = document.createElement('div');
+      row.className = 'type-row';
+      row.setAttribute('data-copy', 'font-family:' + entry.family + ';font-weight:' + w);
+      row.style.setProperty('--sample-family', entry.family);
+      row.style.setProperty('--sample-size', '22px');
+      row.style.setProperty('--sample-weight', w);
+      row.innerHTML =
+        '<div class="type-sample">' + entry.name + ' ' + (WEIGHT_NAMES[w] || w) + '</div>' +
+        '<div class="type-meta"><div class="role">' + w + ' · ' + (WEIGHT_NAMES[w] || w) + '</div><div class="spec">' + entry.name + ' ' + w + '</div><div class="type-copy">Click to copy CSS ↗</div></div>';
+      container.appendChild(row);
+    });
+    if (entry.italic) {
+      var iw = nearestWeight(entry.weights, 700);
+      var row = document.createElement('div');
+      row.className = 'type-row';
+      row.setAttribute('data-copy', 'font-family:' + entry.family + ';font-weight:' + iw + ';font-style:italic');
+      row.style.setProperty('--sample-family', entry.family);
+      row.style.setProperty('--sample-size', '22px');
+      row.style.setProperty('--sample-weight', iw);
+      row.style.setProperty('--sample-style', 'italic');
+      row.innerHTML =
+        '<div class="type-sample">' + entry.name + ' ' + (WEIGHT_NAMES[iw] || iw) + ' Italic</div>' +
+        '<div class="type-meta"><div class="role">' + iw + ' · ' + (WEIGHT_NAMES[iw] || iw) + ', italic</div><div class="spec">' + entry.name + ' ' + iw + ' italic</div><div class="type-copy">Click to copy CSS ↗</div></div>';
+      container.appendChild(row);
+    }
+  }
+
+  function renderTypography(entry) {
+    renderFamilyCards(entry);
+    renderScaleRows(entry);
+    renderFullFamily(entry);
+  }
+
   (function () {
     var STORAGE_KEY = 'rallo-ds-font-preview';
     var trigger = document.getElementById('font-preview-trigger');
     var panel = document.getElementById('font-preview-panel');
     var label = document.getElementById('font-preview-label');
     if (!trigger || !panel || !label) return;
-    var loadedFontIds = {};
+    var loadedFontIds = { pjs: true };
     var menuBuilt = false;
 
     function loadFont(entry) {
@@ -2868,6 +2994,7 @@ textarea.field-input { resize:vertical; min-height:88px; }
       panel.querySelectorAll('.font-item').forEach(function (b) {
         b.classList.toggle('is-selected', b.getAttribute('data-font-id') === id);
       });
+      renderTypography(entry);
       if (persist !== false) { try { localStorage.setItem(STORAGE_KEY, id); } catch (e) {} }
     }
 
@@ -2875,7 +3002,9 @@ textarea.field-input { resize:vertical; min-height:88px; }
 
     var saved = null;
     try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
-    if (saved && saved !== 'pjs') applyFont(saved, false);
+    var initialId = 'pjs';
+    for (var j = 0; j < FONT_PREVIEWS.length; j++) { if (FONT_PREVIEWS[j].id === saved) initialId = saved; }
+    applyFont(initialId, false);
   })();
 
   /* ---- context menu: right-click a zone, position at the cursor ---- */
