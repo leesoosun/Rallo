@@ -522,7 +522,7 @@ a:hover{color:#6E9410}
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:38px">
 
-        <div style="border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:26px;cursor:pointer;transition:.18s" style-hover="background:rgba(158,206,22,.09);border-color:#9ECE16" onClick="{{ auth.organize }}">
+        <div style="border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:26px;cursor:pointer;transition:.18s" style-hover="background:rgba(158,206,22,.09);border-color:#9ECE16" onClick="{{ goCreate }}">
           <div style="display:flex;justify-content:space-between;align-items:flex-start">
             <span style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:22px;color:rgba(255,255,255,.25)">01</span>
             <span style="font-size:10px;font-weight:800;letter-spacing:.08em;color:#9ECE16;border:1px solid rgba(158,206,22,.35);padding:4px 8px;border-radius:5px">ACCOUNT</span></div>
@@ -719,7 +719,7 @@ a:hover{color:#6E9410}
       </div>
       <div style="display:flex;gap:14px;flex-wrap:wrap">
         <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:16px;font-weight:800;background:#0A0A0A;color:#fff;padding:18px 32px;border-radius:99px" onClick="{{ auth.signup }}">Get Started</button>
-        <button style="cursor:pointer;font-family:var(--font-body);font-size:16px;font-weight:800;background:transparent;color:#0A0A0A;padding:18px 32px;border-radius:99px;border:1.5px solid rgba(10,10,10,.35)" onClick="{{ auth.organize }}">Organize a Tournament</button>
+        <button style="cursor:pointer;font-family:var(--font-body);font-size:16px;font-weight:800;background:transparent;color:#0A0A0A;padding:18px 32px;border-radius:99px;border:1.5px solid rgba(10,10,10,.35)" onClick="{{ goCreate }}">Organize a Tournament</button>
       </div>
     </div>
   </section>
@@ -840,7 +840,7 @@ a:hover{color:#6E9410}
           <h1 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:clamp(38px,6vw,72px);text-transform:uppercase;margin:0;line-height:.96">Tournaments</h1>
           <p style="font-size:17px;color:#55554F;margin:12px 0 0;line-height:1.5">Every draw on Rallo — what is on court right now, what is open for entry, and what has already been decided.</p>
         </div>
-        <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" style-hover="background:#242420" onClick="{{ auth.organize }}">Organise a Tournament</button>
+        <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" style-hover="background:#242420" onClick="{{ goCreate }}">Organise a Tournament</button>
       </div>
 
       <div style="display:flex;gap:44px;margin-top:28px;flex-wrap:wrap">
@@ -1018,7 +1018,7 @@ a:hover{color:#6E9410}
         <p style="font-size:14.5px;color:rgba(255,255,255,.6);margin:10px 0 0;line-height:1.5">Publish entries, seed the draw and let Rallo file every score straight to player profiles.</p>
       </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:15px 26px;border-radius:99px" onClick="{{ auth.organize }}">Organise a Tournament</button>
+        <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:15px 26px;border-radius:99px" onClick="{{ goCreate }}">Organise a Tournament</button>
         <button style="cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:transparent;color:#fff;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(255,255,255,.28)" style-hover="border-color:#fff" onClick="{{ auth.alerts }}">Get entry alerts</button>
       </div>
     </div>
@@ -1061,68 +1061,126 @@ a:hover{color:#6E9410}
 
   <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,3vw,32px)">
     <div style="display:flex;gap:6px;border-bottom:1px solid rgba(10,10,10,.1);margin-top:4px;overflow-x:auto">
-      <span style="font-size:14.5px;font-weight:800;padding:18px 18px;border-bottom:3px solid #0A0A0A;cursor:pointer;white-space:nowrap">Overview</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" style-hover="color:#0A0A0A">Schedule</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" style-hover="color:#0A0A0A">Draws</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" style-hover="color:#0A0A0A">Results</span>
-      <span style="font-size:14.5px;font-weight:700;padding:18px 18px;color:#8A8A82;cursor:pointer;white-space:nowrap" onClick="{{ auth.players }}">Players</span>
+      <sc-for list="{{ dtabs }}" as="dt">
+        <span style="{{ dt.style }}" onClick="{{ dt.select }}">{{ dt.label }}</span>
+      </sc-for>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-top:34px">
       <div>
-        <sc-if value="{{ isPastT }}" hint-placeholder-val="{{ false }}">
-          <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:24px;background:#FAFAF7">
-            <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">CHAMPION</div>
-            <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
-              <span style="font-size:26px">🏆</span>
-              <div>
-                <div style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:32px;text-transform:uppercase;line-height:1">{{ td.champion }}</div>
-                <div style="font-size:13px;color:#8A8A82;font-weight:600;margin-top:4px">{{ td.finalMeta }}</div>
+
+        <sc-if value="{{ onOverview }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ isPastT }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:24px;background:#FAFAF7;cursor:pointer" onClick="{{ td.goResults }}">
+              <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">CHAMPION</div>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
+                <span style="font-size:26px">🏆</span>
+                <div>
+                  <div style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:32px;text-transform:uppercase;line-height:1">{{ td.champion }}</div>
+                  <div style="font-size:13px;color:#8A8A82;font-weight:600;margin-top:4px">{{ td.finalMeta }}</div>
+                </div>
+                <div style="margin-left:auto;font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:26px">{{ td.finalScore }}</div>
               </div>
-              <div style="margin-left:auto;font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:26px">{{ td.finalScore }}</div>
+              <div style="margin-top:14px;font-size:13px;font-weight:800;color:#55554F">Full results →</div>
             </div>
+          </sc-if>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">Order of play</h3>
+            <span style="font-size:13px;font-weight:800;color:#0A0A0A;cursor:pointer;border-bottom:2px solid #9ECE16" onClick="{{ td.goSchedule }}">Full schedule →</span>
           </div>
+          <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ td.orderPreview }}" as="m">
+              <div style="{{ m.rowStyle }}" onClick="{{ m.open }}">
+                <span style="{{ m.tagStyle }}">{{ m.tag }}</span>
+                <div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:800">{{ m.title }}</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">{{ m.meta }}</div></div>
+                <span style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:22px">{{ m.score }}</span>
+                <span style="font-size:13px;font-weight:800;color:#55554F">{{ m.action }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:38px;flex-wrap:wrap;gap:12px">
+            <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">Draw</h3>
+            <span style="font-size:13px;font-weight:800;color:#0A0A0A;cursor:pointer;border-bottom:2px solid #9ECE16" onClick="{{ td.goDraws }}">View draws →</span>
+          </div>
+          <p style="font-size:13.5px;color:#55554F;margin:10px 0 0;line-height:1.5">
+            <sc-if value="{{ hasDraw }}" hint-placeholder-val="{{ false }}">{{ td.draw.title }} — {{ td.drawStatusLine }}</sc-if>
+            <sc-if value="{{ noDraw }}" hint-placeholder-val="{{ false }}">Draw publishes once entries close. Register and Rallo will notify you when the bracket goes up.</sc-if>
+          </p>
         </sc-if>
 
-        <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">Order of play</h3>
-        <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
-          <sc-for list="{{ td.orderOfPlay }}" as="m">
-            <div style="{{ m.rowStyle }}" onClick="{{ m.open }}">
-              <span style="{{ m.tagStyle }}">{{ m.tag }}</span>
-              <div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:800">{{ m.title }}</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">{{ m.meta }}</div></div>
-              <span style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:22px">{{ m.score }}</span>
-              <span style="font-size:13px;font-weight:800;color:#55554F">{{ m.action }}</span>
-            </div>
-          </sc-for>
-        </div>
-
-        <sc-if value="{{ hasDraw }}" hint-placeholder-val="{{ false }}">
-          <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:38px 0 0">{{ td.draw.title }}</h3>
-          <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">
-            <sc-for list="{{ td.draw.columns }}" as="col">
-              <div style="display:flex;flex-direction:column;gap:10px;{{ col.align }}">
-                <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">{{ col.title }}</div>
-                <sc-for list="{{ col.matches }}" as="mm">
-                  <div style="{{ mm.style }}">
-                    <sc-if value="{{ mm.hasStatus }}" hint-placeholder-val="{{ false }}">
-                      <div style="{{ mm.statusStyle }}">{{ mm.status }}</div>
-                    </sc-if>
-                    <div style="display:flex;justify-content:space-between;gap:10px"><span>{{ mm.a }}</span><span>{{ mm.sa }}</span></div>
-                    <div style="display:flex;justify-content:space-between;gap:10px;color:#8A8A82;margin-top:4px"><span>{{ mm.b }}</span><span>{{ mm.sb }}</span></div>
-                  </div>
-                </sc-for>
+        <sc-if value="{{ onSchedule }}" hint-placeholder-val="{{ false }}">
+          <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">Full schedule</h3>
+          <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ td.orderOfPlay }}" as="m">
+              <div style="{{ m.rowStyle }}" onClick="{{ m.open }}">
+                <span style="{{ m.tagStyle }}">{{ m.tag }}</span>
+                <div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:800">{{ m.title }}</div><div style="font-size:12.5px;color:#8A8A82;font-weight:600;margin-top:2px">{{ m.meta }}</div></div>
+                <span style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:22px">{{ m.score }}</span>
+                <span style="font-size:13px;font-weight:800;color:#55554F">{{ m.action }}</span>
               </div>
             </sc-for>
           </div>
         </sc-if>
 
-        <sc-if value="{{ noDraw }}" hint-placeholder-val="{{ false }}">
-          <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:38px 0 0">Draw</h3>
-          <div style="margin-top:18px;border:1px dashed rgba(10,10,10,.18);border-radius:16px;padding:34px 22px;text-align:center">
-            <div style="font-size:15px;font-weight:800">Draw publishes once entries close</div>
-            <p style="font-size:13.5px;color:#8A8A82;margin:8px 0 0;line-height:1.5">Seeding is finalised after the entry deadline. Register and Rallo will notify you when the bracket goes up.</p>
+        <sc-if value="{{ onDraws }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px">
+            <sc-for list="{{ td.categories }}" as="c">
+              <span style="{{ c.chipStyle }}">{{ c.label }}</span>
+            </sc-for>
           </div>
+          <sc-if value="{{ hasDraw }}" hint-placeholder-val="{{ false }}">
+            <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">{{ td.draw.title }}</h3>
+            <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">
+              <sc-for list="{{ td.draw.columns }}" as="col">
+                <div style="display:flex;flex-direction:column;gap:10px;{{ col.align }}">
+                  <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">{{ col.title }}</div>
+                  <sc-for list="{{ col.matches }}" as="mm">
+                    <div style="{{ mm.style }}">
+                      <sc-if value="{{ mm.hasStatus }}" hint-placeholder-val="{{ false }}">
+                        <div style="{{ mm.statusStyle }}">{{ mm.status }}</div>
+                      </sc-if>
+                      <div style="display:flex;justify-content:space-between;gap:10px"><span>{{ mm.a }}</span><span>{{ mm.sa }}</span></div>
+                      <div style="display:flex;justify-content:space-between;gap:10px;color:#8A8A82;margin-top:4px"><span>{{ mm.b }}</span><span>{{ mm.sb }}</span></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noDraw }}" hint-placeholder-val="{{ false }}">
+            <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">Draw</h3>
+            <div style="margin-top:18px;border:1px dashed rgba(10,10,10,.18);border-radius:16px;padding:34px 22px;text-align:center">
+              <div style="font-size:15px;font-weight:800">Draw publishes once entries close</div>
+              <p style="font-size:13.5px;color:#8A8A82;margin:8px 0 0;line-height:1.5">Seeding is finalised after the entry deadline. Register and Rallo will notify you when the bracket goes up.</p>
+            </div>
+          </sc-if>
         </sc-if>
+
+        <sc-if value="{{ onResults }}" hint-placeholder-val="{{ false }}">
+          <h3 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">Results</h3>
+          <sc-if value="{{ td.hasResults }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ td.results }}" as="r">
+                <div style="border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px 18px">
+                  <div style="font-size:10.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">{{ r.round }}</div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:14px;flex-wrap:wrap">
+                    <span style="font-size:15px;font-weight:800">{{ r.line }}</span>
+                    <span style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:20px">{{ r.score }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ td.noResults }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:18px;border:1px dashed rgba(10,10,10,.18);border-radius:16px;padding:34px 22px;text-align:center">
+              <div style="font-size:15px;font-weight:800">No results yet</div>
+              <p style="font-size:13.5px;color:#8A8A82;margin:8px 0 0;line-height:1.5">Results post here as soon as the first matches finish.</p>
+            </div>
+          </sc-if>
+        </sc-if>
+
       </div>
 
       <div style="display:flex;flex-direction:column;gap:18px">
@@ -1298,6 +1356,117 @@ a:hover{color:#6E9410}
 </div>
 </sc-if>
 
+<sc-if value="{{ isCreate }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:100vh;padding-bottom:90px">
+  <div style="border-bottom:1px solid rgba(10,10,10,.09);background:#FAFAF7">
+    <div style="max-width:780px;margin:0 auto;padding:36px clamp(18px,3vw,32px) 32px">
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#8A8A82">
+        <span style="cursor:pointer" style-hover="color:#0A0A0A" onClick="{{ goHome }}">Home</span><span>/</span><span style="color:#0A0A0A">Create a tournament</span>
+      </div>
+      <h1 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:clamp(32px,4.6vw,48px);text-transform:uppercase;margin:16px 0 0;line-height:1">Create a tournament</h1>
+      <p style="font-size:15px;color:#55554F;margin:10px 0 0">No account needed to try this — Rallo files it straight onto the Tournaments page.</p>
+      <div style="display:flex;gap:8px;margin-top:22px">
+        <span style="{{ dynamicStepStyle1 }}">1 · Basics</span>
+        <span style="{{ dynamicStepStyle2 }}">2 · Categories &amp; entry</span>
+        <span style="{{ dynamicStepStyle3 }}">3 · Review</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:780px;margin:0 auto;padding:34px clamp(18px,3vw,32px) 0">
+
+    <sc-if value="{{ cStep1 }}" hint-placeholder-val="{{ true }}">
+      <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div>
+          <label style="font-size:12.5px;font-weight:800;color:#55554F">Tournament name</label>
+          <input type="text" value="{{ newT.name }}" oninput="{{ newT.onName }}" placeholder="e.g. Whitefield Autumn Open" style="margin-top:8px;width:100%;font-family:var(--font-body);font-size:15px;font-weight:600;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(10,10,10,.15);box-sizing:border-box">
+        </div>
+        <div>
+          <label style="font-size:12.5px;font-weight:800;color:#55554F">City</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+            <sc-for list="{{ newT.cityChips }}" as="c">
+              <span style="{{ c.style }}" onClick="{{ c.select }}">{{ c.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12.5px;font-weight:800;color:#55554F">Venue</label>
+          <input type="text" value="{{ newT.venue }}" oninput="{{ newT.onVenue }}" placeholder="e.g. Whitefield Sports Hub" style="margin-top:8px;width:100%;font-family:var(--font-body);font-size:15px;font-weight:600;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(10,10,10,.15);box-sizing:border-box">
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <label style="font-size:12.5px;font-weight:800;color:#55554F">Dates</label>
+            <input type="text" value="{{ newT.dates }}" oninput="{{ newT.onDates }}" placeholder="e.g. Oct 10–11, 2026" style="margin-top:8px;width:100%;font-family:var(--font-body);font-size:15px;font-weight:600;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(10,10,10,.15);box-sizing:border-box">
+          </div>
+          <div style="flex:1;min-width:140px">
+            <label style="font-size:12.5px;font-weight:800;color:#55554F">Courts available</label>
+            <input type="text" value="{{ newT.courts }}" oninput="{{ newT.onCourts }}" style="margin-top:8px;width:100%;font-family:var(--font-body);font-size:15px;font-weight:600;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(10,10,10,.15);box-sizing:border-box">
+          </div>
+        </div>
+        <button style="align-self:flex-start;border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 28px;border-radius:99px" onClick="{{ newT.next }}">Continue →</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ cStep2 }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div>
+          <label style="font-size:12.5px;font-weight:800;color:#55554F">Categories — tap to select, pick as many as you need</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+            <sc-for list="{{ newT.catChips }}" as="c">
+              <span style="{{ c.style }}" onClick="{{ c.select }}">{{ c.label }}</span>
+            </sc-for>
+          </div>
+          <p style="font-size:12.5px;color:#8A8A82;margin:10px 0 0">{{ newT.categoriesLine }}</p>
+        </div>
+        <div style="max-width:220px">
+          <label style="font-size:12.5px;font-weight:800;color:#55554F">Entry fee per category (₹)</label>
+          <input type="text" value="{{ newT.fee }}" oninput="{{ newT.onFee }}" style="margin-top:8px;width:100%;font-family:var(--font-body);font-size:15px;font-weight:600;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(10,10,10,.15);box-sizing:border-box">
+        </div>
+        <div style="display:flex;gap:12px">
+          <button style="cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#fff;color:#0A0A0A;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" onClick="{{ newT.back }}">← Back</button>
+          <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 28px;border-radius:99px" onClick="{{ newT.next }}">Continue →</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ cStep3 }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:18px">
+        <div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;color:#8A8A82">REVIEW BEFORE YOU PUBLISH</div>
+        <h2 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:30px;text-transform:uppercase;margin:0">{{ newT.name }}</h2>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:14px;font-weight:700;color:#55554F">
+          <span>{{ newT.cityName }}</span><span style="color:rgba(10,10,10,.2)">|</span><span>{{ newT.venue }}</span><span style="color:rgba(10,10,10,.2)">|</span><span>{{ newT.dates }}</span>
+        </div>
+        <div style="padding-top:14px;border-top:1px solid rgba(10,10,10,.08)">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.07em;color:#8A8A82">CATEGORIES</div>
+          <p style="font-size:14.5px;font-weight:700;margin:8px 0 0">{{ newT.categoriesLine }}</p>
+        </div>
+        <div style="display:flex;gap:28px;flex-wrap:wrap">
+          <div><div style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:24px">₹{{ newT.fee }}</div><div style="font-size:10px;font-weight:800;color:#8A8A82;letter-spacing:.06em">ENTRY FEE</div></div>
+          <div><div style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:24px">{{ newT.courts }}</div><div style="font-size:10px;font-weight:800;color:#8A8A82;letter-spacing:.06em">COURTS</div></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:6px">
+          <button style="cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#fff;color:#0A0A0A;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" onClick="{{ newT.back }}">← Back</button>
+          <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#9ECE16;color:#0A0A0A;padding:15px 28px;border-radius:99px" onClick="{{ newT.publish }}">Publish tournament</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ cStep4 }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid rgba(10,10,10,.1);border-radius:20px;padding:40px 28px;text-align:center;background:#FAFAF7">
+        <div style="width:56px;height:56px;border-radius:50%;background:#9ECE16;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:24px">✓</div>
+        <h2 style="font-family:var(--font-display);font-weight:var(--font-display-weight,800);font-size:28px;text-transform:uppercase;margin:20px 0 0">Tournament published</h2>
+        <p style="font-size:14.5px;color:#55554F;margin:10px 0 0;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.5">{{ newT.name }} is live on the Tournaments page. Registration is open — draws publish once entries close.</p>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
+          <button style="border:none;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#0A0A0A;color:#fff;padding:15px 26px;border-radius:99px" onClick="{{ newT.viewCreated }}">View tournament</button>
+          <button style="cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:800;background:#fff;color:#0A0A0A;padding:15px 24px;border-radius:99px;border:1.5px solid rgba(10,10,10,.15)" onClick="{{ newT.createAnother }}">Create another</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</sc-if>
+
 <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
 <div style="background:#F6F6F1;padding:48px clamp(18px,3vw,32px) 90px">
   <div style="max-width:1280px;margin:0 auto">
@@ -1433,7 +1602,7 @@ a:hover{color:#6E9410}
           <span style="cursor:pointer" style-hover="color:#9ECE16" onClick="{{ auth.players }}">Players</span>
           <span style="cursor:pointer" style-hover="color:#9ECE16" onClick="{{ auth.leaderboard }}">Leaderboard</span>
           <span style="cursor:pointer" style-hover="color:#9ECE16" onClick="{{ auth.groups }}">Groups</span>
-          <span style="cursor:pointer" style-hover="color:#9ECE16" onClick="{{ auth.organize }}">Organize Tournament</span>
+          <span style="cursor:pointer" style-hover="color:#9ECE16" onClick="{{ goCreate }}">Organize Tournament</span>
         </div>
       </div>
       <div>
@@ -1598,6 +1767,15 @@ const HOSTS = {
     tags: ['Season league', 'Doubles', 'Standings carry over']
   }
 };
+
+/* ---------------- cities (shared by the browse filters and the create-tournament flow) ---------------- */
+const CITY_META = {
+  bangalore: { name: 'Bangalore' },
+  hsr: { name: 'HSR Layout' },
+  mysore: { name: 'Mysore' },
+  pune: { name: 'Pune' }
+};
+const ALL_CATEGORIES = ["Men's Singles", "Women's Singles", "Men's Doubles", "Women's Doubles", 'Mixed Doubles'];
 
 /* ---------------- tournaments ---------------- */
 const TOURNAMENTS = [
@@ -1908,7 +2086,10 @@ class Component extends DCLogic {
   state = {
     screen: 'home', authOpen: false, authLabel: '', secs: 1104,
     tab: 'live', city: 'all', cat: 'all', sort: DEFAULT_SORT.live,
-    tid: 'blr-smash', hostId: 'smash'
+    tid: 'blr-smash', hostId: 'smash', detailTab: 'overview',
+    createStep: 1,
+    newT: { name: '', citySlug: 'bangalore', venue: '', dates: '', courts: '4', categories: ["Men's Singles"], fee: '500' },
+    newTid: ''
   };
   componentDidMount() {
     this.t = setInterval(() => this.setState(s => ({ secs: s.secs + 1 })), 1000);
@@ -1916,9 +2097,56 @@ class Component extends DCLogic {
   componentWillUnmount() { clearInterval(this.t); }
   go(screen) { this.setState({ screen, authOpen: false }); window.scrollTo(0, 0); }
   gate(label) { return () => this.setState({ authOpen: true, authLabel: label }); }
-  openTournament(tid) { this.setState({ screen: 'tournament', tid, authOpen: false }); window.scrollTo(0, 0); }
+  openTournament(tid) { this.setState({ screen: 'tournament', tid, authOpen: false, detailTab: 'overview' }); window.scrollTo(0, 0); }
   openHost(hostId) { this.setState({ screen: 'host', hostId, authOpen: false }); window.scrollTo(0, 0); }
   selectTab(tab) { this.setState({ tab, sort: DEFAULT_SORT[tab] }); }
+  selectDetailTab(tab) { this.setState({ detailTab: tab }); }
+
+  /* ---- organiser: create tournament (no backend — writes straight into TOURNAMENTS,
+     same "fake data source" every other screen already reads from) ---- */
+  goCreate() {
+    this.setState({
+      screen: 'create', authOpen: false, createStep: 1,
+      newT: { name: '', citySlug: 'bangalore', venue: '', dates: '', courts: '4', categories: ["Men's Singles"], fee: '500' }
+    });
+    window.scrollTo(0, 0);
+  }
+  setNewT(patch) { this.setState(s => ({ newT: Object.assign({}, s.newT, patch) })); }
+  toggleNewCategory(label) {
+    this.setState(s => {
+      const has = s.newT.categories.indexOf(label) !== -1;
+      const categories = has ? s.newT.categories.filter(c => c !== label) : s.newT.categories.concat(label);
+      return { newT: Object.assign({}, s.newT, { categories }) };
+    });
+  }
+  createNext() { this.setState(s => ({ createStep: Math.min(3, s.createStep + 1) })); window.scrollTo(0, 0); }
+  createBack() { this.setState(s => ({ createStep: Math.max(1, s.createStep - 1) })); window.scrollTo(0, 0); }
+  publishTournament() {
+    const n = this.state.newT;
+    const categories = n.categories.length ? n.categories.slice() : ["Men's Singles"];
+    const catGroup = [];
+    if (categories.some(c => c.indexOf('Singles') !== -1)) catGroup.push('singles');
+    if (categories.some(c => c.indexOf('Doubles') !== -1 && c.indexOf('Mixed') === -1)) catGroup.push('doubles');
+    if (categories.some(c => c.indexOf('Mixed') !== -1)) catGroup.push('mixed');
+    const id = 'created-' + Date.now();
+    const cityName = (CITY_META[n.citySlug] || CITY_META.bangalore).name;
+    const fee = n.fee || '0';
+    TOURNAMENTS.unshift({
+      id, name: n.name.trim() || 'Untitled Tournament', status: 'upcoming',
+      badge: 'REGISTRATION OPEN', badgeStyle: K.bOpen,
+      city: cityName, citySlug: n.citySlug, venue: n.venue.trim() || 'Venue to be confirmed',
+      venueMeta: (n.courts || '4') + ' courts',
+      dates: n.dates.trim() || 'Dates to be confirmed', dateSort: 20270101,
+      format: 'Knockout · ' + (n.courts || '4') + ' courts',
+      categories, catGroup: catGroup.length ? catGroup : ['singles'],
+      statA: '0', labelA: 'PLAYERS', statB: '₹' + fee, labelB: 'ENTRY FEE',
+      stats: [['0', 'PLAYERS'], ['₹' + fee, 'ENTRY FEE'], [String(categories.length), 'CATEGORIES'], ['NEW', 'STATUS']],
+      prizeSort: 0, drawSize: 0, hostId: 'smash', draw: false,
+      note: 'Entry ₹' + fee + ' per category · draw publishes once entries close.',
+      orderOfPlay: []
+    });
+    this.setState({ createStep: 4, newTid: id });
+  }
 
   renderVals() {
     const S = this.state, secs = S.secs;
@@ -2013,21 +2241,65 @@ class Component extends DCLogic {
     /* ---- tournament details ---- */
     const t = TOURNAMENTS.filter(x => x.id === S.tid)[0] || TOURNAMENTS[0];
     const host = HOSTS[t.hostId];
+    const drawData = DRAWS[t.id] || null;
+    const hasDrawLocal = !!drawData;
+
+    /* results: a match is "done" either because the draw already carries a final
+       score with no live/pending status (DS.plain/DS.champ), or because it's one
+       of the original order-of-play rows flagged state:'done' for another category */
+    const drawMatches = hasDrawLocal
+      ? drawData.columns.flatMap(col => col.matches.map(mm => Object.assign({ roundTitle: col.title }, mm)))
+      : [];
+    const completedDrawMatches = drawMatches.filter(mm => mm.style === DS.plain || mm.style === DS.champ);
+    const results = completedDrawMatches
+      .map(mm => ({ round: mm.roundTitle, line: mm.a + ' def. ' + mm.b, score: mm.sa + '–' + mm.sb }))
+      .concat(t.orderOfPlay.filter(m => m.state === 'done').map(m => ({ round: m.meta, line: m.title, score: m.score })));
+
+    const liveInDraw = drawMatches.some(mm => mm.style === DS.live);
+    const champInDraw = drawMatches.some(mm => mm.style === DS.champ);
+    const drawStatusLine = champInDraw ? 'Champion decided' : (liveInDraw ? 'Matches live right now' : 'Draw published, working through rounds');
+
+    const detailTabDefs = [
+      { id: 'overview', label: 'Overview' },
+      { id: 'schedule', label: 'Schedule' },
+      { id: 'draws', label: 'Draws' },
+      { id: 'results', label: 'Results' },
+      { id: 'players', label: 'Players', select: this.gate('PLAYER SEARCH') }
+    ];
+    const dtabs = detailTabDefs.map(dt => ({
+      label: dt.label,
+      style: S.detailTab === dt.id ? K.tabOn.replace('padding:18px 4px', 'padding:18px 18px') : K.tabOff.replace('padding:18px 4px', 'padding:18px 18px'),
+      select: dt.select || (() => this.selectDetailTab(dt.id))
+    }));
+
     const td = {
       name: t.name, badge: t.badge, badgeStyle: K.badgeBase + t.badgeStyle,
       where: t.city + ' · ' + t.venue, dates: t.dates, format: t.format,
-      categories: t.categories.map(c => ({ label: c })),
+      categories: t.categories.map(c => ({
+        label: c,
+        chipStyle: (hasDrawLocal && drawData.title.indexOf(c) !== -1)
+          ? 'font-size:12.5px;font-weight:800;padding:8px 12px;border-radius:8px;background:#0A0A0A;color:#fff'
+          : 'font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;background:#F4F4EF'
+      })),
       stats: t.stats.map(s => ({ n: s[0], label: s[1] })),
       venue: t.venue, venueMeta: t.venueMeta, note: t.note,
       champion: t.champion, finalScore: t.finalScore, finalMeta: t.finalMeta,
-      draw: DRAWS[t.id] || null,
+      draw: drawData,
+      drawStatusLine,
       orderOfPlay: t.orderOfPlay.map(m => ({
         tag: m.tag, tagStyle: K.rowTagBase + m.tagStyle,
         title: m.title, meta: m.meta, score: m.score, action: m.action,
         rowStyle: m.state === 'next' ? K.rowNext : K.rowPlain,
         open: m.state === 'live' ? () => this.go('live') : () => {}
-      }))
+      })),
+      results,
+      goSchedule: () => this.selectDetailTab('schedule'),
+      goDraws: () => this.selectDetailTab('draws'),
+      goResults: () => this.selectDetailTab('results')
     };
+    td.orderPreview = td.orderOfPlay.slice(0, 2);
+    td.hasResults = results.length > 0;
+    td.noResults = results.length === 0;
     const hostCard = {
       name: host.name, initials: host.initials, city: host.city,
       since: 'Hosting since ' + host.since,
@@ -2053,6 +2325,38 @@ class Component extends DCLogic {
       upcomingCount: String(hUp.length), pastCount: String(hPast.length)
     };
 
+    /* ---- organiser: create tournament ---- */
+    const n = S.newT;
+    const stepPill = (step) => step <= S.createStep
+      ? 'font-size:12px;font-weight:800;padding:7px 13px;border-radius:99px;background:#0A0A0A;color:#fff;white-space:nowrap'
+      : 'font-size:12px;font-weight:700;padding:7px 13px;border-radius:99px;background:#F1F1EB;color:#8A8A82;white-space:nowrap';
+    const dynamicStepStyle1 = stepPill(1), dynamicStepStyle2 = stepPill(2), dynamicStepStyle3 = stepPill(3);
+    const newCityChips = Object.keys(CITY_META).map(slug => ({
+      label: CITY_META[slug].name,
+      style: n.citySlug === slug ? K.segOn : K.segOff,
+      select: () => this.setNewT({ citySlug: slug })
+    }));
+    const newCatChips = ALL_CATEGORIES.map(label => ({
+      label,
+      style: n.categories.indexOf(label) !== -1 ? K.sortOn : K.segOff,
+      select: () => this.toggleNewCategory(label)
+    }));
+    const newT = {
+      name: n.name, venue: n.venue, dates: n.dates, courts: n.courts, fee: n.fee,
+      onName: (e) => this.setNewT({ name: e.target.value }),
+      onVenue: (e) => this.setNewT({ venue: e.target.value }),
+      onDates: (e) => this.setNewT({ dates: e.target.value }),
+      onCourts: (e) => this.setNewT({ courts: e.target.value }),
+      onFee: (e) => this.setNewT({ fee: e.target.value }),
+      cityChips: newCityChips, catChips: newCatChips,
+      cityName: (CITY_META[n.citySlug] || CITY_META.bangalore).name,
+      categoriesLine: n.categories.length ? n.categories.join(' · ') : 'Pick at least one category',
+      canContinueStep1: n.name.trim().length > 0 && n.venue.trim().length > 0,
+      canPublish: n.categories.length > 0,
+      back: () => this.createBack(), next: () => this.createNext(), publish: () => this.publishTournament(),
+      viewCreated: () => this.openTournament(S.newTid), createAnother: () => this.goCreate()
+    };
+
     return {
       isHome: S.screen === 'home',
       isLive: S.screen === 'live',
@@ -2060,6 +2364,11 @@ class Component extends DCLogic {
       isTournament: S.screen === 'tournament',
       isHost: S.screen === 'host',
       isMobile: S.screen === 'mobile',
+      isCreate: S.screen === 'create',
+      cStep1: S.createStep === 1, cStep2: S.createStep === 2, cStep3: S.createStep === 3, cStep4: S.createStep === 4,
+      dynamicStepStyle1, dynamicStepStyle2, dynamicStepStyle3,
+      newT,
+      goCreate: () => this.goCreate(),
       liveClock: mmss(secs),
       authOpen: S.authOpen,
       authLabel: S.authLabel,
@@ -2086,7 +2395,10 @@ class Component extends DCLogic {
       goUpcomingTab: () => this.selectTab('upcoming'),
 
       td, isPastT: t.status === 'past', notPastT: t.status !== 'past',
-      hasDraw: !!DRAWS[t.id], noDraw: !DRAWS[t.id],
+      hasDraw: hasDrawLocal, noDraw: !hasDrawLocal,
+      dtabs,
+      onOverview: S.detailTab === 'overview', onSchedule: S.detailTab === 'schedule',
+      onDraws: S.detailTab === 'draws', onResults: S.detailTab === 'results',
       hostCard, hostView,
 
       auth: {
